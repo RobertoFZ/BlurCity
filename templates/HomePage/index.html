@@ -33,10 +33,10 @@
                     <li><a href="#">Ayuda</a></li>
 
                     {% if user.is_authenticated %}
-                        <li><a href="">Cerrar Sesion</a></li>
+                        <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
                     {% else %}
-                        <li><a href="{% url 'Register:RegisterUser' %}">Iniciar Sesion</a></li>
-                        <li style='background-color: #01579b'><a href="">Registrate Ahora</a></li>
+                        <li><a href="{% url 'Authentication:ChoiceLogin' %}">Iniciar Sesion</a></li>
+                        <li style='background-color: #01579b'><a href="{% url 'Register:RegisterUser' %}">Registrate Ahora</a></li>
                     {% endif %}
 
                 </ul>

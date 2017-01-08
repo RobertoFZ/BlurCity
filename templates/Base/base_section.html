@@ -41,17 +41,17 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="">Cerrar Sesion</a></li>
+                    <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
                 {% else %}
-                    <li><a href="">Iniciar Sesion</a></li>
+                    <li><a href="{% url 'Authentication:ChoiceLogin' %}">Iniciar Sesion</a></li>
                 {% endif %}
             </ul>
             <ul class="side-nav" id="mobile-demo">
                 <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="">Cerrar Sesion</a></li>
+                    <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
                 {% else %}
-                    <li><a href="">Iniciar Sesion</a></li>
+                    <li><a href="{% url 'Authentication:ChoiceLogin' %}">Iniciar Sesion</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -89,6 +89,17 @@
         </div>
     </footer>
 </section>
+
+<script>
+    var window_height = $(window).height();
+    var footer = $('#footer');
+    var navbar = $('#navbar');
+
+    $('#main').css("height", window_height - footer.height() - navbar.height() + "px");
+    $('#left-column').css("height", window_height - footer.height() - navbar.height() + "px");
+    $('#right-column').css("height", window_height - footer.height() - navbar.height() + "px");
+
+</script>
 
 {% block scripts %}{% endblock %}
 </body>

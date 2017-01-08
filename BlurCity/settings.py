@@ -40,8 +40,9 @@ INSTALLED_APPS = (
     #WEB
     'Web.Home',
     'Web.Register',
+    'Web.Authentication',
     #MOBILE
-    'API.Authentication',
+    #'API.Authentication',
     #CORE
     'Core.Account',
     'Core.Studies'

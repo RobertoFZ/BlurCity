@@ -22,6 +22,7 @@ nav{
 }
 
 footer.page-footer{
+    margin: 0;
     background-color: #000000;
 }
 
@@ -34,7 +35,7 @@ footer.page-footer{
 }
 
 .choice-background{
-    background-image: url("/Hoken/assets/images/choice_background.jpg");
+    background-image: url("/static/images/choice_background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
