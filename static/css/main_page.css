@@ -1,0 +1,12 @@
+a{
+    color: #fff;
+}
+
+.nav-color {
+    transition-duration: 1s;
+}
+
+nav{
+    background-color: transparent;
+    box-shadow: none;
+}

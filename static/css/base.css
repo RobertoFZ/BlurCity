@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+
+body, html{
+    font-family: 'Roboto Slab', serif;
+}
+
+nav{
+    background-color: #000000;
+}
+
+.logo-color{
+    color: #03A9F4;
+}
+
+.form-container{
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.form-login-container{
+    padding: 100px 25% 100px 25%;
+}
+
+footer.page-footer{
+    background-color: #000000;
+}
+
+.social-links{
+    display: inline-flex;
+}
+
+.social-links li{
+    margin-left: 10px;
+}
+
+.choice-background{
+    background-image: url("/Hoken/assets/images/choice_background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.list-container{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.route-name{
+    font-size: 24px;
+}
+
+.info-text{
+    color: #757575;
+}
+
+.secondary-content{
+    color: #4fc3f7;
+}
+
+.title{
+    color: #88CCE5;
+}
+
+.text-car{
+    color: #4C717F;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating){
+    color: #03A9F4;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover{
+    color: #0288D1;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label, .input-field input[type=password]:focus + label, .input-field input[type=email]:focus + label, .input-field input[type=number]:focus + label {
+    color: #03A9F4;
+}
+
+/* label underline focus color */
+.input-field input[type=text]:focus, .input-field input[type=password]:focus, .input-field input[type=email]:focus, .input-field input[type=number]:focus  {
+    border-bottom: 1px solid #03A9F4;
+    box-shadow: 0 1px 0 0 #03A9F4;
+}
+
+/* valid color */
+.input-field input[type=text].valid, .input-field input[type=email].valid, .input-field input[type=password].valid, .input-field input[type=file].valid, .input-field input[type=number].valid {
+    border-bottom: 1px solid #2196F3;
+    box-shadow: 0 1px 0 0 #2196F3;
+}
+
