@@ -5,11 +5,11 @@
     <div id="main" class="row choice-background" style="margin: 0">
         <div class="container">
             <div id="left-column" class="valign-wrapper col s6">
-                <a class="valign waves-effect light-blue btn center-align" href="">Conductor</a>
+                <a class="valign waves-effect light-blue btn center-align" href="{% url 'Authentication:Login' 'driver' %}">Conductor</a>
             </div>
             <div id="right-column" class="valign-wrapper col s6">
                 <a class="valign waves-effect light-blue btn center-align"
-                   href="">Pasajero</a>
+                   href="{% url 'Authentication:Login' 'passenger' %}">Pasajero</a>
             </div>
         </div>
     </div>

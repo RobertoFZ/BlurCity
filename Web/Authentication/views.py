@@ -2,9 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-
 # Create your views here.
-from Core.baseFunctions import basicArguments
+from django.template import RequestContext
+
+from Core.baseFunctions import basicArguments, setSessionType
 
 
 def choiceLoginTypeView(request):
@@ -15,15 +16,19 @@ def choiceLoginTypeView(request):
         args
     )
 
-def loginView(request):
+
+def loginView(request, type):
     args = basicArguments(request)
+
     if request.POST:
         email = request.POST['email']
         password = request.POST['password']
+        setSessionType(request, type)
         return loginUser(request, email, password)
     else:
         logout(request)
-        return render(request, 'login.html')
+        setSessionType(request, type)
+        return render(request, 'login.html', args)
 
 
 def loginUser(request, username, password):
@@ -38,4 +43,4 @@ def loginUser(request, username, password):
 
 def logoutUser(request):
     logout(request)
-    return HttpResponseRedirect('/authentication/login')
+    return HttpResponseRedirect('/authentication/choice_login_type')

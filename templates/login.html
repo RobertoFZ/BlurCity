@@ -6,18 +6,16 @@
     <div id="main" class="row choice-background" style="margin: 0">
         <div class="container">
             <div class="form-login-container">
-                <form class="col s12" action="<?php echo LOGIN_CALL ?>" method="post">
-                    <input type="hidden" name="loginType" value="<?php echo $_GET['type']?>">
-                    <input type="hidden" value="1" name="iniciar">
+                <form class="col s12" action="{% url 'Authentication:Login' request.session.session_type %}" method="post">
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="email" type="email" name="correo" class="validate">
+                            <input id="email" type="email" name="email" class="validate">
                             <label for="email">Correo electr&oacute;nico</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="email" type="password" name="contrasena" class="validate">
+                            <input id="email" type="password" name="password" class="validate">
                             <label for="email">Contrase&ntilde;a</label>
                         </div>
                     </div>
