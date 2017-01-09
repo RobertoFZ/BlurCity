@@ -1,0 +1,18 @@
+footer.page-footer{
+    margin: 0;
+}
+
+.main{
+    background: #303030;
+}
+
+.form-margin{
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.register-car-form{
+    color: #BDBDBD;
+    background: #424242;
+    padding: 50px 10% 50px 10%;
+}

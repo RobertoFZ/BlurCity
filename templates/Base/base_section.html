@@ -33,7 +33,7 @@
 <body>
 
 <!-- NAVBAR SECTION -->
-<section>
+<section id="navbar">
     <nav>
         <div class="nav-wrapper">
             <a href="{% url 'Home:Home' %}" class="brand-logo center" style="color: #89cde7">Blur City</a>
@@ -41,6 +41,7 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
                 {% if user.is_authenticated %}
+                    <li><a href="{% url 'Panel:Panel' %}">Panel</a></li>
                     <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
                 {% else %}
                     <li><a href="{% url 'Authentication:ChoiceLogin' %}">Iniciar Sesion</a></li>

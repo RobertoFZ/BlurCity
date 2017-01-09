@@ -1,10 +1,13 @@
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
 
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 
 # Create your views here.
+from django.template import RequestContext
+
 from Core.Account.models import User
+from Core.Cars.models import Car, CarDocument
 from Core.Studies.models import University, Major
 from Core.baseFunctions import basicArguments
 
@@ -69,3 +72,38 @@ def registerUserView(request):
             'Register/register_user.html',
             args
         )
+
+
+def registerCarView(request):
+    args = basicArguments(request)
+
+    if request.method == 'POST':
+        model = request.POST['model']
+        brand = request.POST['brand']
+        registration_tag = request.POST['registration_tag']
+        color = request.POST['color']
+        total_sits = request.POST['total_sits']
+        insurance_policy = request.FILES['insurance_policy']
+        circulation_card = request.FILES['circulation_card']
+        licence = request.FILES['licence']
+
+        car_to_register = Car()
+        car_to_register.user = request.user
+        car_to_register.model = model
+        car_to_register.brand = brand
+        car_to_register.registration_tag = registration_tag
+        car_to_register.color = color
+        car_to_register.total_sits = total_sits
+        car_to_register.save()
+
+        car_documents = CarDocument()
+        car_documents.car = car_to_register
+        car_documents.insurance_policy = insurance_policy
+        car_documents.circulation_card = circulation_card
+        car_documents.licence = licence
+        car_documents.save()
+
+        args['car_registered'] = 'correct'
+        return render_to_response('Register/register_car.html', args, RequestContext(request))
+    elif request.method == 'GET':
+        return render_to_response('Register/register_car.html', args, RequestContext(request))

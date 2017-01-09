@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.template import RequestContext
 
 from Core.baseFunctions import basicArguments, setSessionType
+from Web.Panel.views import panelView
 
 
 def choiceLoginTypeView(request):
@@ -36,7 +37,7 @@ def loginUser(request, username, password):
 
     if log_user is not None:
         login(request, log_user)
-        return HttpResponseRedirect('/')
+        return redirect('/panel/')
     else:
         return redirect('/authentication/login')
 

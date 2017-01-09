@@ -28,15 +28,18 @@
     <div class="navbar-fixed ">
         <nav>
             <div class="nav-wrapper nav-color">
-                <a href="#" class="brand-logo center"><img  style="padding-top: 10px" src="{% static 'images/hoken_logos/hoken_blanco.png' %}"></a>
+                <a href="#" class="brand-logo center"><img style="padding-top: 10px"
+                                                           src="{% static 'images/hoken_logos/hoken_blanco.png' %}"></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="#">Ayuda</a></li>
 
                     {% if user.is_authenticated %}
+                        <li><a href="{% url 'Panel:Panel' %}">Panel</a></li>
                         <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
                     {% else %}
                         <li><a href="{% url 'Authentication:ChoiceLogin' %}">Iniciar Sesion</a></li>
-                        <li style='background-color: #01579b'><a href="{% url 'Register:RegisterUser' %}">Registrate Ahora</a></li>
+                        <li style='background-color: #01579b'><a href="{% url 'Register:RegisterUser' %}">Registrate
+                            Ahora</a></li>
                     {% endif %}
 
                 </ul>

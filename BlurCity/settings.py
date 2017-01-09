@@ -41,11 +41,13 @@ INSTALLED_APPS = (
     'Web.Home',
     'Web.Register',
     'Web.Authentication',
+    'Web.Panel',
     #MOBILE
     #'API.Authentication',
     #CORE
     'Core.Account',
-    'Core.Studies'
+    'Core.Studies',
+    'Core.Cars'
 )
 
 MIDDLEWARE_CLASSES = (

@@ -2,6 +2,7 @@ def basicArguments(request):
     args = {}
     args['request'] = request
     if not request.user.is_anonymous():
+        args['session_type'] = request.session['session_type']
         args['user'] = request.user
     else:
         args['user'] = None
