@@ -5,6 +5,7 @@ from django.shortcuts import render, render_to_response
 
 # Create your views here.
 from django.template import RequestContext
+from django.utils.datastructures import MultiValueDictKeyError
 
 from Core.Account.models import User
 from Core.Cars.models import Car, CarDocument
@@ -107,3 +108,58 @@ def registerCarView(request):
         return render_to_response('Register/register_car.html', args, RequestContext(request))
     elif request.method == 'GET':
         return render_to_response('Register/register_car.html', args, RequestContext(request))
+
+
+def editCarView(request, car_pk):
+    args = basicArguments(request)
+
+    if request.method == 'POST':
+        car = Car.objects.get(pk=car_pk)
+        car.model = request.POST['model']
+        car.brand = request.POST['brand']
+        car.registration_tag = request.POST['registration_tag']
+        car.color = request.POST['color']
+        car.total_sits = request.POST['total_sits']
+        car.save()
+
+        car_documents = CarDocument.objects.get(car=car)
+
+        ## FILES
+        try:
+            insurance_policy = request.FILES['insurance_policy']
+            car_documents.insurance_policy.delete()
+            car_documents.insurance_policy = insurance_policy
+        except MultiValueDictKeyError:
+            print('Not insurance policy updated')
+
+        try:
+            circulation_car = request.FILES['circulation_card']
+            car_documents.circulation_card.delete()
+            car_documents.circulation_card = circulation_car
+        except MultiValueDictKeyError:
+            print('Not circulation car updated')
+
+        try:
+            licence = request.FILES['licence']
+            car_documents.licence.delete()
+            car_documents.licence = licence
+        except MultiValueDictKeyError:
+            print('Not licence updated')
+
+        car_documents.save()
+
+        args['car'] = car
+        args['car_documents'] = car_documents
+        args['car_updated'] = 'correct'
+
+        return render(request, 'Edit/edit_car.html', args)
+    elif request.method == 'GET':
+        car = Car.objects.get(pk=car_pk)
+        car_documents = CarDocument.objects.get(car=car)
+        args['car'] = car
+        args['car_documents'] = car_documents
+        return render(
+            request,
+            'Edit/edit_car.html',
+            args
+        )

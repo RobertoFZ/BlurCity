@@ -34,7 +34,7 @@
                                            href="#circulation_card_{{ car.pk }}">Tarjeta de circulaci&oacute;n <i
                                                 class="fa fa-eye" aria-hidden="true"></i></a>
                                     </p>
-                                    <a href="#!" class="secondary-content"><i class="fa fa-pencil"
+                                    <a href="{% url 'Register:EditCar' car.pk %}" class="secondary-content"><i class="fa fa-pencil"
                                                                               aria-hidden="true"></i></a>
                                 </li>
 
@@ -90,20 +90,9 @@
 {% block scripts %}
 
     <script>
-        var window_height = $(window).height();
-        var main_content_height = $(".main").height();
-
-        if (window_height > main_content_height) {
-            var navbar_height = $("#navbar").height();
-            var footer_height = $("#footer").height();
-
-            $(".main").css("height", window_height - navbar_height - footer_height + "px");
-        }
-
         $(document).ready(function () {
-            $('.modal-trigger').leanModal();
+            $('.modal').modal();
         });
-
     </script>
 
 {% endblock %}

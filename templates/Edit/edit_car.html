@@ -13,33 +13,33 @@
         <div class="row" style="margin: 0">
             <div class="container">
                 <br><br>
-                <a href="{% url 'Panel:Panel' %}" class="btn waves-effect blue light-blue">Regresar</a>
-                <form class="col s12 form-margin z-depth-3" action="{% url 'Register:RegisterCar' %}" method="post"
+                <a href="{% url 'Panel:CarList' %}" class="btn waves-effect blue light-blue">Regresar</a>
+                <form class="col s12 form-margin z-depth-3" action="{% url 'Register:EditCar' car.pk %}" method="post"
                       enctype="multipart/form-data" style="padding: 0">
                     <div class="register-car-form">
                         <h4>Registrar aut&oacute;movil</h4> <br>
                         <div class="row">
                             <div class="input-field col s4">
-                                <input id="model" name="model" type="text" class="validate">
+                                <input id="model" name="model" value="{{ car.model }}" type="text" class="validate">
                                 <label for="model">Modelo</label>
                             </div>
                             <div class="input-field col s4">
-                                <input name="brand" id="brand" type="text" class="validate">
+                                <input name="brand" value="{{ car.brand }}" id="brand" type="text" class="validate">
                                 <label for="brand">Marca</label>
                             </div>
                             <div class="input-field col s4">
-                                <input name="registration_tag" id="registration_tag" type="text" class="validate">
+                                <input name="registration_tag" value="{{ car.registration_tag }}" id="registration_tag" type="text" class="validate">
                                 <label for="registration_tag">Matr&iacute;cula</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s3"></div>
                             <div class="input-field col s3">
-                                <input name="color" id="color" type="text" class="validate">
+                                <input name="color" value="{{ car.color }}" id="color" type="text" class="validate">
                                 <label for="color">Color</label>
                             </div>
                             <div class="input-field col s3">
-                                <input name="total_sits" id="total_sits" type="number" class="validate">
+                                <input name="total_sits" value="{{ car.total_sits }}" id="total_sits" type="number" class="validate">
                                 <label for="total_sits">Espacios Disponibles</label>
                             </div>
                             <div class="input-field col s3"></div>
@@ -50,44 +50,44 @@
                                 <div class="file-field input-field">
                                     <div class="btn light-blue">
                                         <span><i class="fa fa-camera" aria-hidden="true"></i></span>
-                                        <input name="insurance_policy" id="insurance_policy" type="file">
+                                        <input name="insurance_policy" value="{{ car_documents.insurance_policy }}" id="insurance_policy" type="file">
                                     </div>
                                     <div class="file-path-wrapper">
                                         <input class="file-path validate" type="text">
                                     </div>
                                 </div>
-                                <img class="responsive-img" id="insurance_policy_preview" src="">
+                                <img class="responsive-img" id="insurance_policy_preview" src="/{{ car_documents.insurance_policy }}">
                             </div>
                             <div class="input-field col s4">
                                 <div class="file-field input-field">
                                     <p>Tarjeta de Circulaci&oacute;n</p>
                                     <div class="btn light-blue">
                                         <span><i class="fa fa-camera" aria-hidden="true"></i></span>
-                                        <input name="circulation_card" id="circulation_car" type="file">
+                                        <input name="circulation_card" value="{{ car_documents.circulation_card }}" id="circulation_car" type="file">
                                     </div>
                                     <div class="file-path-wrapper">
                                         <input class="file-path validate" type="text">
                                     </div>
                                 </div>
-                                <img class="responsive-img" id="circulation_car_preview" src="">
+                                <img class="responsive-img" id="circulation_car_preview" src="/{{ car_documents.circulation_card }}">
                             </div>
                             <div class="input-field col s4">
                                 <p>Licencia</p>
                                 <div class="file-field input-field">
                                     <div class="btn light-blue">
                                         <span><i class="fa fa-camera" aria-hidden="true"></i></span>
-                                        <input name="licence" id="licence" type="file">
+                                        <input name="licence" value="{{ car_documents.licence }}" id="licence" type="file">
                                     </div>
                                     <div class="file-path-wrapper">
                                         <input class="file-path validate" type="text">
                                     </div>
                                 </div>
-                                <img class="responsive-img" id="licence_preview" src="">
+                                <img class="responsive-img" id="licence_preview" src="/{{ car_documents.licence }}">
                             </div>
                         </div>
                         <div class="row" align="center">
                             <br>
-                            <input class="btn waves-effect green" type="submit" name="registrar" value="Registrar">
+                            <input class="btn waves-effect green" type="submit" name="guardar" value="Guardar">
                             &nbsp;&nbsp;
                             <a href="{% url 'Panel:CarList' %}" class="btn waves-effect red">Cancelar</a>
                         </div>
@@ -136,10 +136,10 @@
             readURL(this, "licence");
         });
 
-        var car_registered = '{{ car_registered }}';
+        var car_updated = '{{ car_updated }}';
 
-        if(car_registered == 'correct'){
-            Materialize.toast('¡Automovil registrado correctamente!', 10000);
+        if(car_updated == 'correct'){
+            Materialize.toast('¡Automovil editado correctamente!', 10000);
         }
 
     </script>
