@@ -163,3 +163,10 @@ def editCarView(request, car_pk):
             'Edit/edit_car.html',
             args
         )
+
+
+### ROUTES ###
+
+def registerRoute(request):
+    args = basicArguments(request)
+    return render(request, 'Panel/Driver/Routes/new_route.html', args)

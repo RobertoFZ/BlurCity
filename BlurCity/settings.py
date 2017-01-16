@@ -47,7 +47,8 @@ INSTALLED_APPS = (
     #CORE
     'Core.Account',
     'Core.Studies',
-    'Core.Cars'
+    'Core.Cars',
+    'Core.Routes',
 )
 
 MIDDLEWARE_CLASSES = (
