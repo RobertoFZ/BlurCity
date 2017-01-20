@@ -3,6 +3,165 @@
 
 {% block content %}
 
+    <div class="main">
 
+        <div class="row">
+            <div class="container">
+
+                {% if user_cars %}
+
+                    <div class="main" style="padding: 50px 0 50px 0">
+                        <div class="col s12 m7">
+                            <div id="map"></div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <br>
+                                    <button class="waves-effect blue accent-2 btn" id="clean-btn">Borrar marcadores
+                                    </button>
+                                    <button class="waves-effect blue accent-2 btn" id="draw-btn">Trazar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col s12 m5">
+                            <div class="row">
+                                <form action="" class="col s12" method="post">
+                                    <div class="input-field col s12 m6">
+                                        <select id="origen" name="origen">
+                                            <option value="" disabled selected>Seleccione un origen de referencia
+                                            </option>
+                                            <option value="Centro">Centro</option>
+                                            <option value="Plaza">Plaza</option>
+                                            <option value="Hogar">Hogar</option>
+                                            <option value="Escuela">Escuela</option>
+                                            <option value="Trabajo">Trabajo</option>
+                                        </select>
+                                        <label>Origen</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m6">
+                                        <select id="destiny" name="destiny">
+                                            <option value="0" disabled selected>Seleccione un destino</option>
+                                            {% for campus in campus_list %}
+                                                <option value="{{ campus.pk }}">{{ campus.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>Destino</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m6">
+                                        <select id="car" name="car">
+                                            <option value="" disabled selected>Seleccione un vehiculo</option>
+                                            {% for car in user_cars %}
+                                                <option value="{{ car.pk }}">{{ car.brand }} {{ car.model }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>Vehiculo</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m6">
+                                        <select id="sits" name="sits">
+                                            <option value="0" disabled selected>Seleccione un cupo</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                        <label>Cupo</label>
+                                    </div>
+                                    <div class="col s3" align="center">
+                                        <label>Seleccione los días de la ruta</label>
+                                        <p>
+                                            <input id="lunes" value="Lunes" name="dia[]" type="checkbox"/>
+                                            <label for="lunes">Lunes</label>
+                                        </p>
+                                        <p>
+                                            <input id="martes" value="Martes" name="dia[]" type="checkbox"/>
+                                            <label for="martes">Martes</label>
+                                        </p>
+                                        <p>
+                                            <input id="miercoles" value="Miercoles" name="dia[]" type="checkbox"/>
+                                            <label for="miercoles">Miercoles</label>
+                                        </p>
+                                        <p>
+                                            <input id="jueves" value="Jueves" name="dia[]" type="checkbox"/>
+                                            <label for="jueves">Jueves</label>
+                                        </p>
+                                        <p>
+                                            <input id="viernes" value="Viernes" name="dia[]" type="checkbox"/>
+                                            <label for="viernes">Viernes</label>
+                                        </p>
+                                        <p>
+                                            <input id="sabado" value="Sabado" name="dia[]" type="checkbox"/>
+                                            <label for="sabado">Sábado</label>
+                                        </p>
+                                        <br>
+                                    </div>
+                                    <div class="col s4" align="center">
+                                        <label>Horario de inicio.</label>
+                                        <input id="hora" type="time" name="hora" value="" max="20:00:00" min="6:00:00">
+                                    </div>
+                                    <br>
+                                    <div class="col s12" align="center">
+                                        <button id="guardar-btn" class="btn waves-effect blue accent-2" type="button"
+                                                name="action">Guardar
+                                            <i class="material-icons right"></i>
+                                        </button>
+                                        <a class="btn waves-effect red" href="{% url 'Panel:Panel' %}" name="action">Cancelar
+                                            <i class="material-icons right"></i>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <h4 class="center-align">Por favor registra un automovil primero</h4>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        var campus_list = [];
+        {% for campus in campus_list %}
+            var campus_obj = {
+                "pk": {{ campus.pk }},
+                "name": "{{ campus.name }}",
+                "points": "{{ campus.latitude }},{{ campus.longitude }}"
+            };
+            campus_list.push(campus_obj);
+        {% endfor %}
+
+    </script>
+    <script type="text/javascript" src="{% static 'scripts/maps.js' %}"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCW7jLIOGjbN7K1lle9LrUaPruKD8dv_x0&callback=initMap">
+    </script>
+    <script>
+        var window_height = $(window).height();
+        var main_content_height = $(".main").height();
+
+        if (window_height > main_content_height) {
+            var navbar_height = $("#navbar").height();
+            var footer_height = $("#footer").height();
+
+            $("#map").css("height", window_height - navbar_height - footer_height + "px");
+        }
+
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+
+    </script>
 
 {% endblock %}

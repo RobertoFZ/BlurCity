@@ -39,7 +39,7 @@ def loginUser(request, username, password):
         login(request, log_user)
         return redirect('/panel/')
     else:
-        return redirect('/authentication/login')
+        return redirect('/authentication/choice_login_type')
 
 
 def logoutUser(request):

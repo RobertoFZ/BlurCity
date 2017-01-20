@@ -9,7 +9,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 from Core.Account.models import User
 from Core.Cars.models import Car, CarDocument
-from Core.Studies.models import University, Major
+from Core.Studies.models import University, Major, Campus
 from Core.baseFunctions import basicArguments
 
 
@@ -169,4 +169,9 @@ def editCarView(request, car_pk):
 
 def registerRoute(request):
     args = basicArguments(request)
+    user_cars = Car.objects.filter(user=request.user)
+    campus = Campus.objects.all()
+
+    args['user_cars'] = user_cars
+    args['campus_list'] = campus
     return render(request, 'Panel/Driver/Routes/new_route.html', args)

@@ -11,7 +11,7 @@ class Route(models.Model):
         on_delete=models.CASCADE,
         primary_key=True
     )
-    university_pk = models.IntegerField(default=0)
+    campus_pk = models.IntegerField(default=0)
     car_pk = models.IntegerField(default=0)
     name = models.CharField(max_length=75)
     origin = models.CharField(max_length=75)
