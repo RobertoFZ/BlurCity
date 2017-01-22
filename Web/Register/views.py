@@ -9,6 +9,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 from Core.Account.models import User
 from Core.Cars.models import Car, CarDocument
+from Core.Routes.models import Route
 from Core.Studies.models import University, Major, Campus
 from Core.baseFunctions import basicArguments
 
@@ -16,14 +17,13 @@ from Core.baseFunctions import basicArguments
 def registerUserView(request):
     args = basicArguments(request)
     if request.method == "POST":
-        print("post")
         email = request.POST['email']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         password = request.POST['password']
 
         major = Major.objects.get(name=request.POST['major'])
-        university = major.university
+        university = major.campus.university
 
         try:
             user = User.objects.get(email=email)
@@ -175,3 +175,4 @@ def registerRoute(request):
     args['user_cars'] = user_cars
     args['campus_list'] = campus
     return render(request, 'Panel/Driver/Routes/new_route.html', args)
+

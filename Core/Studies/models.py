@@ -20,8 +20,7 @@ class University(models.Model):
 class Campus(models.Model):
     university = models.ForeignKey(
         University,
-        on_delete=models.CASCADE,
-        primary_key=True
+        on_delete=models.CASCADE
     )
     name = models.CharField(max_length=150, default="0")
     latitude = models.CharField(max_length=150, default='0')
@@ -37,8 +36,7 @@ class Campus(models.Model):
 class Major(models.Model):
     campus = models.OneToOneField(
         Campus,
-        on_delete=models.CASCADE,
-        primary_key=True
+        on_delete=models.CASCADE
     )
     name = models.CharField(max_length=150, default="0")
 

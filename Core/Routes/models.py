@@ -8,8 +8,7 @@ from Core.Account.models import User
 class Route(models.Model):
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-        primary_key=True
+        on_delete=models.CASCADE
     )
     campus_pk = models.IntegerField(default=0)
     car_pk = models.IntegerField(default=0)
@@ -28,8 +27,7 @@ class Route(models.Model):
 class RouteDay(models.Model):
     route = models.ForeignKey(
         Route,
-        on_delete=models.CASCADE,
-        primary_key=True
+        on_delete=models.CASCADE
     )
     day = models.CharField(max_length=75, default='')
 
@@ -37,8 +35,7 @@ class RouteDay(models.Model):
 class RouteMarker(models.Model):
     route = models.ForeignKey(
         Route,
-        on_delete=models.CASCADE,
-        primary_key=True
+        on_delete=models.CASCADE
     )
     position = models.IntegerField(default=0)
     latitude = models.CharField(max_length=150, default='')

@@ -1,0 +1,43 @@
+{% extends 'Base/base_section.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="main">
+
+        <div class="row">
+            <div class="container">
+                <div class="list-container">
+
+                    <a class="waves-effect green btn" href="{% url 'Panel:Panel' %}">Atr&aacute;s</a> <br><br>
+
+                    {% if routes %}
+                        <ul class="collection">
+
+                            {% for route in routes %}
+
+                                <li class="collection-item avatar">
+                                    <img src="{% static 'images/marker.png' %}" alt="" class="circle">
+                                    <span class="title">{{ route.name }}</span>
+                                    <p class="text-car">
+                                        Origen de referencia: {{ route.origin }}<br>
+                                        Hora de inicio: {{ route.start_time }}<br>
+                                    </p>
+                                    <a href="{% url 'Panel:Route' route.pk %}" class="secondary-content"><i class="fa fa-pencil"
+                                                                              aria-hidden="true"></i></a>
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+                    {% else %}
+                        <p>No se tienen rutas creadas aún <a href="{% url 'Register:RegisterRoute' %}">¡Crea una!</a></p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

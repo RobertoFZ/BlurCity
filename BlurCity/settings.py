@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'Core.Studies',
     'Core.Cars',
     'Core.Routes',
+    'Core.Notifications',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -20,5 +20,5 @@ urlpatterns = [
     url(r'^', include(Home.urls, namespace='Home')),
     url(r'^register/', include(Register.urls, namespace='Register')),
     url(r'^authentication/', include(Authentication.urls, namespace='Authentication')),
-    url(r'^panel/', include(Panel.urls, namespace='Panel'))
+    url(r'^panel/', include(Panel.urls, namespace='Panel')),
 ]

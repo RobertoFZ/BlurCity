@@ -2,18 +2,21 @@ var markerArray = [];
 var wayPoints = [];
 var markerPosition = 1;
 var googleMarkersArray = [];
+var route_ok = false;
+
+var directionsService;
+var directionsDisplay;
+var map;
 
 function initMap() {
-    var directionsService = new google.maps.DirectionsService;
-    var directionsDisplay = new google.maps.DirectionsRenderer;
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
         center: {lat: 41.85, lng: -87.65}
     });
+    directionsService = new google.maps.DirectionsService;
+    directionsDisplay = new google.maps.DirectionsRenderer;
     directionsDisplay.setMap(map);
-
     var infoWindow = new google.maps.InfoWindow({map: map});
-    var route_ok = false;
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -56,7 +59,6 @@ function initMap() {
             location: newMarker.getPosition(),
             stopover: false
         });
-        //markerArray.push(newMarker);
         var markerObject = {
             position: markerPosition,
             latitud: newMarker.getPosition().lat(),
@@ -65,13 +67,12 @@ function initMap() {
         markerArray.push(markerObject);
         googleMarkersArray.push(newMarker);
         markerPosition++;
-        console.log(markerArray);
     });
 
     $('#clean-btn').on("click", function () {
         deleteMarkers();
+        directionsDisplay.setMap(null);
     });
-
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
@@ -81,6 +82,12 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     for (var i = 0; i < campus_list.length; i++) {
         if (campus_list[i].pk == campus_pk) {
             destination = campus_list[i].points;
+            var markerObject = {
+                position: markerPosition++,
+                latitud: campus_list[i].latitude,
+                longitud: campus_list[i].longitude
+            };
+            markerArray.push(markerObject);
             console.log(destination)
         }
     }
@@ -97,7 +104,8 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
             window.alert('Directions request failed due to ' + status);
         }
     });
-
+    directionsDisplay.setMap(map);
+    route_ok = true;
 }
 
 function sendRouteDataToServer() {
@@ -114,39 +122,41 @@ function sendRouteDataToServer() {
     });
 
     if ($('input[name="dia[]"]:checked').length > 0) {
-        if (origen != "" && destino != "" && vehiculo != "" && cupo != "" && horario != "") {
+        if (origen != "" && destino != "" && vehiculo != "" && cupo != "" && horario != "" && route_ok) {
             $.ajax({
                 url: '/panel/save_route/',  //Server script to process data
                 type: 'post',
-                //Ajax events
                 success: function (data) {
                     console.log(data);
                     if (data != "-1") {
                         routeId = data;
                         console.log("ID RUTA AJAX " + routeId);
                         console.log(markerArray);
-                        for (var i = 0; i < markerArray.length; i++) {
-                            $.ajax({
-                                url: '/panel/save_markers/',  //Server script to process data
-                                type: 'post',
-                                //Ajax events
-                                success: function (data) {
-                                    console.log(data);
-                                    deleteMarkers();
-                                },
-                                error: function (message) {
-                                    console.log(message);
-                                },
-                                // Form data
-                                data: {
-                                    'routePk': routeId,
-                                    'position': markerArray[i].position,
-                                    'latitude': markerArray[i].latitud,
-                                    'longitude': markerArray[i].longitud
-                                }
-                            });
+                        if (markerArray.length > 0) {
+                            for (var i = 0; i < markerArray.length; i++) {
+                                $.ajax({
+                                    url: '/panel/save_markers/',  //Server script to process data
+                                    type: 'post',
+                                    success: function (data) {
+                                        console.log(data);
+                                        deleteMarkers();
+                                    },
+                                    error: function (message) {
+                                        console.log(message);
+                                    },
+                                    // Form data
+                                    data: {
+                                        'routePk': routeId,
+                                        'position': markerArray[i].position,
+                                        'latitude': markerArray[i].latitud,
+                                        'longitude': markerArray[i].longitud
+                                    }
+                                });
+                            }
+                            Materialize.toast('Ruta guardada correctamente', 10000, 'rounded')
+                        } else {
+                            sweetAlert("Error", "Por favor trace una ruta", "error");
                         }
-
                     }
                 },
                 error: function (message) {
@@ -163,21 +173,27 @@ function sendRouteDataToServer() {
                 }
             });
         } else {
-            alert("Por favor llene todos los campos");
+            if (!route_ok) {
+                sweetAlert("Error", "Por favor traze la ruta y asegurese que es la correcta", "error");
+            } else {
+                sweetAlert("Error", "Por favor llene todos los campos", "error");
+            }
         }
     } else {
-        alert("Por favor seleccione el dia de la semana que estará disponible esta ruta");
+        sweetAlert("Error", "Por favor seleccione el dia de la semana que estará disponible esta ruta", "error");
     }
 }
 
 function deleteMarker(markerToDelete) {
     var temp_marker_array = [];
     var temp_wayPoints = [];
+    var temp_googleMarkersArray = [];
 
     for (var i = 0; i < markerArray.length; i++) {
         if (markerArray[i].latitud != markerToDelete.getPosition().lat() && markerArray[i].longitud != markerToDelete.getPosition().lng()) {
             temp_marker_array.push(markerArray[i]);
             temp_wayPoints.push(wayPoints[i]);
+            temp_googleMarkersArray.push(googleMarkersArray[i]);
         } else {
             console.log("Marker to delete found");
         }
@@ -185,12 +201,19 @@ function deleteMarker(markerToDelete) {
 
     wayPoints = temp_wayPoints;
     markerArray = temp_marker_array;
+    googleMarkersArray = temp_googleMarkersArray;
 }
 
 // Sets the map on all markers in the array.
 function setMapOnAll(map) {
-    for (var i = 0; i < markerArray.length; i++) {
-        googleMarkersArray[i].setMap(map);
+    if (!route_ok) {
+        for (var i = 0; i < markerArray.length; i++) {
+            googleMarkersArray[i].setMap(map);
+        }
+    } else {
+        for (var i = 0; i < markerArray.length - 1; i++) {
+            googleMarkersArray[i].setMap(map);
+        }
     }
 }
 
@@ -204,4 +227,6 @@ function deleteMarkers() {
     clearMarkers();
     markerArray = [];
     wayPoints = [];
+    googleMarkersArray = [];
+    route_ok = false;
 }

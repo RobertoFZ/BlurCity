@@ -137,7 +137,9 @@
             var campus_obj = {
                 "pk": {{ campus.pk }},
                 "name": "{{ campus.name }}",
-                "points": "{{ campus.latitude }},{{ campus.longitude }}"
+                "points": "{{ campus.latitude }},{{ campus.longitude }}",
+                "latitude": "{{ campus.latitude }}",
+                "longitude": "{{ campus.longitude }}"
             };
             campus_list.push(campus_obj);
         {% endfor %}
