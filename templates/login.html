@@ -5,6 +5,13 @@
 
     <div id="main" class="row choice-background" style="margin: 0">
         <div class="container">
+
+            {% if errors %}
+                {% for error in errors %}
+                    <p class="red-text" style="margin: 0; padding-top: 20px">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+
             <div class="form-login-container">
                 <form class="col s12" action="{% url 'Authentication:Login' request.session.session_type %}" method="post">
                     <div class="row">

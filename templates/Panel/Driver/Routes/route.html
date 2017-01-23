@@ -31,24 +31,11 @@
                                             <select id="origen" name="origen">
                                                 <option value="" disabled selected>Seleccione un origen de referencia
                                                 </option>
-                                                <option value="Centro"
-                                                        {% if route.origin == "Centro" %}selected{% endif %}>
-                                                    Centro
-                                                </option>
-                                                <option value="Plaza"
-                                                        {% if route.origin == "Plaza" %}selected{% endif %}>
-                                                    Plaza
-                                                </option>
-                                                <option value="Hogar"
-                                                        {% if route.origin == "Hogar" %}selected{% endif %}>
-                                                    Hogar
-                                                </option>
-                                                <option value="Escuela"
-                                                        {% if route.origin == "Escuela" %}selected{% endif %}>Escuela
-                                                </option>
-                                                <option value="Trabajo"
-                                                        {% if route.origin == "Trabajo" %}selected{% endif %}>Trabajo
-                                                </option>
+                                                <option value="Centro" {% if route.origin == "Centro" %}selected{% endif %}>Centro</option>
+                                                <option value="Plaza" {% if route.origin == "Plaza" %}selected{% endif %}>Plaza</option>
+                                                <option value="Hogar" {% if route.origin == "Hogar" %}selected{% endif %}>Hogar</option>
+                                                <option value="Escuela" {% if route.origin == "Escuela" %}selected{% endif %}>Escuela</option>
+                                                <option value="Trabajo" {% if route.origin == "Trabajo" %}selected{% endif %}>Trabajo</option>
                                             </select>
                                             <label>Origen</label>
                                         </div>

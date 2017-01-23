@@ -32,6 +32,7 @@ class User(AbstractBaseUser):
     avatar = models.ImageField(default='static/defaults/deafult_profile.png', upload_to='static/uploads/avatar/')
     university = models.IntegerField(null=True)
     major = models.IntegerField(null=True)
+    is_validated = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
     objects = UserManager()

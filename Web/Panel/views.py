@@ -1,10 +1,13 @@
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 
 # Create your views here.
 from django.template import RequestContext
 
+from Core.Account.models import User
 from Core.Cars.models import Car, CarDocument
+from Core.Chat.models import Room, Message
 from Core.Notifications.models import Notification
 from Core.Routes.models import Route, RouteDay, RouteMarker
 from Core.Studies.models import Campus
@@ -218,3 +221,60 @@ def updateNotification(request):
         notification.status = False
         notification.save()
         return HttpResponse(2)
+
+
+def messageDriverView(request, user_who_request):
+    args = basicArguments(request)
+    session_type = request.session['session_type']
+    args['session_type'] = session_type
+    args['user_who_request'] = user_who_request
+    try:
+        room = Room.objects.get(user=request.user, user_chat_request=user_who_request)
+    except:
+        room = Room()
+        room.user = request.user
+        room.user_chat_request = user_who_request
+        room.save()
+    if request.method == "GET":
+        messages = Message.objects.filter(room=room)
+        args['messages'] = messages
+        return render(request, 'Panel/messages.html', args)
+    else:
+        message = Message()
+        message.room = room
+        message.message = request.POST['message']
+        message.user_pk = request.POST['user_pk']
+        message.save()
+        messages = Message.objects.filter(room=room)
+        args['messages'] = messages
+        url = '/panel/chat_driver/' + user_who_request
+        return HttpResponseRedirect(url)
+
+
+def messagePassagerView(request, driver_pk):
+    args = basicArguments(request)
+    user = User.objects.get(pk=driver_pk)
+    session_type = request.session['session_type']
+    args['session_type'] = session_type
+    args['driver_pk'] = driver_pk
+    try:
+        room = Room.objects.get(user=user, user_chat_request=request.user.pk)
+    except:
+        room = Room()
+        room.user = user
+        room.user_chat_request = request.user.pk
+        room.save()
+    if request.method == "GET":
+        messages = Message.objects.filter(room=room)
+        args['messages'] = messages
+        return render(request, 'Panel/messages.html', args)
+    else:
+        message = Message()
+        message.room = room
+        message.message = request.POST['message']
+        message.user_pk = request.POST['user_pk']
+        message.save()
+        messages = Message.objects.filter(room=room)
+        args['messages'] = messages
+        url = '/panel/chat_passager/' + driver_pk
+        return HttpResponseRedirect(url)

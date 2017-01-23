@@ -33,7 +33,7 @@
 <body>
 
 <!-- NAVBAR SECTION -->
-<section id="navbar">
+<section>
     <nav>
         <div class="nav-wrapper">
             <a href="{% url 'Home:Home' %}" class="brand-logo center" style="color: #89cde7">Blur City</a>
@@ -41,7 +41,6 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'Panel:Panel' %}">Panel</a></li>
                     <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
                 {% else %}
                     <li><a href="{% url 'Authentication:ChoiceLogin' %}">Iniciar Sesion</a></li>
@@ -95,11 +94,9 @@
     var window_height = $(window).height();
     var footer = $('#footer');
     var navbar = $('#navbar');
-
     $('#main').css("height", window_height - footer.height() - navbar.height() + "px");
     $('#left-column').css("height", window_height - footer.height() - navbar.height() + "px");
     $('#right-column').css("height", window_height - footer.height() - navbar.height() + "px");
-
 </script>
 
 {% block scripts %}{% endblock %}

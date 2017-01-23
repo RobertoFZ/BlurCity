@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'Core.Cars',
     'Core.Routes',
     'Core.Notifications',
+    'Core.Chat',
 )
 
 MIDDLEWARE_CLASSES = (

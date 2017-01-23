@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^route_list/$', views.routeListView, name='RouteList'),
     url(r'^route/(?P<route_pk>[0-9]+)/$', views.routeView, name='Route'),
     url(r'^notifications/$', views.notificationView, name='Notifications'),
+    url(r'^chat_driver/(?P<user_who_request>[0-9]+)/$', views.messageDriverView, name='MessagesDriver'),
+    url(r'^chat_passager/(?P<driver_pk>[0-9]+)/$', views.messagePassagerView, name='MessagesPassager'),
 
     # WEB SERVICES
     url(r'^save_route/$', views.saveRouteService),
