@@ -1,0 +1,35 @@
+{% extends 'Base/base_app.html' %}
+{% load static %}
+
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+
+            <!-- Form -->
+            <section class="box">
+                <h3>Iniciar sesi&oacute;n</h3>
+                <form method="post" action="{% url 'Authentication:Login' request.session.session_type %}">
+                    <div class="row uniform 50%">
+                        <div class="6u 12u(mobilep)">
+                            <input type="email" name="email" id="email" value="" placeholder="Correo electrónico"/>
+                        </div>
+                        <div class="6u 12u(mobilep)">
+                            <input type="password" name="password" id="password" value="" placeholder="Contraseña"/>
+                        </div>
+                    </div>
+                    <div class="row uniform">
+                        <div class="12u">
+                            <ul class="actions">
+                                <li><input type="submit" value="Iniciar sesión"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+
+                <hr/>
+
+            </section>
+
+        </div>
+    </div>
+{% endblock %}

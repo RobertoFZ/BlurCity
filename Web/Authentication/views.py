@@ -15,7 +15,7 @@ def choiceLoginTypeView(request):
     args = basicArguments(request)
     return render(
         request,
-        'choice.html',
+        'choice_login.html',
         args
     )
 
@@ -44,7 +44,7 @@ def loginView(request, type):
     else:
         logout(request)
         setSessionType(request, type)
-        return render(request, 'login.html', args)
+        return render(request, 'login_user.html', args)
 
 
 def loginUser(request, username, password):

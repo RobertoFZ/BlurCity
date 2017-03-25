@@ -1,0 +1,13 @@
+{% extends 'Base/base_app.html' %}
+{% load static %}
+
+{% block content_main %}
+    <header>
+        <h2>Escoja porfavor si desea iniciar sesi&oacute;n<br>como pasajero o conductor.</h2>
+        <p>De click en el bot&oacute;n de su elecci&oacute;n</p>
+    </header>
+    <div align="center">
+        <a href="{% url 'Authentication:Login' 'passenger' %}" class="button special" style="margin-right: 50px">Pasajero</a>
+        <a href="{% url 'Authentication:Login' 'driver' %}" class="button special">Conductor</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Blur City</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]><script src="{% static 'home/assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+    <link rel="stylesheet" href="{% static 'home/assets/css/main.css' %}"/>
+    <!--[if lte IE 8]><link rel="stylesheet" href="{% static 'home/assets/css/ie8.css' %}" /><![endif]-->
+
+    {% block styles %}{% endblock %}
+</head>
+<body>
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="{% url 'Home:Home' %}">Blur City</a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'Panel:Panel' %}">Panel</a></li>
+                    <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'Authentication:ChoiceLogin' %}">Iniciar sesi&oacute;n</a>
+                    </li>
+                    <li><a href="{% url 'Register:RegisterUser' %}" class="button">Registrarse</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <section id="main" class="container">
+
+        {% block content_main %}
+
+        {% endblock %}
+
+    </section>
+
+    {% block extra_content %}
+
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+            <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+            <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Blur City.</li>
+            <li>Desarroll&oacute;: <a target="_blank" href="http://robertofranco.esy.es">Roberto Franco</a></li>
+        </ul>
+    </footer>
+
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'home/assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'home/assets/js/jquery.dropotron.min.js' %}"></script>
+<script src="{% static 'home/assets/js/jquery.scrollgress.min.js' %}"></script>
+<script src="{% static 'home/assets/js/skel.min.js' %}"></script>
+<script src="{% static 'home/assets/js/util.js' %}"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="{% static 'home/assets/js/main.js' %}"></script>
+
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

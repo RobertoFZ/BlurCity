@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Blur City</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]><script src="{% static 'home/assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+    <link rel="stylesheet" href="{% static 'home/assets/css/main.css' %}"/>
+    <!--[if lte IE 8]><link rel="stylesheet" href="{% static 'home/assets/css/ie8.css' %}" /><![endif]-->
+</head>
+<body class="landing">
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header" class="alt">
+        <h1><a href="{% url 'Home:Home' %}">Blur City</a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'Panel:Panel' %}">Panel</a></li>
+                    <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'Authentication:ChoiceLogin' %}">Iniciar sesi&oacute;n</a>
+                    </li>
+                    <li><a href="{% url 'Register:RegisterUser' %}" class="button">Registrarse</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Banner -->
+    <section id="banner">
+        <h2>Blur City</h2>
+        <p>Ahora, viaja r&aacute;pido y c&oacute;modo.</p>
+        <ul class="actions">
+            <li><a href="{% url 'Register:RegisterUser' %}" class="button special">Registrarse</a></li>
+            <li><a id="learn_more" href="#main" class="button">Mas informaci&oacute;n</a></li>
+        </ul>
+    </section>
+
+    <!-- Main -->
+    <section id="main" class="container">
+
+        <section class="box special">
+            <header class="major">
+                <h2>Si eres de los que piensan que su tiempo vale oro,
+                    <br/>
+                    toma el control de el y viaja con Blur</h2>
+                <p></p>
+            </header>
+            <span class="image featured"><img src="{% static 'images/home_page/car_header.jpg' %}" alt=""/></span>
+        </section>
+
+        <div class="row">
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/home_page/car_travel.jpg' %}"
+                                                      alt=""/></span>
+                    <h3>Viaja sin l&iacute;mites</h3>
+                    <p>Encuentra trayectos hacia tu escuela o trabajo y comparte el camino con amigos o
+                        compa&ntilde;eros.<br><br>Todo con un par de clicks y toma control de tu movilidad.</p>
+                    <ul class="actions">
+                        <li><a href="#" class="button alt">Learn More</a></li>
+                    </ul>
+                </section>
+
+            </div>
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/home_page/car_driver.jpg' %}"
+                                                      alt=""/></span>
+                    <h3>¿Qui&eacute;nes conducen?</h3>
+                    <p>Personas inteligentes como t&uacute; que trabajan o estudian contigo o my cerca de ti,
+                        conducen y viajan contigo, compartiendo su autom&oacute;vil para reducir sus gastos y los
+                        tuyos.</p>
+                    <ul class="actions">
+                        <li><a href="#" class="button alt">Learn More</a></li>
+                    </ul>
+                </section>
+
+            </div>
+        </div>
+
+        <section class="box special features">
+            <div class="features-row">
+                <section>
+                    <span class="icon major fa-map-marker accent2"></span>
+                    <h3>Rutas</h3>
+                    <p>Traza tus rutas hacia la universidad o trabajo y define horarios y d&iacute;as. Comp&aacute;rtelos
+                        con tu comunidad y ahorra viajando.</p>
+                </section>
+                <section>
+                    <span class="icon major fa-users accent3"></span>
+                    <h3>Comunidad</h3>
+                    <p>Encuentra amigos y compa&ntilde;eros con tu mismo destino. Pide un ride y conoce personas como t&uacute;.</p>
+                </section>
+            </div>
+            <div class="features-row">
+                <section>
+                    <span class="icon major fa-cloud accent4"></span>
+                    <h3>Comodidad</h3>
+                    <p>Has de tus trayectos una experiencia agradable y c&oacute;moda, mejora tu econom&iacute;a y toma
+                        el control de tu tiempo.</p>
+                </section>
+                <section>
+                    <span class="icon major fa-lock accent5"></span>
+                    <h3>Seguridad</h3>
+                    <p>Los conductores con los que viajas son validados generando un registro para que t&uacute; y todos
+                        viajen seguros.</p>
+                </section>
+            </div>
+        </section>
+
+    </section>
+
+    <!-- CTA -->
+    <section id="cta">
+
+        <h2>¡Reg&iacute;strate para comenzar a utilizar Blur!</h2>
+        <p>Unete a la comunidad que ayuda al planeta al compartir su autom&oacute;vil</p>
+
+        <form>
+            <div class="row uniform 50%">
+                <div class="12u 12u(mobilep)">
+                    <a href="{% url 'Register:RegisterUser' %}" class="button fit">Registrarse</a>
+                </div>
+            </div>
+        </form>
+
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+            <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+            <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Blur City.</li>
+            <li>Desarroll&oacute;: <a target="_blank" href="http://robertofranco.esy.es">Roberto Franco</a></li>
+        </ul>
+    </footer>
+
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'home/assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'home/assets/js/jquery.dropotron.min.js' %}"></script>
+<script src="{% static 'home/assets/js/jquery.scrollgress.min.js' %}"></script>
+<script src="{% static 'home/assets/js/skel.min.js' %}"></script>
+<script src="{% static 'home/assets/js/util.js' %}"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="{% static 'home/assets/js/main.js' %}"></script>
+
+</body>
+</html>
