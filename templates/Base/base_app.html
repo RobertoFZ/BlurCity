@@ -8,6 +8,11 @@
     <!--[if lte IE 8]><script src="{% static 'home/assets/js/ie/html5shiv.js' %}"></script><![endif]-->
     <link rel="stylesheet" href="{% static 'home/assets/css/main.css' %}"/>
     <!--[if lte IE 8]><link rel="stylesheet" href="{% static 'home/assets/css/ie8.css' %}" /><![endif]-->
+    <link rel='stylesheet' href='https://cdn.rawgit.com/t4t5/sweetalert/v0.2.0/lib/sweet-alert.css'>
+
+    <!-- Scripts -->
+    <script src='https://cdn.rawgit.com/t4t5/sweetalert/v0.2.0/lib/sweet-alert.min.js'></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
     {% block styles %}{% endblock %}
 </head>
@@ -60,9 +65,6 @@
     </footer>
 
 </div>
-
-<!-- Scripts -->
-<script src="{% static 'home/assets/js/jquery.min.js' %}"></script>
 <script src="{% static 'home/assets/js/jquery.dropotron.min.js' %}"></script>
 <script src="{% static 'home/assets/js/jquery.scrollgress.min.js' %}"></script>
 <script src="{% static 'home/assets/js/skel.min.js' %}"></script>

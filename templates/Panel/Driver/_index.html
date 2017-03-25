@@ -1,0 +1,112 @@
+{% extends 'Base/base_section.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="main">
+        <div class="row">
+            <div class="container">
+                <div class="row" style="margin-top: 20px; padding-top: 20px">
+                    <div class="container">
+                        <h4>Bienvenido {{ user.first_name }} {{ user.last_name }}</h4>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px; padding-top: 20px">
+                    <div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="{% static 'images/panel/driver/register_car.jpg' %}" style="width: 490px; height: 280px">
+                                <span class="card-title">Registrar Automovil</span>
+                            </div>
+                            <div class="card-content">
+                                <p>Para poder conducir en <span class="logo-color">Blur City</span> es necesario
+                                    registrar
+                                    un automovil ¿Qu&eacute; est&aacute;s esperando?</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="{% url 'Register:RegisterCar' %}">Registrar auto</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="{% static 'images/panel/driver/cars_registered.jpg' %}" style="width: 490px; height: 280px">
+                                <span class="card-title">Aut&oacute;moviles Registrados</span>
+                            </div>
+                            <div class="card-content">
+                                <p>Lista de tus autos registrados en <span class="logo-color">Blur City</span><br><br>
+                                </p>
+                            </div>
+                            <div class="card-action">
+                                <a href="{% url 'Panel:CarList' %}">Ver mis aut&oacute;moviles</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="{% static 'images/panel/driver/draw_route.jpg' %}" style="width: 490px; height: 280px">
+                                <span class="card-title">Trazar Nueva Ruta</span>
+                            </div>
+                            <div class="card-content">
+                                <p>Crea una nueva ruta visible para los usuarios de <span
+                                        class="logo-color">Blur City</span><br><br></p>
+                            </div>
+                            <div class="card-action">
+                                <a href="{% url 'Register:RegisterRoute' %}">Crear nueva ruta</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="{% static 'images/panel/driver/route.png' %}" style="width: 490px; height: 280px">
+                                <span class="card-title">Ver Rutas Disponibles</span>
+                            </div>
+                            <div class="card-content">
+                                <p>Puedes ver tus rutas registradas en <span class="logo-color">Blur City</span><br><br>
+                                </p>
+                            </div>
+                            <div class="card-action">
+                                <a href="{% url 'Panel:RouteList' %}">Ver tus rutas</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="{% static 'images/panel/notifications.png' %}" style="width: 490px; height: 280px">
+                                <span class="card-title">Solicitudes Pendientes</span>
+                            </div>
+                            <div class="card-content">
+                                <p>Aqu&iacute; podr&aacute;s ver las solicitudes de avent&oacute;n pendientes en tus rutas<br><br></p>
+                            </div>
+                            <div class="card-action">
+                                <a href="{% url 'Panel:Notifications' %}">Ver solicitudes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>
+        var window_height = $(window).height();
+        var footer = $('#footer');
+        var navbar = $('#navbar');
+
+        $('#main').css("height", window_height - footer.height() - navbar.height() + "px");
+
+    </script>
+
+{% endblock %}

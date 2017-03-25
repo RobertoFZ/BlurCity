@@ -1,85 +1,110 @@
-{% extends 'Base/base_section.html' %}
+{% extends 'Base/base_app.html' %}
+{% load static %}
 
-{% block content %}
-
+{% block content_main %}
     <div class="row">
-        <div class="container">
-            <form id="singUpForm" class="col s12" action="{% url 'Register:RegisterUser' %}" method="POST">
-                <input type="hidden" value="1" name="registrar">
-                <div class="form-container">
-                    <div class="row">
-                        <div class="col s12">
-                            {% for error in errors %}
-                                <p style="color: red">*{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 m4">
-                            <input id="first_name" name="first_name" type="text" class="validate" value="{{ first_name }}">
-                            <label for="first_name">Nombre</label>
-                        </div>
-                        <div class="input-field col s12 m4">
-                            <input id="last_name" name="last_name" type="text" class="validate" value="{{ last_name }}">
-                            <label for="last_name">Apellido</label>
-                        </div>
-                        <div class="input-field col s12 m4">
-                            <input id="correo" name="email" type="text" class="validate" value="{{ email }}">
-                            <label for="correo">Correo electr&oacute;nico</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <br>
-                        <div class="input-field col s12 m6">
-                            <select name="university">
+        <div class="12u">
 
-                                {% for university in universitys %}
-                                    <option value="{{ university.name }}">{{ university.name }}</option>
+            <!-- Form -->
+            <section class="box">
+                <h3>Registro</h3>
+                <form id="singUpForm" method="post" action="{% url 'Register:RegisterUser' %}">
+                    {% if errors %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u(mobilep)">
+                                {% for error in errors %}
+                                    <p style="color: red">*{{ error }}</p>
                                 {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
 
-                            </select>
-                            <label>Universidad</label>
+                    {% if created %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u(mobilep)">
+                                <p style="color: green">¡Registro exitoso! <a
+                                        href="{% url 'Authentication:ChoiceLogin' %}">Inicia sesi&oacute;n</a></p>
+                            </div>
                         </div>
+                    {% endif %}
+                    <div class="row uniform 50%">
+                        <div class="4u 12u(mobilep)">
+                            <input type="text" name="first_name" id="first_name" value="" placeholder="Nombres"/>
+                        </div>
+                        <div class="4u 12u(mobilep)">
+                            <input type="text" name="last_name" id="last_name" value="" placeholder="Apellidos"/>
+                        </div>
+                        <div class="4u 12u(mobilep)">
+                            <input type="email" name="email" id="email" value="" placeholder="Correo electrónico"/>
+                        </div>
+                    </div>
+                    <div class="row uniform 50%">
+                        <div class="6u">
+                            <div class="select-wrapper">
+                                <select name="university" id="university">
+                                    <option disabled>- Universidad -</option>
+                                    {% for university in universitys %}
+                                        <option value="{{ university.name }}">{{ university.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="6u">
+                            <div class="select-wrapper">
+                                <select name="major" id="major">
+                                    <option disabled>- Licenciatura -</option>
+                                    {% for major in majors %}
+                                        <option value="{{ major.name }}">{{ major.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row uniform 50%">
+                        <div class="6u 12u(mobilep)">
+                            <input type="password" name="password" id="contrasena" value="" placeholder="Contraseña"/>
+                        </div>
+                        <div class="6u 12u(mobilep)">
+                            <input type="password" name="password2" id="contrasena2" value=""
+                                   placeholder="Confirmar contraseña"/>
+                        </div>
+                    </div>
+                    <div class="row uniform">
+                        <div class="12u">
+                            <ul class="actions">
+                                <li><input id="register-btn" type="button" value="Registrarse"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
 
-                        <div class="input-field col s12 m6">
-                            <select name="major">
-                                {% for major in majors %}
-                                    <option value="{{ major.name }}">{{ major.name }}</option>
-                                {% endfor %}
-                            </select>
-                            <label>Licenciatura</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <br>
-                        <div class="input-field col s12 m6">
-                            <input id="contrasena" name="password" type="password" class="validate">
-                            <label for="contrasena">Contrase&ntilde;a</label>
-                        </div>
-                        <div class="input-field col s12 m6">
-                            <input id="contrasena2" name="password2" type="password" class="validate">
-                            <label for="contrasena2">Confirmar contrase&ntilde;a</label>
-                        </div>
-                    </div>
-                    <div class="row" align="center">
-                        <input id="register-btn" class="btn waves-effect" type="button" name="registrar"
-                               style="background-color: #03A9F4" value="Registrarse"/>
-                    </div>
-                </div>
-            </form>
+                <hr/>
+            </section>
+
         </div>
     </div>
-
 {% endblock %}
 
 {% block scripts %}
+    <script>
 
-    <script>
-        $(document).ready(function () {
-            $('select').material_select();
-        });
-    </script>
-    <script>
+        {% if created %}
+            console.log("pasó");
+
+            setTimeout(function () {
+                swal({
+                            title: "Correcto",
+                            text: "Te has registrado con éxito",
+                            type: "success",
+                            confirmButtonText: "Iniciar sesión",
+                            closeOnConfirm: false
+                        },
+                        function () {
+                            window.location.href = "/authentication/choice_login_type";
+                        });
+            }, 1000);
+        {% endif %}
+
         function validateForm() {
             var form = $('#singUpForm');
 

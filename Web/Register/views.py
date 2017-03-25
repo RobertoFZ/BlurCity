@@ -45,6 +45,7 @@ def registerUserView(request):
                 args
             )
         except User.DoesNotExist:
+            args['created'] = True
             new_user = User()
             new_user.email = email
             new_user.first_name = first_name

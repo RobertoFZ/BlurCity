@@ -5,6 +5,5 @@ from django.shortcuts import render
 def homePageView(request):
     return render(
         request,
-        #'HomePage/index.html'
         'Home/index.html'
     )
