@@ -1,98 +1,58 @@
-{% extends 'Base/base_section.html' %}
+{% extends 'Base/base_app.html' %}
 {% load static %}
 
-{% block content %}
-
-    <div class="main">
-
-        <div class="row">
-            <div class="container">
-                <div class="list-container">
-
-                    <a class="waves-effect green btn" href="{% url 'Panel:Panel' %}">Atr&aacute;s</a> <br><br>
-
-                    {% if cars %}
-                        <ul class="collection">
-
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+            <section class="box">
+                <h3>Mis autom&oacute;viles</h3>
+                <a href="{% url 'Panel:Panel' %}" class="button small">Atr&aacute;s</a>
+                <br><br>
+                {% if cars %}
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                            <tr>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Matr&iacute;cula</th>
+                                <th>Color</th>
+                                <th>Espacios</th>
+                                <th>Poliza de seguro</th>
+                                <th>Licencia</th>
+                                <th>Tarjeta de circulación</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             {% for car in cars %}
-
-                                <li class="collection-item avatar">
-                                    <i class="fa fa-car circle light-blue lighten-2" aria-hidden="true"></i>
-                                    <span class="title">{{ car.brand }} - {{ car.model }}</span>
-                                    <p class="text-car">
-                                        Matricula: {{ car.registration_tag }}<br>
-                                        Color: {{ car.color }}<br>
-                                        Espacios: {{ car.total_sits }}<br><br>
-                                        <a class="modal-trigger waves-effect blue accent-2 btn"
-                                           href="#insurance_policy_{{ car.pk }}">Poliza de seguro <i
-                                                class="fa fa-eye" aria-hidden="true"></i></a> &nbsp;
-                                        <a class="modal-trigger waves-effect blue accent-2 btn"
-                                           href="#licence_{{ car.pk }}">Licencia <i class="fa fa-eye"
-                                                                                    aria-hidden="true"></i></a>
-                                        &nbsp;
-                                        <a class="modal-trigger waves-effect blue accent-2 btn"
-                                           href="#circulation_card_{{ car.pk }}">Tarjeta de circulaci&oacute;n <i
-                                                class="fa fa-eye" aria-hidden="true"></i></a>
-                                    </p>
-                                    <a href="{% url 'Register:EditCar' car.pk %}" class="secondary-content"><i class="fa fa-pencil"
-                                                                              aria-hidden="true"></i></a>
-                                </li>
-
-                                {% for document in cars_documents %}
-                                    {% if document.car == car %}
-                                        <div id="insurance_policy_{{ car.pk }}" class="modal">
-                                            <div class="modal-content" align="center">
-                                                <img src="/{{ document.insurance_policy }}"
-                                                     class="responsive-img">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="#!"
-                                                   class=" modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
-                                            </div>
-                                        </div>
-                                        <div id="licence_{{ car.pk }}" class="modal">
-                                            <div class="modal-content" align="center">
-                                                <img src="/{{ document.licence }}">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="#!"
-                                                   class=" modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
-                                            </div>
-                                        </div>
-                                        <div id="circulation_card_{{ car.pk }}" class="modal">
-                                            <div class="modal-content" align="center">
-                                                <img src="/{{ document.circulation_card }}"
-                                                     class="responsive-img">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="#!"
-                                                   class=" modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
+                                <tr>
+                                    <td>{{ car.brand }}</td>
+                                    <td>{{ car.model }}</td>
+                                    <td>{{ car.registration_tag }}</td>
+                                    <td>{{ car.color }}</td>
+                                    <td>{{ car.total_sits }}</td>
+                                    {% for document in cars_documents %}
+                                        {% if document.car == car %}
+                                            <td><a target="_blank" href="/{{ document.insurance_policy }}">Ver</a></td>
+                                            <td><a target="_blank" href="/{{ document.licence }}">Ver</a></td>
+                                            <td><a target="_blank" href="/{{ document.circulation_card }}">Ver</a></td>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td><a href="{% url 'Register:EditCar' car.pk %}"><i class="fa fa-pencil"
+                                                                                         aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
 
                             {% endfor %}
-
-                        </ul>
-                    {% else %}
-                        <p>No se tienen autom&oacute;viles registrados aún <a href="{% url 'Register:RegisterCar' %}">¡Registra uno!</a></p>
-                    {% endif %}
-
-                </div>
-            </div>
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h3>No tienes registrados autom&oacute;viles, <a href="{% url 'Register:RegisterCar' %}">¡Registra
+                        uno!</a></h3>
+                {% endif %}
+            </section>
         </div>
-
     </div>
-
-{% endblock %}
-
-{% block scripts %}
-
-    <script>
-        $(document).ready(function () {
-            $('.modal').modal();
-        });
-    </script>
-
 {% endblock %}

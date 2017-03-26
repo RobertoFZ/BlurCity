@@ -1,89 +1,64 @@
-{% extends 'Base/base_section.html' %}
+{% extends 'Base/base_app.html' %}
 {% load static %}
 
-{% block content %}
-
-    <section id="main">
-        <div class="row">
-            <div class="container">
-                <br>
-                <h4>Lista de solicitudes</h4>
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+            <section class="box">
+                <h3>Mis notificaciones</h3>
+                <a href="{% url 'Panel:Panel' %}" class="button small">Atr&aacute;s</a>
                 <br><br>
-
                 {% if notifications %}
-                    <ul class="collection">
-                        {% for notification in notifications %}
-                            <li class="collection-item avatar">
-                                <img src="{% static 'images/notification_icon.png' %}" alt="" class="circle">
-                                <span class="title">Nombre de la ruta:
-                                    {% for route in routes %}{% if route.pk == notification.route_pk %}{{ route.name }}
-                                    {% endif %}{% endfor %}</span>
-                                <p>
-                                    Estado: {% if notification.status %}
-                                    <span id="status" class="green-text">Aceptada</span>{% else %}
-                                    <span id="status" class="red-text">No aceptada</span>{% endif %}
-                                    <br>
-                                    {% for route in routes %}
-                                        {% if route.pk == notification.route_pk %}
-                                            <a href="{% url 'Panel:Route' route.pk %}">Ver ruta</a>
-                                            &nbsp;
-                                            <a {% if session_type == "driver" %}href="{% url 'Panel:MessagesDriver' notification.request_user %}"
-                                               {% else %}href="{% url 'Panel:MessagesPassager' notification.user.pk %}"{% endif %}>Chat</a>
-                                        {% endif %}
-                                    {% endfor %}
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                            <tr>
+                                <th>Nombre de la ruta</th>
+                                <th>Estado</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for notification in notifications %}
+                                <tr>
+                                    <td>{% for route in routes %}{% if route.pk == notification.route_pk %}
+                                        {{ route.name }}
+                                    {% endif %}{% endfor %}</td>
+                                    <td>{% if notification.status %}
+                                        <span id="status" class="green-text">Aceptada</span>{% else %}
+                                        <span id="status" class="red-text">No aceptada</span>{% endif %}</td>
                                     {% if session_type == "driver" %}
-                                        <button onclick="updateRequest({{ notification.pk }}, 1)"
-                                                style='color: green; background: none; border: none;'><i
-                                                class='fa fa-check' aria-hidden='true'></i></button>
-                                        <button onclick="updateRequest({{ notification.pk }}, 0)"
-                                                style='color: red; background: none; border: none;'><i
-                                                class='fa fa-times'
-                                                aria-hidden='true'></i></button>
-                                        &nbsp;
-                                        <a {% if session_type == "driver" %}href="{% url 'Panel:MessagesDriver' notification.request_user %}"
-                                           {% else %}href="{% url 'Panel:MessagesPassager' request.user.pk %}"{% endif %}>Chat</a>
+                                        <td align="center"><a class="button small" style="background: green"
+                                                              onclick="updateRequest({{ notification.pk }}, 1)">Aceptar</a>
+                                        </td>
+                                        <td align="center"><a class="button small" style="background: red"
+                                                              onclick="updateRequest({{ notification.pk }}, 0)">Rechazar</a>
+                                        </td>
+                                        <td>
+                                            <a {% if session_type == "driver" %}href="{% url 'Panel:MessagesDriver' notification.request_user %}"
+                                               {% else %}href="{% url 'Panel:MessagesPassager' request.user.pk %}"{% endif %}>Chat</a>
+                                        </td>
                                     {% endif %}
-                                </p>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                                    <td>
+                                        {% for route in routes %}
+                                            {% if route.pk == notification.route_pk %}
+                                                <a href="{% url 'Panel:Route' route.pk %}">Ver ruta</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 {% else %}
-                    <h5>No se tienen solicitudes a&uacute;n</h5>
+                    <h3>No se tienen solicitudes</h3>
                 {% endif %}
 
-            </div>
+            </section>
         </div>
-    </section>
-{% endblock %}
-
-{% block scripts %}
-    {% if session_type == "driver" %}
-        <script type="text/javascript">
-            function updateRequest(notification_pk, status) {
-                $.ajax({
-                    url: '/panel/update_notification/',  //Server script to process data
-                    type: 'post',
-                    success: function (data) {
-                        if (data == 1) {
-                            document.getElementById("status").innerHTML = "Aceptada";
-                            document.getElementById("status").setAttribute("class", "green-text");
-                            sweetAlert("Correcto", "La solicitud se ha aceptado correctamente", "success");
-                        } else {
-                            document.getElementById("status").innerHTML = "Rechazada";
-                            document.getElementById("status").setAttribute("class", "red-text");
-                            sweetAlert("Correcto", "La solicitud se ha rechazado correctamente", "success");
-                        }
-                    },
-                    error: function (message) {
-                        console.log(message);
-                    },
-                    // Form data
-                    data: {
-                        'notification_pk': notification_pk,
-                        'status': status
-                    }
-                });
-            }
-        </script>
-    {% endif %}
+    </div>
 {% endblock %}

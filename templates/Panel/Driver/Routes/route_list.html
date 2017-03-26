@@ -1,44 +1,41 @@
-{% extends 'Base/base_section.html' %}
+{% extends 'Base/base_app.html' %}
 {% load static %}
-
-{% block content %}
-
-    <div id="main">
-
-        <div class="row">
-            <div class="container">
-                <div class="list-container">
-
-                    <a class="waves-effect green btn" href="{% url 'Panel:Panel' %}">Atr&aacute;s</a> <br><br>
-
-                    {% if routes %}
-                        <ul class="collection">
-
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+            <section class="box">
+                <h3>Mis rutas</h3>
+                <a href="{% url 'Panel:Panel' %}" class="button small">Atr&aacute;s</a>
+                <br><br>
+                {% if routes %}
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Origen de referencia</th>
+                                <th>Hora de inicio</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             {% for route in routes %}
-
-                                <li class="collection-item avatar">
-                                    <img src="{% static 'images/marker.png' %}" alt="" class="circle">
-                                    <span class="title">{{ route.name }}</span>
-                                    <p class="text-car">
-                                        Origen de referencia: {{ route.origin }}<br>
-                                        Hora de inicio: {{ route.start_time }}<br>
-                                    </p>
-                                    <a href="{% url 'Panel:Route' route.pk %}" class="secondary-content"><i class="fa fa-pencil"
-                                                                              aria-hidden="true"></i></a>
-                                </li>
-
+                                <tr>
+                                    <td>{{ route.name }}</td>
+                                    <td>{{ route.origin }}</td>
+                                    <td>{{ route.start_time }}</td>
+                                    <td><a href="{% url 'Panel:Route' route.pk %}"><i class="fa fa-pencil"
+                                                                                         aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
                             {% endfor %}
-
-                        </ul>
-                    {% else %}
-                        <p>No se tienen rutas creadas aún <a href="{% url 'Register:RegisterRoute' %}">¡Crea una!</a></p>
-                    {% endif %}
-
-                </div>
-            </div>
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h3>No tienes rutas creadas, <a href="{% url 'Register:RegisterRoute' %}">¡Crea una!</a></h3>
+                {% endif %}
+            </section>
         </div>
-
     </div>
-
 {% endblock %}
-

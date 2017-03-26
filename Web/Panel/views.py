@@ -176,12 +176,17 @@ def notificationView(request):
 
     session_type = request.session['session_type']
     args['session_type'] = session_type
+    routes = []
     if session_type == "driver":
         notifications = Notification.objects.filter(user=request.user)
+        for notification in notifications:
+            route = Route.objects.get(pk=notification.route_pk)
+            routes.append(route)
+
         args['notifications'] = notifications
+        args['routes'] = routes
         return render(request, 'Panel/notifications.html', args)
     elif session_type == "passenger":
-        routes = []
         notifications = Notification.objects.filter(request_user=request.user.pk)
 
         for notification in notifications:
