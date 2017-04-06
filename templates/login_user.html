@@ -8,6 +8,11 @@
             <!-- Form -->
             <section class="box">
                 <h3>Iniciar sesi&oacute;n</h3>
+                {% if errors %}
+                    {% for error in errors %}
+                        <p class="red-text" style="color:red; padding-top: 20px">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
                 <form method="post" action="{% url 'Authentication:Login' request.session.session_type %}">
                     <div class="row uniform 50%">
                         <div class="6u 12u(mobilep)">

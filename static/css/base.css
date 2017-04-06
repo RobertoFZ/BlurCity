@@ -5,7 +5,7 @@ body, html{
 }
 
 nav{
-    background-color: #000000;
+    background-color: #444;
 }
 
 .logo-color{
@@ -23,7 +23,7 @@ nav{
 
 footer.page-footer{
     margin: 0;
-    background-color: #000000;
+    background-color: #444;
 }
 
 .social-links{

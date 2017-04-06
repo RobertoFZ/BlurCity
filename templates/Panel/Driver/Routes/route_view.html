@@ -1,0 +1,567 @@
+{% extends 'Base/base_app.html' %}
+{% load static %}
+
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+
+            <!-- Form -->
+            <section class="box">
+                <h3>Ruta de BlurCity</h3>
+
+                {% if is_owner %}
+                    {% if user_cars %}
+                        <div class="row uniform">
+                            <div class="7u 12u(mobilep)">
+                                <div id="map"></div>
+                                <div class="12u">
+                                    <br>
+                                    <ul class="actions">
+                                        <li>
+                                            <button id="clean-btn" class="button">Borrar marcadores</button>
+                                        </li>
+                                        <li>
+                                            <button id="draw-btn" class="button special">Trazar</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="5u 12u(mobilep)">
+                                {% if errors %}
+                                    {% for error in errors %}
+                                        <p class="red-text" style="color:red; padding-top: 20px">{{ error }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                                <form method="post"
+                                      action="{% url 'Authentication:Login' request.session.session_type %}">
+                                    <div class="row uniform 50%">
+                                        <div class="12u 12u(mobilep)">
+                                            <div class="select-wrapper">
+                                                <select name="origen" id="origen">
+                                                    <option value="" disabled selected>Seleccione un origen de
+                                                        referencia
+                                                    </option>
+                                                    <option value="Centro"
+                                                            {% if route.origin == "Centro" %}selected{% endif %}>Centro
+                                                    </option>
+                                                    <option value="Plaza"
+                                                            {% if route.origin == "Plaza" %}selected{% endif %}>Plaza
+                                                    </option>
+                                                    <option value="Hogar"
+                                                            {% if route.origin == "Hogar" %}selected{% endif %}>Hogar
+                                                    </option>
+                                                    <option value="Escuela"
+                                                            {% if route.origin == "Escuela" %}selected{% endif %}>
+                                                        Escuela
+                                                    </option>
+                                                    <option value="Trabajo"
+                                                            {% if route.origin == "Trabajo" %}selected{% endif %}>
+                                                        Trabajo
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="12u 12u(mobilep)">
+                                            <div class="select-wrapper">
+                                                <select name="destiny" id="destiny">
+                                                    <option value="0" disabled selected>Seleccione un destino</option>
+                                                    {% for campus in campus_list %}
+                                                        <option value="{{ campus.pk }}"
+                                                                {% if route.campus_pk == campus.pk %}selected{% endif %}>{{ campus.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="12u 12u(mobilep)">
+                                            <div class="select-wrapper">
+                                                <select name="car" id="car">
+                                                    <option value="" disabled selected>Seleccione un vehiculo</option>
+                                                    {% for car in user_cars %}
+                                                        <option value="{{ car.pk }}"
+                                                                {% if route.car_pk == car.pk %}selected{% endif %}>{{ car.brand }} {{ car.model }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="12u 12u(mobilep)">
+                                            <div class="select-wrapper">
+                                                <select name="sits" id="sits">
+                                                    <option value="0" disabled selected>Seleccione un cupo</option>
+                                                    <option value="1" {% if route.sits == 1 %}selected{% endif %}>1
+                                                    </option>
+                                                    <option value="2" {% if route.sits == 2 %}selected{% endif %}>2
+                                                    </option>
+                                                    <option value="3" {% if route.sits == 3 %}selected{% endif %}>3
+                                                    </option>
+                                                    <option value="4" {% if route.sits == 4 %}selected{% endif %}>4
+                                                    </option>
+                                                    <option value="5" {% if route.sits == 5 %}selected{% endif %}>5
+                                                    </option>
+                                                    <option value="6" {% if route.sits == 6 %}selected{% endif %}>6
+                                                    </option>
+                                                    <option value="7" {% if route.sits == 7 %}selected{% endif %}>7
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="12u 12u(mobilep)">
+                                            <p><b>Horario</b></p>
+                                            <label for="hora">Hora de inicio</label>
+                                            <input id="hora" type="time" name="hora"
+                                                   value="{{ route.start_time|time:"H:i" }}" max="20:00:00"
+                                                   min="6:00:00">
+                                        </div>
+                                        <div class="row uniform 50%">
+                                            <div class="6u 12u(narrower)">
+                                                <input type="checkbox" id="lunes" value="Lunes" name="dia[]"
+                                                        {% for day in route_days %}
+                                                       {% if day.day == "Lunes" %}checked{% endif %} {% endfor %}>
+                                                <label for="lunes">Lunes</label>
+                                            </div>
+                                            <div class="6u 12u(narrower)">
+                                                <input type="checkbox" id="martes" value="Martes" name="dia[]"
+                                                        {% for day in route_days %}
+                                                       {% if day.day == "Martes" %}checked{% endif %} {% endfor %}>
+                                                <label for="martes">Martes</label>
+                                            </div>
+                                        </div>
+                                        <div class="row uniform 50%">
+                                            <div class="6u 12u(narrower)">
+                                                <input type="checkbox" id="miercoles" value="Miercoles" name="dia[]"
+                                                        {% for day in route_days %}
+                                                       {% if day.day == "Miercoles" %}checked{% endif %} {% endfor %}>
+                                                <label for="miercoles">Miercoles</label>
+                                            </div>
+                                            <div class="6u 12u(narrower)">
+                                                <input type="checkbox" id="jueves" value="Jueves" name="dia[]"
+                                                        {% for day in route_days %}
+                                                       {% if day.day == "Jueves" %}checked{% endif %} {% endfor %}>
+                                                <label for="jueves">Jueves</label>
+                                            </div>
+                                        </div>
+                                        <div class="row uniform 50%">
+                                            <div class="6u 12u(narrower)">
+                                                <input type="checkbox" id="viernes" value="Viernes" name="dia[]"
+                                                        {% for day in route_days %}
+                                                       {% if day.day == "Viernes" %}checked{% endif %} {% endfor %}>
+                                                <label for="viernes">Viernes</label>
+                                            </div>
+                                            <div class="6u 12u(narrower)">
+                                                <input type="checkbox" id="sabado" value="Sabado" name="dia[]"
+                                                        {% for day in route_days %}
+                                                       {% if day.day == "Sabado" %}checked{% endif %} {% endfor %}>
+                                                <label for="sabado">S&aacute;bado</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row uniform">
+                                        <div class="12u">
+                                            <ul class="actions">
+                                                <li><a href="{% url 'Panel:Panel' %}" class="button">Cancelar</a></li>
+                                                <li><input id="guardar-btn" type="button" class="button special"
+                                                           value="Registrar"/></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {% else %}
+                        <h4 class="center-align">Por favor registra un automovil primero</h4>
+                    {% endif %}
+                {% else %}
+                    <div class="row uniform">
+                        <div class="7u 12u(mobilep)">
+                            <div id="map"></div>
+                        </div>
+                        <div class="5u 12u(mobilep)">
+                            <div class="row uniform">
+                                <div class="12u 12u(mobilep)">
+                                    <ul class="actions">
+                                        <li><a href="{% url 'Panel:RouteList' %}" class="button">Atras</a></li>
+                                        <li><a id="solicitar-btn" class="button special">Solicitar</a></li>
+                                    </ul>
+                                </div>
+                                <div class="12u 12u(mobilep)">
+                                    <p>
+                                        <b>Nombre de la ruta: </b>{{ route.name }}
+                                    </p>
+                                    <p>
+                                        <b><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                            Destino:</b> {{ destiny.name }}
+                                    </p>
+                                    <p>
+                                        <b>Automovil:</b>
+                                    </p>
+                                    <ul>
+                                        {% for car in user_cars %}
+                                            {% if car.pk == route.car_pk %}
+                                                <i class='fa fa-car'
+                                                   aria-hidden='true'></i> Marca {{ car.brand }},
+                                                modelo
+                                                {{ car.model }},
+                                                color
+                                                {{ car.color }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    <p>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i> Dias disponible: <br>
+                                    <ul style="padding-left: 15px">
+                                        {% for day in route_days %}
+                                            <li class='info-text'>{{ day.day }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <hr/>
+
+            </section>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        var campus_list = [];
+        {% for campus in campus_list %}
+            var campus_obj = {
+                "pk": {{ campus.pk }},
+                "name": "{{ campus.name }}",
+                "points": "{{ campus.latitude }},{{ campus.longitude }}",
+                "latitude": "{{ campus.latitude }}",
+                "longitude": "{{ campus.longitude }}"
+            };
+            campus_list.push(campus_obj);
+        {% endfor %}
+
+    </script>
+    <script>
+        var wayPoints = [];
+        {% if route_markers %}
+            {% for marker in route_markers %}
+
+                wayPoints.push({
+                    location: "{{ marker.latitude }}, {{ marker.longitude }}",
+                    stopover: false
+                });
+
+            {% endfor %}
+
+            {% if is_owner %}
+                campus_pk = document.getElementById('destiny').value;
+            {% else %}
+                campus_pk = "{{ destiny.pk }}";
+            {% endif %}
+
+            for (var i = 0; i < campus_list.length; i++) {
+                if (campus_list[i].pk == campus_pk) {
+                    wayPoints.push({
+                        location: "" + campus_list[i].latitude + ", " + campus_list[i].longitude,
+                        stopover: false
+                    });
+                }
+            }
+        {% endif %}
+    </script>
+    <script type="text/javascript">
+        var markerArray = [];
+        var markerPosition = 1;
+        var googleMarkersArray = [];
+        var route_ok = false;
+        var map;
+        var directionsService;
+        var directionsDisplay;
+
+        function initMap() {
+            directionsService = new google.maps.DirectionsService;
+            directionsDisplay = new google.maps.DirectionsRenderer;
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: {lat: 41.85, lng: -87.65}
+            });
+
+            directionsDisplay.setMap(map);
+            var infoWindow = new google.maps.InfoWindow({map: map});
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    map.setCenter(pos);
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+
+            var onChangeHandler = function () {
+                //setMapOnAll(null);
+
+                //TODO: Ajax Request for save data in Database
+                //sendRouteDataToServer();
+                calculateAndDisplayRoute(directionsService, directionsDisplay);
+                route_ok = true;
+            };
+
+            {% if is_owner %}
+                document.getElementById('draw-btn').addEventListener('click', onChangeHandler);
+                document.getElementById('guardar-btn').addEventListener('click', sendRouteDataToServer);
+            {% endif %}
+
+            map.addListener('click', function (click) {
+                console.log("Click: " + click.latLng);
+                var newMarker = new google.maps.Marker({
+                    position: click.latLng,
+                    map: map,
+                    title: 'Marcador'
+                });
+                newMarker.addListener('click', function () {
+                    newMarker.setVisible(false);
+                    deleteMarker(newMarker);
+                });
+                wayPoints.push({
+                    location: newMarker.getPosition(),
+                    stopover: false
+                });
+                console.log("New marker: " + newMarker.getPosition());
+                var markerObject = {
+                    position: markerPosition,
+                    latitud: newMarker.getPosition().lat(),
+                    longitud: newMarker.getPosition().lng()
+                };
+                markerArray.push(markerObject);
+                googleMarkersArray.push(newMarker);
+                markerPosition++;
+            });
+
+            {% if is_owner %}
+                $('#clean-btn').on("click", function () {
+                    deleteMarkers();
+                    directionsDisplay.setMap(null);
+                });
+            {% endif %}
+            google.maps.event.addListenerOnce(map, 'tilesloaded', function () {
+                calculateAndDisplayRoute(directionsService, directionsDisplay);
+            });
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+            destination = "";
+
+            {% if is_owner %}
+                campus_pk = document.getElementById('destiny').value;
+            {% else %}
+                campus_pk = "{{ destiny.pk }}";
+            {% endif %}
+            for (var i = 0; i < campus_list.length; i++) {
+                if (campus_list[i].pk == campus_pk) {
+                    destination = campus_list[i].points;
+                    var markerObject = {
+                        position: markerPosition++,
+                        latitud: campus_list[i].latitude,
+                        longitud: campus_list[i].longitude
+                    };
+                    markerArray.push(markerObject);
+                    console.log(destination)
+                }
+            }
+
+            directionsService.route({
+                origin: wayPoints[0].location,
+                destination: destination,
+                waypoints: wayPoints,
+                travelMode: google.maps.TravelMode.DRIVING
+            }, function (response, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+            directionsDisplay.setMap(map);
+            route_ok = true;
+        }
+
+        function sendRouteDataToServer() {
+            var dias = [];
+
+            var origen = $('#origen').val();
+            var destino = $('#destiny').val();
+            var vehiculo = $('#car').val();
+            var cupo = $('#sits').val();
+            var horario = $('#hora').val();
+
+            $('input[name="dia[]"]:checked').each(function () {
+                dias.push($(this).val());
+            });
+
+            if ($('input[name="dia[]"]:checked').length > 0) {
+                if (origen != "" && destino != "" && vehiculo != "" && cupo != "" && horario != "" && route_ok) {
+                    $.ajax({
+                        url: '/panel/update_route/',  //Server script to process data
+                        type: 'post',
+                        success: function (data) {
+                            console.log(data);
+                            if (data != "-1") {
+                                routeId = data;
+                                console.log("ID RUTA AJAX " + routeId);
+                                console.log(markerArray);
+                                if (markerArray.length > 0) {
+                                    for (var i = 0; i < markerArray.length; i++) {
+                                        $.ajax({
+                                            url: '/panel/update_markers/',  //Server script to process data
+                                            type: 'post',
+                                            success: function (data) {
+                                                console.log(data);
+                                                deleteMarkers();
+                                            },
+                                            error: function (message) {
+                                                console.log(message);
+                                            },
+                                            // Form data
+                                            data: {
+                                                'routePk': routeId,
+                                                'position': markerArray[i].position,
+                                                'latitude': markerArray[i].latitud,
+                                                'longitude': markerArray[i].longitud
+                                            }
+                                        });
+                                    }
+                                    Materialize.toast('Ruta actualizada correctamente', 10000, 'rounded')
+                                } else {
+                                    sweetAlert("Error", "Por favor trace una ruta", "error");
+                                }
+                            }
+                        },
+                        error: function (message) {
+                            console.log(message);
+                        },
+                        // Form data
+                        data: {
+                            'routePk': "{{ route.pk }}",
+                            'origen': origen,
+                            'destiny': destino,
+                            'car': vehiculo,
+                            'sits': cupo,
+                            'time': horario,
+                            'day': dias
+                        }
+                    });
+                } else {
+                    if (!route_ok) {
+                        sweetAlert("Error", "Por favor traze la ruta y asegurese que es la correcta", "error");
+                    } else {
+                        sweetAlert("Error", "Por favor llene todos los campos", "error");
+                    }
+                }
+            } else {
+                sweetAlert("Error", "Por favor seleccione el dia de la semana que estará disponible esta ruta", "error");
+            }
+        }
+
+        function deleteMarker(markerToDelete) {
+            var temp_marker_array = [];
+            var temp_wayPoints = [];
+            var temp_googleMarkersArray = [];
+
+            for (var i = 0; i < markerArray.length; i++) {
+                if (markerArray[i].latitud != markerToDelete.getPosition().lat() && markerArray[i].longitud != markerToDelete.getPosition().lng()) {
+                    temp_marker_array.push(markerArray[i]);
+                    temp_wayPoints.push(wayPoints[i]);
+                    temp_googleMarkersArray.push(googleMarkersArray[i]);
+                } else {
+                    console.log("Marker to delete found");
+                }
+            }
+
+            wayPoints = temp_wayPoints;
+            markerArray = temp_marker_array;
+            googleMarkersArray = temp_googleMarkersArray;
+        }
+
+        // Sets the map on all markers in the array.
+        function setMapOnAll(map) {
+            if (!route_ok) {
+                for (var i = 0; i < markerArray.length; i++) {
+                    googleMarkersArray[i].setMap(map);
+                }
+            } else {
+                for (var i = 0; i < markerArray.length - 1; i++) {
+                    googleMarkersArray[i].setMap(map);
+                }
+            }
+        }
+
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkers() {
+            clearMarkers();
+            markerArray = [];
+            wayPoints = [];
+            googleMarkersArray = [];
+            route_ok = false;
+        }
+
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCW7jLIOGjbN7K1lle9LrUaPruKD8dv_x0&callback=initMap">
+    </script>
+    <script>
+        var window_height = $(window).height();
+        var main_content_height = $(".main").height();
+
+        if (window_height > main_content_height) {
+            var navbar_height = $("#navbar").height();
+            var footer_height = $("#footer").height();
+
+            $("#map").css("height", window_height - navbar_height - footer_height + "px");
+        }
+
+    </script>
+
+    {% if not is_owner %}
+        <script type="text/javascript">
+            $('#solicitar-btn').on("click", function () {
+                requestRoute();
+            });
+
+            function requestRoute() {
+                $.ajax({
+                    url: '/panel/make_notification/',  //Server script to process data
+                    type: 'post',
+                    success: function (data) {
+                        if (data == 1) {
+                            sweetAlert("Correcto", "La solicitud se ha hecho correctamente", "success");
+                        } else {
+                            sweetAlert("Alto", "Ya has solicitado esta ruta", "warning");
+                        }
+                    },
+                    error: function (message) {
+                        console.log(message);
+                    },
+                    // Form data
+                    data: {
+                        'route_pk': "{{ route.pk }}"
+                    }
+                });
+            }
+        </script>
+    {% endif %}
+
+{% endblock %}

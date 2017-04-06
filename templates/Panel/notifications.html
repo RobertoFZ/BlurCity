@@ -37,11 +37,11 @@
                                         <td align="center"><a class="button small" style="background: red"
                                                               onclick="updateRequest({{ notification.pk }}, 0)">Rechazar</a>
                                         </td>
-                                        <td>
-                                            <a {% if session_type == "driver" %}href="{% url 'Panel:MessagesDriver' notification.request_user %}"
-                                               {% else %}href="{% url 'Panel:MessagesPassager' request.user.pk %}"{% endif %}>Chat</a>
-                                        </td>
                                     {% endif %}
+                                    <td>
+                                        <a {% if session_type == "driver" %}href="{% url 'Panel:MessagesDriver' notification.request_user %}"
+                                           {% else %}href="{% url 'Panel:MessagesPassager' request.user.pk %}"{% endif %}>Chat</a>
+                                    </td>
                                     <td>
                                         {% for route in routes %}
                                             {% if route.pk == notification.route_pk %}
@@ -61,4 +61,36 @@
             </section>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    {% if session_type == "driver" %}
+        <script type="text/javascript">
+            function updateRequest(notification_pk, status) {
+                $.ajax({
+                    url: '/panel/update_notification/',  //Server script to process data
+                    type: 'post',
+                    success: function (data) {
+                        if (data == 1) {
+                            document.getElementById("status").innerHTML = "Aceptada";
+                            document.getElementById("status").setAttribute("class", "green-text");
+                            sweetAlert("Correcto", "La solicitud se ha aceptado correctamente", "success");
+                        } else {
+                            document.getElementById("status").innerHTML = "Rechazada";
+                            document.getElementById("status").setAttribute("class", "red-text");
+                            sweetAlert("Correcto", "La solicitud se ha rechazado correctamente", "success");
+                        }
+                    },
+                    error: function (message) {
+                        console.log(message);
+                    },
+                    // Form data
+                    data: {
+                        'notification_pk': notification_pk,
+                        'status': status
+                    }
+                });
+            }
+        </script>
+    {% endif %}
 {% endblock %}

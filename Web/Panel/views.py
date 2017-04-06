@@ -47,10 +47,12 @@ def routeListView(request):
     if session_type == "driver":
         routes = Route.objects.filter(user=request.user)
         args['routes'] = routes
+        args['session_type'] = session_type
         return render(request, 'Panel/Driver/Routes/route_list.html', args)
     elif session_type == "passenger":
         routes = Route.objects.all()
         args['routes'] = routes
+        args['session_type'] = session_type
         return render(request, 'Panel/Driver/Routes/route_list.html', args)
 
 
@@ -71,13 +73,13 @@ def routeView(request, route_pk):
         args['is_owner'] = True
         if request.method == "POST":
             print("post")
-            return render(request, 'Panel/Driver/Routes/route.html', args)
+            return render(request, 'Panel/Driver/Routes/route_view.html', args)
         elif request.method == "GET":
-            return render(request, 'Panel/Driver/Routes/route.html', args)
+            return render(request, 'Panel/Driver/Routes/route_view.html', args)
     else:
         last_marker = route_markers.last()
         args['destiny'] = Campus.objects.get(latitude=last_marker.latitude, longitude=last_marker.longitude)
-        return render(request, 'Panel/Driver/Routes/route.html', args)
+        return render(request, 'Panel/Driver/Routes/route_view.html', args)
 
 
 def saveRouteService(request):

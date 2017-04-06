@@ -1,106 +1,106 @@
-{% extends 'Base/base_section.html' %}
+{% extends 'Base/base_app.html' %}
 {% load static %}
 
-{% block css %}
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
 
-    <link rel="stylesheet" href="{% static 'css/register.css' %}"/>
-
-{% endblock %}
-
-{% block content %}
-
-    <div class="main">
-        <div class="row" style="margin: 0">
-            <div class="container">
+            <!-- Form -->
+            <section class="box">
+                <h3>Actualizar Autom&oacute;vil</h3>
+                <a href="{% url 'Panel:CarList' %}" class="button small">Atr&aacute;s</a>
                 <br><br>
-                <a href="{% url 'Panel:CarList' %}" class="btn waves-effect blue light-blue">Regresar</a>
-                <form class="col s12 form-margin z-depth-3" action="{% url 'Register:EditCar' car.pk %}" method="post"
-                      enctype="multipart/form-data" style="padding: 0">
-                    <div class="register-car-form">
-                        <h4>Registrar aut&oacute;movil</h4> <br>
-                        <div class="row">
-                            <div class="input-field col s4">
-                                <input id="model" name="model" value="{{ car.model }}" type="text" class="validate">
-                                <label for="model">Modelo</label>
-                            </div>
-                            <div class="input-field col s4">
-                                <input name="brand" value="{{ car.brand }}" id="brand" type="text" class="validate">
-                                <label for="brand">Marca</label>
-                            </div>
-                            <div class="input-field col s4">
-                                <input name="registration_tag" value="{{ car.registration_tag }}" id="registration_tag" type="text" class="validate">
-                                <label for="registration_tag">Matr&iacute;cula</label>
+                <form id="singUpForm" method="post" action="{% url 'Register:EditCar' car.pk %}"
+                      enctype="multipart/form-data">
+                    {% if errors %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u(mobilep)">
+                                {% for error in errors %}
+                                    <p style="color: red">*{{ error }}</p>
+                                {% endfor %}
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="input-field col s3"></div>
-                            <div class="input-field col s3">
-                                <input name="color" value="{{ car.color }}" id="color" type="text" class="validate">
-                                <label for="color">Color</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input name="total_sits" value="{{ car.total_sits }}" id="total_sits" type="number" class="validate">
-                                <label for="total_sits">Espacios Disponibles</label>
-                            </div>
-                            <div class="input-field col s3"></div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s4">
-                                <p>Poliza de Seguro</p>
-                                <div class="file-field input-field">
-                                    <div class="btn light-blue">
-                                        <span><i class="fa fa-camera" aria-hidden="true"></i></span>
-                                        <input name="insurance_policy" value="{{ car_documents.insurance_policy }}" id="insurance_policy" type="file">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text">
-                                    </div>
-                                </div>
-                                <img class="responsive-img" id="insurance_policy_preview" src="/{{ car_documents.insurance_policy }}">
-                            </div>
-                            <div class="input-field col s4">
-                                <div class="file-field input-field">
-                                    <p>Tarjeta de Circulaci&oacute;n</p>
-                                    <div class="btn light-blue">
-                                        <span><i class="fa fa-camera" aria-hidden="true"></i></span>
-                                        <input name="circulation_card" value="{{ car_documents.circulation_card }}" id="circulation_car" type="file">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text">
-                                    </div>
-                                </div>
-                                <img class="responsive-img" id="circulation_car_preview" src="/{{ car_documents.circulation_card }}">
-                            </div>
-                            <div class="input-field col s4">
-                                <p>Licencia</p>
-                                <div class="file-field input-field">
-                                    <div class="btn light-blue">
-                                        <span><i class="fa fa-camera" aria-hidden="true"></i></span>
-                                        <input name="licence" value="{{ car_documents.licence }}" id="licence" type="file">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text">
-                                    </div>
-                                </div>
-                                <img class="responsive-img" id="licence_preview" src="/{{ car_documents.licence }}">
+                    {% endif %}
+
+                    {% if created %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u(mobilep)">
+                                <p style="color: green">¡Registro exitoso! <a
+                                        href="{% url 'Authentication:ChoiceLogin' %}">Inicia sesi&oacute;n</a></p>
                             </div>
                         </div>
-                        <div class="row" align="center">
+                    {% endif %}
+                    <div class="row uniform 50%">
+                        <div class="4u 12u(mobilep)">
+                            <input type="text" name="brand" id="brand" value="{{ car.brand }}" placeholder="Marca"/>
+                        </div>
+                        <div class="4u 12u(mobilep)">
+                            <input type="text" name="model" id="model" value="{{ car.model }}" placeholder="Modelo"/>
+                        </div>
+                        <div class="4u 12u(mobilep)">
+                            <input type="text" name="registration_tag" id="registration_tag"
+                                   value="{{ car.registration_tag }}" placeholder="Matrícula"/>
+                        </div>
+                    </div>
+                    <div class="row uniform 50%">
+                        <div class="4u">
+                            <input type="text" name="color" id="color" value="{{ car.color }}" placeholder="Color"/>
+                        </div>
+                        <div class="4u" style="display: -webkit-inline-box;">
+                            <label for="total_sits">Espacios</label> &nbsp;
+                            <input type="number" min="1" max="6" name="total_sits" id="total_sits" value="{{ car.total_sits }}"/>
+                        </div>
+                    </div>
+                    <div class="row uniform 50%">
+                        <div class="4u 12u(mobilep)" align="center">
+                            <input type="file" name="insurance_policy" id="insurance_policy"
+                                   value="{{ car_documents.insurance_policy }}" style="display: none;">
+                            <input type="button" onclick="document.getElementById('insurance_policy').click();"
+                                   class="button special icon fa-search" value="Poliza de seguro">
                             <br>
-                            <input class="btn waves-effect green" type="submit" name="guardar" value="Guardar">
-                            &nbsp;&nbsp;
-                            <a href="{% url 'Panel:CarList' %}" class="btn waves-effect red">Cancelar</a>
+                            <span class="image fit" style="margin-top: 10px"><img id="insurance_policy_preview"
+                                                                                  src="/{{ car_documents.insurance_policy }}"
+                                                                                  alt=""/></span>
+                        </div>
+                        <div class="4u 12u(mobilep)" align="center">
+                            <input type="file" name="circulation_card" id="circulation_card"
+                                   value="{{ car_documents.circulation_card }}" style="display: none;">
+                            <input type="button" onclick="document.getElementById('circulation_card').click();"
+                                   class="button special icon fa-search" value="Tarjeta de circulación">
+                            <br>
+                            <span class="image fit" style="margin-top: 10px"><img id="circulation_car_preview"
+                                                                                  src="/{{ car_documents.circulation_card }}"
+                                                                                  alt=""/></span>
+                        </div>
+                        <div class="4u 12u(mobilep)" align="center">
+                            <input type="file" name="licence" id="licence" value="{{ car_documents.licence }}"
+                                   style="display: none;">
+                            <input type="button" onclick="document.getElementById('licence').click();"
+                                   class="button special icon fa-search" value="Licencia">
+                            <br>
+                            <span class="image fit" style="margin-top: 10px"><img id="licence_preview"
+                                                                                  src="/{{ car_documents.licence }}"
+                                                                                  alt=""/></span>
+                        </div>
+                    </div>
+                    <div class="row uniform">
+                        <div class="12u" align="center">
+                            <ul class="actions">
+                                <li><a href="{% url 'Panel:Panel' %}" class="button">Cancelar</a></li>
+                                <li><input id="register-btn" class="button special" type="submit" value="Guardar cambios"/></li>
+                            </ul>
                         </div>
                     </div>
                 </form>
-            </div>
+
+                <hr/>
+            </section>
+
         </div>
     </div>
-
 {% endblock %}
 
 {% block scripts %}
-
     <script>
         function readURL(input, img_src) {
             if (input.files && input.files[0]) {
@@ -128,8 +128,9 @@
             readURL(this, "insurance_policy");
         });
 
-        $("#circulation_car").change(function () {
+        $("#circulation_card").change(function () {
             readURL(this, "circulation_card");
+            console.log("circulation card");
         });
 
         $("#licence").change(function () {
@@ -138,10 +139,11 @@
 
         var car_updated = '{{ car_updated }}';
 
-        if(car_updated == 'correct'){
-            Materialize.toast('¡Automovil editado correctamente!', 10000);
+        if (car_updated == 'correct') {
+            alert('¡Automovil editado correctamente!');
         }
 
     </script>
+
 
 {% endblock %}

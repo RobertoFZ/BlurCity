@@ -6,8 +6,6 @@
     <section id="main">
         <div class="row">
             <div class="container">
-                <br>
-                <h4>Chat</h4>
                 <br><br>
 
                 {% if messages %}
@@ -30,6 +28,9 @@
                         </div>
                     </div>
                 {% else %}
+                    <a class="btn waves-effect waves-light" href="{% url 'Panel:Notifications' %}">
+                        Regresar
+                    </a>
                     <h5>No se han enviado mensajes aún</h5>
                 {% endif %}
 

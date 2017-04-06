@@ -14,4 +14,4 @@
 ;;directories to ignore
 .idea/
 
-.static/uploads/
+static/uploads/

@@ -24,8 +24,14 @@
                                     <td>{{ route.name }}</td>
                                     <td>{{ route.origin }}</td>
                                     <td>{{ route.start_time }}</td>
-                                    <td><a href="{% url 'Panel:Route' route.pk %}"><i class="fa fa-pencil"
-                                                                                         aria-hidden="true"></i></a>
+                                    <td><a href="{% url 'Panel:Route' route.pk %}">
+                                        {% if session_type == 'driver' %}
+                                            <i class="fa fa-pencil"
+                                               aria-hidden="true"></i>
+                                        {% else %}
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        {% endif %}
+                                    </a>
                                     </td>
                                 </tr>
                             {% endfor %}

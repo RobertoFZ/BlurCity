@@ -153,7 +153,7 @@ function sendRouteDataToServer() {
                                     }
                                 });
                             }
-                            Materialize.toast('Ruta guardada correctamente', 10000, 'rounded')
+                            sweetAlert("Correcto", "Ruta guardada correctamente", "success");
                         } else {
                             sweetAlert("Error", "Por favor trace una ruta", "error");
                         }

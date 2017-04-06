@@ -35,12 +35,12 @@ def loginView(request, type):
                 errors = []
                 errors.append("Usuario no validado por la institucion")
                 args['errors'] = errors
-                return render(request, 'login.html', args)
+                return render(request, 'login_user.html', args)
         except User.DoesNotExist:
             errors = []
             errors.append("No existe un usuario con ese correo")
             args['errors'] = errors
-            return render(request, 'login.html', args)
+            return render(request, 'login_user.html', args)
     else:
         logout(request)
         setSessionType(request, type)
