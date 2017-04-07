@@ -153,7 +153,14 @@ function sendRouteDataToServer() {
                                     }
                                 });
                             }
-                            sweetAlert("Correcto", "Ruta guardada correctamente", "success");
+                            sweetAlert({
+                                title: "Correcto",
+                                text: "Ruta guardada correctamente",
+                                type: "success",
+                                closeOnConfirm: false
+                            }, function () {
+                                window.location.href = "/panel/route_list/";
+                            });
                         } else {
                             sweetAlert("Error", "Por favor trace una ruta", "error");
                         }

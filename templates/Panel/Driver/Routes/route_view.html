@@ -108,8 +108,7 @@
                                             <p><b>Horario</b></p>
                                             <label for="hora">Hora de inicio</label>
                                             <input id="hora" type="time" name="hora"
-                                                   value="{{ route.start_time|time:"H:i" }}" max="20:00:00"
-                                                   min="6:00:00">
+                                                   value="{{ route.start_time|time:"H:i" }}">
                                         </div>
                                         <div class="row uniform 50%">
                                             <div class="6u 12u(narrower)">
@@ -157,9 +156,10 @@
                                     <div class="row uniform">
                                         <div class="12u">
                                             <ul class="actions">
-                                                <li><a href="{% url 'Panel:Panel' %}" class="button">Cancelar</a></li>
+                                                <li><a href="{% url 'Panel:RouteList' %}" class="button">Cancelar</a>
+                                                </li>
                                                 <li><input id="guardar-btn" type="button" class="button special"
-                                                           value="Registrar"/></li>
+                                                           value="Guardar"/></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -439,7 +439,14 @@
                                             }
                                         });
                                     }
-                                    Materialize.toast('Ruta actualizada correctamente', 10000, 'rounded')
+                                    sweetAlert({
+                                        title: "Correcto",
+                                        text: "Ruta actualizada correctamente",
+                                        type: "success",
+                                        closeOnConfirm: false
+                                    }, function () {
+                                        window.location.href = "/panel/route_list/";
+                                    });
                                 } else {
                                     sweetAlert("Error", "Por favor trace una ruta", "error");
                                 }

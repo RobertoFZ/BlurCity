@@ -15,7 +15,7 @@ class Route(models.Model):
     name = models.CharField(max_length=75)
     origin = models.CharField(max_length=75)
     sits = models.IntegerField(default=0)
-    start_time = models.TimeField(auto_now=True)
+    start_time = models.TimeField(auto_now=False)
 
     def __str__(self):
         return self.name
