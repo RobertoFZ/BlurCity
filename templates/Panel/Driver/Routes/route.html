@@ -31,11 +31,21 @@
                                             <select id="origen" name="origen">
                                                 <option value="" disabled selected>Seleccione un origen de referencia
                                                 </option>
-                                                <option value="Centro" {% if route.origin == "Centro" %}selected{% endif %}>Centro</option>
-                                                <option value="Plaza" {% if route.origin == "Plaza" %}selected{% endif %}>Plaza</option>
-                                                <option value="Hogar" {% if route.origin == "Hogar" %}selected{% endif %}>Hogar</option>
-                                                <option value="Escuela" {% if route.origin == "Escuela" %}selected{% endif %}>Escuela</option>
-                                                <option value="Trabajo" {% if route.origin == "Trabajo" %}selected{% endif %}>Trabajo</option>
+                                                <option value="Centro"
+                                                        {% if route.origin == "Centro" %}selected{% endif %}>Centro
+                                                </option>
+                                                <option value="Plaza"
+                                                        {% if route.origin == "Plaza" %}selected{% endif %}>Plaza
+                                                </option>
+                                                <option value="Hogar"
+                                                        {% if route.origin == "Hogar" %}selected{% endif %}>Hogar
+                                                </option>
+                                                <option value="Escuela"
+                                                        {% if route.origin == "Escuela" %}selected{% endif %}>Escuela
+                                                </option>
+                                                <option value="Trabajo"
+                                                        {% if route.origin == "Trabajo" %}selected{% endif %}>Trabajo
+                                                </option>
                                             </select>
                                             <label>Origen</label>
                                         </div>
@@ -380,27 +390,30 @@
                                 console.log("ID RUTA AJAX " + routeId);
                                 console.log(markerArray);
                                 if (markerArray.length > 0) {
-                                    for (var i = 0; i < markerArray.length; i++) {
-                                        $.ajax({
-                                            url: '/panel/update_markers/',  //Server script to process data
-                                            type: 'post',
-                                            success: function (data) {
-                                                console.log(data);
-                                                deleteMarkers();
-                                            },
-                                            error: function (message) {
-                                                console.log(message);
-                                            },
-                                            // Form data
-                                            data: {
-                                                'routePk': routeId,
-                                                'position': markerArray[i].position,
-                                                'latitude': markerArray[i].latitud,
-                                                'longitude': markerArray[i].longitud
-                                            }
-                                        });
-                                    }
-                                    Materialize.toast('Ruta actualizada correctamente', 10000, 'rounded')
+                                    $.ajax({
+                                        url: '/panel/save_markers/',  //Server script to process data
+                                        type: 'post',
+                                        success: function (data) {
+                                            console.log(data);
+                                            deleteMarkers();
+                                        },
+                                        error: function (message) {
+                                            console.log(message);
+                                        },
+                                        // Form data
+                                        data: {
+                                            'routePk': routeId,
+                                            'markers_json': JSON.stringify(markerArray)
+                                        }
+                                    });
+                                    sweetAlert({
+                                        title: "Correcto",
+                                        text: "Ruta guardada correctamente",
+                                        type: "success",
+                                        closeOnConfirm: false
+                                    }, function () {
+                                        window.location.href = "/panel/route_list/";
+                                    });
                                 } else {
                                     sweetAlert("Error", "Por favor trace una ruta", "error");
                                 }
@@ -511,9 +524,9 @@
                     url: '/panel/make_notification/',  //Server script to process data
                     type: 'post',
                     success: function (data) {
-                        if(data == 1){
+                        if (data == 1) {
                             sweetAlert("Correcto", "La solicitud se ha hecho correctamente", "success");
-                        }else {
+                        } else {
                             sweetAlert("Alto", "Ya has solicitado esta ruta", "warning");
                         }
                     },
@@ -526,6 +539,47 @@
                     }
                 });
             }
+
+            //DESTINY MARKER SECTION
+
+            var destiny_marker = null;
+
+            $('#destiny').change(function () {
+                var campus_pk = $('#destiny').val();
+                console.log(campus_pk);
+                console.log(campus_list.length);
+                switch (campus_pk) {
+                        {% for campus in campus_list %}
+                            case '{{ campus.pk }}':
+                                for (var i = 0; i < campus_list.length; i++) {
+                                    console.log("pk" + campus_list[i].pk);
+                                    if (campus_list[i].pk == {{ campus.pk }}) {
+                                        latLng = new google.maps.LatLng({
+                                            lat: Number(campus_list[i].latitude),
+                                            lng: Number(campus_list[i].longitude)
+                                        });
+                                        destiny_marker = new google.maps.Marker({
+                                            position: latLng,
+                                            map: map,
+                                            label: {
+                                                color: 'black',
+                                                fontWeight: 'bold',
+                                                text: 'Destino'
+                                            },
+                                            icon: {
+                                                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                                                labelOrigin: new google.maps.Point(11, 40)
+                                            }
+                                        });
+                                        map.setCenter(latLng);
+                                    }
+                                }
+                                break;
+                        {% endfor %}
+                    default:
+                        break;
+                }
+            });
         </script>
     {% endif %}
 

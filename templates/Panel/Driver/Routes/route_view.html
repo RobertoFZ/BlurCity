@@ -187,6 +187,9 @@
                                         <b>Nombre de la ruta: </b>{{ route.name }}
                                     </p>
                                     <p>
+                                        <b>Usuario: </b>{{ route.user.first_name }} {{ route.user.last_name }}
+                                    </p>
+                                    <p>
                                         <b><i class="fa fa-map-marker" aria-hidden="true"></i>
                                             Destino:</b> {{ destiny.name }}
                                     </p>
@@ -419,29 +422,25 @@
                                 console.log("ID RUTA AJAX " + routeId);
                                 console.log(markerArray);
                                 if (markerArray.length > 0) {
-                                    for (var i = 0; i < markerArray.length; i++) {
-                                        $.ajax({
-                                            url: '/panel/update_markers/',  //Server script to process data
-                                            type: 'post',
-                                            success: function (data) {
-                                                console.log(data);
-                                                deleteMarkers();
-                                            },
-                                            error: function (message) {
-                                                console.log(message);
-                                            },
-                                            // Form data
-                                            data: {
-                                                'routePk': routeId,
-                                                'position': markerArray[i].position,
-                                                'latitude': markerArray[i].latitud,
-                                                'longitude': markerArray[i].longitud
-                                            }
-                                        });
-                                    }
+                                    $.ajax({
+                                        url: '/panel/update_markers/',  //Server script to process data
+                                        type: 'post',
+                                        success: function (data) {
+                                            console.log(data);
+                                            deleteMarkers();
+                                        },
+                                        error: function (message) {
+                                            console.log(message);
+                                        },
+                                        // Form data
+                                        data: {
+                                            'routePk': routeId,
+                                            'markers_json': JSON.stringify(markerArray)
+                                        }
+                                    });
                                     sweetAlert({
                                         title: "Correcto",
-                                        text: "Ruta actualizada correctamente",
+                                        text: "Ruta guardada correctamente",
                                         type: "success",
                                         closeOnConfirm: false
                                     }, function () {

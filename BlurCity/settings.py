@@ -16,7 +16,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -38,14 +36,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #WEB
+    # WEB
     'Web.Home',
     'Web.Register',
     'Web.Authentication',
     'Web.Panel',
-    #MOBILE
-    #'API.Authentication',
-    #CORE
+    # MOBILE
+    # 'API.Authentication',
+    # CORE
     'Core.Account',
     'Core.Studies',
     'Core.Cars',
@@ -57,7 +55,7 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -93,7 +91,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'BlurCity.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -112,6 +109,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'aunth/login/'
 LOGOUT_URL = '/'
 
+# EMAIL SECTION
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'roberzet@gmail.com'
+EMAIL_HOST_PASSWORD = 'soybuenoenhalo2'
+EMAIL_PORT = 587
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -126,7 +129,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 STATIC_PATH = os.path.join(BASE_DIR, 'static')
@@ -138,5 +140,5 @@ STATICFILES_DIRS = (
 
 STATIC_URL = '/static/'
 
-#Auth
+# Auth
 AUTH_USER_MODEL = 'Account.User'

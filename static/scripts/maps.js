@@ -51,6 +51,8 @@ function initMap() {
             map: map,
             title: 'Marcador'
         });
+        console.log("latitude maps.js: " + click.latLng.lat());
+        console.log("longitude maps.js: " + click.latLng.lng());
         newMarker.addListener('click', function () {
             newMarker.setVisible(false);
             deleteMarker(newMarker);
@@ -133,26 +135,22 @@ function sendRouteDataToServer() {
                         console.log("ID RUTA AJAX " + routeId);
                         console.log(markerArray);
                         if (markerArray.length > 0) {
-                            for (var i = 0; i < markerArray.length; i++) {
-                                $.ajax({
-                                    url: '/panel/save_markers/',  //Server script to process data
-                                    type: 'post',
-                                    success: function (data) {
-                                        console.log(data);
-                                        deleteMarkers();
-                                    },
-                                    error: function (message) {
-                                        console.log(message);
-                                    },
-                                    // Form data
-                                    data: {
-                                        'routePk': routeId,
-                                        'position': markerArray[i].position,
-                                        'latitude': markerArray[i].latitud,
-                                        'longitude': markerArray[i].longitud
-                                    }
-                                });
-                            }
+                            $.ajax({
+                                url: '/panel/save_markers/',  //Server script to process data
+                                type: 'post',
+                                success: function (data) {
+                                    console.log(data);
+                                    deleteMarkers();
+                                },
+                                error: function (message) {
+                                    console.log(message);
+                                },
+                                // Form data
+                                data: {
+                                    'routePk': routeId,
+                                    'markers_json': JSON.stringify(markerArray)
+                                }
+                            });
                             sweetAlert({
                                 title: "Correcto",
                                 text: "Ruta guardada correctamente",

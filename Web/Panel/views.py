@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+import json
+
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
@@ -78,6 +82,8 @@ def routeView(request, route_pk):
             return render(request, 'Panel/Driver/Routes/route_view.html', args)
     else:
         last_marker = route_markers.last()
+        print last_marker.latitude
+        print last_marker.longitude
         args['destiny'] = Campus.objects.get(latitude=last_marker.latitude, longitude=last_marker.longitude)
         return render(request, 'Panel/Driver/Routes/route_view.html', args)
 
@@ -134,41 +140,35 @@ def updateRouteService(request):
         day.route = route
         day.day = current_day
         day.save()
-
     return HttpResponse(route.pk)
 
 
 def saveRouteMarkers(request):
-    route_pk = request.POST['routePk']
-    position = request.POST['position']
-    latitude = request.POST['latitude']
-    longitude = request.POST['longitude']
-
-    route = Route.objects.get(pk=route_pk)
-    routeMarker = RouteMarker()
-    routeMarker.route = route
-    routeMarker.position = position
-    routeMarker.latitude = latitude
-    routeMarker.longitude = longitude
-    routeMarker.save()
+    markers = json.loads(request.POST['markers_json'])
+    for marker in markers:
+        route = Route.objects.get(pk=request.POST['routePk'])
+        routeMarker = RouteMarker()
+        routeMarker.route = route
+        routeMarker.position = marker['position']
+        routeMarker.latitude = marker['latitud']
+        routeMarker.longitude = marker['longitud']
+        routeMarker.save()
 
     return HttpResponse(1)
 
 
 def updateRouteMarkers(request):
-    route_pk = request.POST['routePk']
-    position = request.POST['position']
-    latitude = request.POST['latitude']
-    longitude = request.POST['longitude']
-
-    route = Route.objects.get(pk=route_pk)
+    route = Route.objects.get(pk=request.POST['routePk'])
     RouteMarker.objects.filter(route=route).delete()
-    routeMarker = RouteMarker()
-    routeMarker.route = route
-    routeMarker.position = position
-    routeMarker.latitude = latitude
-    routeMarker.longitude = longitude
-    routeMarker.save()
+    markers = json.loads(request.POST['markers_json'])
+    for marker in markers:
+        route = Route.objects.get(pk=request.POST['routePk'])
+        routeMarker = RouteMarker()
+        routeMarker.route = route
+        routeMarker.position = marker['position']
+        routeMarker.latitude = marker['latitud']
+        routeMarker.longitude = marker['longitud']
+        routeMarker.save()
 
     return HttpResponse(1)
 
@@ -214,19 +214,34 @@ def makeNotification(request):
         notification.status = False
         notification.route_pk = route.pk
         notification.save()
+
+        # SEND EMAIL FOR NOTIFY
+        body = 'Tienes una nueva solicitud del usuario %s %s' % (request.user.first_name, request.user.last_name)
+        email = EmailMessage('Nueva solicitud', body, to=[route.user.email])
+        email.send()
         return HttpResponse("1")
 
 
 def updateNotification(request):
     notification = Notification.objects.get(pk=request.POST['notification_pk'])
-    print(request.POST['status'])
+    request_user = User.objects.get(pk=notification.request_user)
     if request.POST['status'] == "1":
         notification.status = True
         notification.save()
+        # SEND EMAIL FOR NOTIFY
+        body = u'¡El usuario %s %s ah aceptado tu solicitud de aventon! \n Dirigete a www.blurcity.com para ponerte en contacto con él' % (
+            request.user.first_name, request.user.last_name)
+        email = EmailMessage(u'Informacion sobre aventon', body, to=[request_user.email])
+        email.send()
         return HttpResponse(1)
     else:
         notification.status = False
         notification.save()
+        # SEND EMAIL FOR NOTIFY
+        body = u'El usuario %s %s ah rechazado tu solicitud de aventón \n Dirígete a www.blurcity.com para buscar un nuevo aventón' % (
+            request.user.first_name, request.user.last_name)
+        email = EmailMessage(u'Información sobre aventón', body, to=[request_user.email])
+        email.send()
         return HttpResponse(2)
 
 
@@ -255,6 +270,14 @@ def messageDriverView(request, user_who_request):
         messages = Message.objects.filter(room=room)
         args['messages'] = messages
         url = '/panel/chat_driver/' + user_who_request
+
+        user = User.objects.get(pk=room.user_chat_request)
+        # SEND EMAIL FOR NOTIFY
+        body = u'Tienes un nuevo mensaje del usuario %s %s: \n\n %s' % (
+            request.user.first_name, request.user.last_name, request.POST['message'])
+        email = EmailMessage('Nuevo mensaje', body, to=[user.email])
+        email.send()
+
         return HttpResponseRedirect(url)
 
 
@@ -284,4 +307,12 @@ def messagePassagerView(request, driver_pk):
         messages = Message.objects.filter(room=room)
         args['messages'] = messages
         url = '/panel/chat_passager/' + driver_pk
+
+        user = User.objects.get(pk=driver_pk)
+        # SEND EMAIL FOR NOTIFY
+        body = u'Tienes un nuevo mensaje del usuario %s %s: \n\n %s' % (
+            request.user.first_name, request.user.last_name, request.POST['message'])
+        email = EmailMessage('Nuevo mensaje', body, to=[user.email])
+        email.send()
+
         return HttpResponseRedirect(url)

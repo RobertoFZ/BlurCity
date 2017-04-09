@@ -40,7 +40,7 @@
                                     {% endif %}
                                     <td>
                                         <a {% if session_type == "driver" %}href="{% url 'Panel:MessagesDriver' notification.request_user %}"
-                                           {% else %}href="{% url 'Panel:MessagesPassager' request.user.pk %}"{% endif %}>Chat</a>
+                                           {% else %}href="{% url 'Panel:MessagesPassager' notification.user.pk %}"{% endif %}>Chat</a>
                                     </td>
                                     <td>
                                         {% for route in routes %}
