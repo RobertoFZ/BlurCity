@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
+from datetime import datetime, timedelta
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -15,7 +16,7 @@ from Core.Chat.models import Room, Message
 from Core.Notifications.models import Notification
 from Core.Routes.models import Route, RouteDay, RouteMarker
 from Core.Studies.models import Campus
-from Core.baseFunctions import basicArguments
+from Core.baseFunctions import basicArguments, canRequestRoute
 
 
 def panelView(request):
@@ -50,7 +51,26 @@ def routeListView(request):
 
     if session_type == "driver":
         routes = Route.objects.filter(user=request.user)
-        args['routes'] = routes
+
+        for route in routes:
+            created_at = route.create_at
+
+            # VERIFY THE ROUTE EXPIRE DATE
+            if abs(datetime.now() - created_at).days > 3:  # THREE DAYS FOR EXPIRE TIME
+                try:
+                    Notification.objects.get(route_pk=route.pk, user=route.user).delete()
+                except Notification.DoesNotExist:
+                    print "Not have notifications"
+
+                # SEND EMAIL NOTIFICATION TO USER
+                body = u'Hola %s %s \n\n Te informamos que tu ruta creada en la fecha %s ha expirado, ¡Te invitamos a crear una nueva!' % (
+                    route.user.first_name, route.user.last_name, created_at)
+                email = EmailMessage(u'Vencimiento de ruta de Blur City', body, to=[route.user.email])
+                email.send()
+
+                route.delete()
+
+        args['routes'] = Route.objects.filter(user=request.user)
         args['session_type'] = session_type
         return render(request, 'Panel/Driver/Routes/route_list.html', args)
     elif session_type == "passenger":
@@ -208,6 +228,8 @@ def makeNotification(request):
         Notification.objects.get(route_pk=route_pk, request_user=request.user.pk)
         return HttpResponse("2")
     except Notification.DoesNotExist:
+        if not canRequestRoute(request.user, route):
+            return HttpResponse("3")
         notification = Notification()
         notification.user = route.user
         notification.request_user = request.user.pk

@@ -179,7 +179,10 @@
                                 <div class="12u 12u(mobilep)">
                                     <ul class="actions">
                                         <li><a href="{% url 'Panel:RouteList' %}" class="button">Atras</a></li>
-                                        <li><a id="solicitar-btn" class="button special">Solicitar</a></li>
+                                        <li>&nbsp;&nbsp;<i
+                                                class="fa fa-spinner fa-pulse fa-3x fa-fw" id="spinner" style="display: none;"></i></li>
+                                        <li><a id="solicitar-btn" class="button special">Solicitar</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="12u 12u(mobilep)">
@@ -210,6 +213,7 @@
                                     </ul>
                                     <p>
                                         <i class="fa fa-calendar" aria-hidden="true"></i> Dias disponible: <br>
+                                        <b>Hora: {{ route.start_time }}</b>
                                     <ul style="padding-left: 15px">
                                         {% for day in route_days %}
                                             <li class='info-text'>{{ day.day }}</li>
@@ -548,17 +552,27 @@
             });
 
             function requestRoute() {
+                $("#spinner").css("display", "block");
+                $("#solicitar-btn").css("display", "none");
                 $.ajax({
                     url: '/panel/make_notification/',  //Server script to process data
                     type: 'post',
                     success: function (data) {
+                        $("#spinner").css("display", "none");
+                        $("#solicitar-btn").css("display", "block");
                         if (data == 1) {
                             sweetAlert("Correcto", "La solicitud se ha hecho correctamente", "success");
                         } else {
-                            sweetAlert("Alto", "Ya has solicitado esta ruta", "warning");
+                            if (data == 2) {
+                                sweetAlert("Alto", "Ya has solicitado esta ruta", "warning");
+                            } else {
+                                sweetAlert("Alto", "Ya tienes una solicitud cercana al horario de esta ruta en uno de sus días", "warning");
+                            }
                         }
                     },
                     error: function (message) {
+                        $("#spinner").css("display", "none");
+                        $("#solicitar-btn").css("display", "block");
                         console.log(message);
                     },
                     // Form data
