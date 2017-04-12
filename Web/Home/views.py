@@ -27,12 +27,20 @@ def validUserList(request):
             users_list = []
 
             for user in users:
+                university_name = ""
+                major_name = ""
+                try:
+                    university_name = University.objects.get(pk=user.university).name
+                    major_name = Major.objects.get(pk=user.major)
+                except University.DoesNotExist, Major.DoesNotExist:
+                    print "Error"
+
                 new_entry = {
                     'pk': user.pk,
                     'name': user.first_name + " " + user.last_name,
                     'email': user.email,
-                    'university': University.objects.get(pk=user.university).name,
-                    'major': Major.objects.get(pk=user.major),
+                    'university': university_name,
+                    'major': major_name,
                     'date_joined': user.date_joined,
                     'is_validated': user.is_validated
                 }
