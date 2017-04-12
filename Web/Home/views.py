@@ -21,31 +21,34 @@ def homePageView(request):
 def validUserList(request):
     args = basicArguments(request)
 
-    if request.user.is_admin:
-        users = User.objects.all().exclude(email=request.user.email)
-        users_list = []
+    if not request.user.is_anonymous():
+        if request.user.is_admin:
+            users = User.objects.all().exclude(email=request.user.email)
+            users_list = []
 
-        for user in users:
-            new_entry = {
-                'pk': user.pk,
-                'name': user.first_name + " " + user.last_name,
-                'email': user.email,
-                'university': University.objects.get(pk=user.university).name,
-                'major': Major.objects.get(pk=user.major),
-                'date_joined': user.date_joined,
-                'is_validated': user.is_validated
-            }
-            users_list.append(new_entry)
+            for user in users:
+                new_entry = {
+                    'pk': user.pk,
+                    'name': user.first_name + " " + user.last_name,
+                    'email': user.email,
+                    'university': University.objects.get(pk=user.university).name,
+                    'major': Major.objects.get(pk=user.major),
+                    'date_joined': user.date_joined,
+                    'is_validated': user.is_validated
+                }
+                users_list.append(new_entry)
 
-        universitys = University.objects.all()
-        campus = Campus.objects.all()
-        majors = Major.objects.all()
+            universitys = University.objects.all()
+            campus = Campus.objects.all()
+            majors = Major.objects.all()
 
-        args['users'] = users_list
-        args['universitys'] = universitys
-        args['majors'] = majors
-        args['campus'] = campus
-        return render(request, 'Admin/validated_users.html', args)
+            args['users'] = users_list
+            args['universitys'] = universitys
+            args['majors'] = majors
+            args['campus'] = campus
+            return render(request, 'Admin/validated_users.html', args)
+        else:
+            return redirect('/')
     else:
         return redirect('/')
 
