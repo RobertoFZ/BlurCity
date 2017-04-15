@@ -4,6 +4,7 @@ from Web.Home import views
 
 urlpatterns = [
     url(r'^$', views.homePageView, name='Home'),
+    url(r'^how_to_join_us$', views.howToJoinUs, name='how_to_join_us'),
     url(r'administration$', views.adminLogin, name='admin_login'),
     url(r'administration/admin_panel$', views.adminPanel, name='admin_panel'),
     url(r'administration/admin_panel/users_list$', views.validUserList, name='panel_user_list'),
@@ -18,6 +19,7 @@ urlpatterns = [
     url(r'administration/change_user_status/$', views.changeValidateStatus),
     url(r'administration/change_car_status/$', views.changeCarValidateStatus),
     url(r'administration/get_campus_from_university/$', views.getCampusFromUniversity),
+    url(r'administration/get_majors_from_university/$', views.getMajorsFromUniversity),
     url(r'administration/add_university/$', views.addUniversity),
     url(r'administration/add_campus/$', views.addCampus),
     url(r'administration/add_major/$', views.addMajor),

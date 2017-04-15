@@ -1,6 +1,6 @@
 {% extends 'Base/base_app.html' %}
 {% load static %}
-
+{% block title %}Ruta{% endblock %}
 {% block content_main %}
     <div class="row">
         <div class="12u">
@@ -180,7 +180,8 @@
                                     <ul class="actions">
                                         <li><a href="{% url 'Panel:RouteList' %}" class="button">Atras</a></li>
                                         <li>&nbsp;&nbsp;<i
-                                                class="fa fa-spinner fa-pulse fa-3x fa-fw" id="spinner" style="display: none;"></i></li>
+                                                class="fa fa-spinner fa-pulse fa-3x fa-fw" id="spinner"
+                                                style="display: none;"></i></li>
                                         <li><a id="solicitar-btn" class="button special">Solicitar</a>
                                         </li>
                                     </ul>
@@ -208,7 +209,8 @@
                                                 {{ car.model }},
                                                 color
                                                 {{ car.color }} <br>
-                                                {% if car.validated %}<span style="color: red">No validado</span>{% else %}<span style="color: green">Validado</span>{% endif %}
+                                                {% if car.validated %}<span style="color: red">No validado</span>
+                                                {% else %}<span style="color: green">Validado</span>{% endif %}
                                             {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -221,6 +223,10 @@
                                         {% endfor %}
                                     </ul>
                                     </p>
+                                </div>
+                                <div class="12u 12u(mobilep)" style="padding-top: 0">
+                                    <label for="point">¿Donde te gustar&iacute;a ser recogido?</label>
+                                    <textarea id="point"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -549,7 +555,11 @@
     {% if not is_owner %}
         <script type="text/javascript">
             $('#solicitar-btn').on("click", function () {
-                requestRoute();
+                if($("#point").val() != ""){
+                    requestRoute();
+                }else {
+                    sweetAlert("Alto", "Por favor escribe en qué lugar de la ruta te gustaría ser recogido", "warning");
+                }
             });
 
             function requestRoute() {
@@ -578,7 +588,8 @@
                     },
                     // Form data
                     data: {
-                        'route_pk': "{{ route.pk }}"
+                        'route_pk': "{{ route.pk }}",
+                        'route_point': $("#point").val()
                     }
                 });
             }

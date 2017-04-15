@@ -1,6 +1,6 @@
 {% extends 'Base/base_app.html' %}
 {% load static %}
-
+{% block title %}Registro{% endblock %}
 {% block content_main %}
     <div class="row">
         <div class="12u">
@@ -44,7 +44,7 @@
                                 <select name="university" id="university">
                                     <option disabled>- Universidad -</option>
                                     {% for university in universitys %}
-                                        <option value="{{ university.name }}">{{ university.name }}</option>
+                                        <option value="{{ university.pk }}">{{ university.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -52,10 +52,7 @@
                         <div class="6u">
                             <div class="select-wrapper">
                                 <select name="major" id="major">
-                                    <option disabled>- Licenciatura -</option>
-                                    {% for major in majors %}
-                                        <option value="{{ major.name }}">{{ major.name }}</option>
-                                    {% endfor %}
+                                    <option disabled>Licenciatura</option>
                                 </select>
                             </div>
                         </div>
@@ -89,8 +86,6 @@
     <script>
 
         {% if created %}
-            console.log("pasó");
-
             setTimeout(function () {
                 swal({
                             title: "Correcto",
@@ -104,6 +99,53 @@
                         });
             }, 1000);
         {% endif %}
+
+        $("#university").change(function () {
+            getCampus();
+        });
+
+        setTimeout(function () {
+            getCampus();
+        }, 500);
+
+        function getCampus() {
+            var university_pk = $("#university").val();
+            $.ajax({
+                url: '/administration/get_majors_from_university/',  //Server script to process data
+                type: 'post',
+                success: function (data) {
+                    if (data != 0) {
+                        console.log(JSON.parse(data));
+                        var major_select = $("#major");
+
+                        major_select.find('option')
+                                .remove()
+                                .end();
+
+                        major_select.append($('<option disabled>', {
+                            value: 1,
+                            text: 'Licenciatura'
+                        }));
+
+                        $.each(JSON.parse(data), function (i, item) {
+                            major_select.append($('<option>', {
+                                value: item.fields.name,
+                                text: item.fields.name
+                            }));
+                        });
+                    } else {
+                        sweetAlert("Error", "Hubo un error cargar la lista de licenciaturas, intenta de nuevo", "error");
+                    }
+                },
+                error: function (message) {
+                    console.log(message);
+                },
+                // Form data
+                data: {
+                    'university_pk': university_pk
+                }
+            });
+        }
 
         function validateForm() {
             var form = $('#singUpForm');

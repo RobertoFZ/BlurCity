@@ -26,6 +26,15 @@ def homePageView(request):
     )
 
 
+def howToJoinUs(request):
+    args = basicArguments(request)
+    return render(
+        request,
+        'how_to_join_us.html',
+        args
+    )
+
+
 # ADMIN FUNCTIONS
 
 def adminLogin(request):
@@ -332,6 +341,17 @@ def sendEmail(request):
 
 
 # ADMIN WEBSERVICES
+@csrf_exempt
+def getMajorsFromUniversity(request):
+    try:
+        university = University.objects.get(pk=request.POST['university_pk'])
+        majors = Major.objects.filter(campus__university=university)
+        data = serializers.serialize('json', majors)
+        return HttpResponse(data)
+    except:
+        return HttpResponse(0)
+
+
 @csrf_exempt
 def getCampusFromUniversity(request):
     try:

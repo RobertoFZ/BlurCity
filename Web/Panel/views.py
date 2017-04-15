@@ -225,6 +225,7 @@ def notificationView(request):
 
 def makeNotification(request):
     route_pk = request.POST['route_pk']
+    route_point = request.POST['route_point']
     route = Route.objects.get(pk=route_pk)
 
     try:
@@ -241,7 +242,8 @@ def makeNotification(request):
         notification.save()
 
         # SEND EMAIL FOR NOTIFY
-        body = 'Tienes una nueva solicitud del usuario %s %s' % (request.user.first_name, request.user.last_name)
+        body = 'Tienes una nueva solicitud del usuario %s %s \n\n El punto de recogida sugerido por el es el siguiente: %s' % (
+            request.user.first_name, request.user.last_name, route_point)
         email = EmailMessage('Nueva solicitud', body, to=[route.user.email])
         email.send()
         return HttpResponse("1")
