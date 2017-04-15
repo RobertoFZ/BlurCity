@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
+from django.utils.translation import ugettext as _
 
 
 # Create your models here.
@@ -24,16 +26,26 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+
+    USER_ADMIN_TYPE = (
+        (0, _(u"Superusuario")),
+        (1, _(u"Universidad")),
+        (2, _(u"Facultad")),
+        (3, _(u"Usuario"))
+    )
+
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     avatar = models.ImageField(default='static/defaults/deafult_profile.png', upload_to='static/uploads/avatar/')
-    university = models.IntegerField(null=True)
-    major = models.IntegerField(null=True)
+    university = models.IntegerField(null=True, blank=True)
+    major = models.IntegerField(null=True, blank=True)
     is_validated = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    user_admin_type = models.IntegerField(choices=USER_ADMIN_TYPE, default=3)
 
     objects = UserManager()
 

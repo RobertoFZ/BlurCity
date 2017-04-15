@@ -1,257 +1,157 @@
 {% extends 'Base/base_app_not_container.html' %}
 {% load static %}
 
-{% block styles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'modals/css/component.css' %}"/>
-    <script src="{% static 'modals/js/modernizr.custom.js' %}"></script>
-{% endblock %}
-
 {% block content_main %}
-    <!-- MODALS -->
-    <div class="md-modal md-effect-8" id="modal-1">
-        <div class="md-content">
-            <h3>Agregar Universidad</h3>
-            <div>
-                <form method="post">
-                    <div class="row uniform 50%">
-                        <div class="12u 12u(mobilep)">
-                            <input type="text" name="university" id="university" value="" placeholder="Universidad"
-                                   style="color: black"/>
-                        </div>
-                    </div>
-                    <div class="row uniform">
-                        <div class="12u" align="center">
-                            <ul class="actions">
-                                <li><input type="button" id="add_university" value="Agregar"/></li>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
-                <button class="button small md-close">Cerrar</button>
-            </div>
+    <div class="row">
+        <div class="12u">
+            <a class="button small" href="{% url 'Home:admin_panel' %}" style="margin-left: 50px">
+                Atr&aacute;s
+            </a>
         </div>
     </div>
-    <div class="md-modal md-effect-8" id="modal-2">
-        <div class="md-content">
-            <h3>Agregar Campus</h3>
-            <div>
-                <form method="post">
-                    <div class="row uniform 50%">
-                        <div class="6u 12u(mobilep)">
-                            <select name="university_choice" id="university_choice" style="color: black">
-                                {% for university in universitys %}
-                                    <option value="{{ university.pk }}">{{ university.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="$6u 12u(mobilep)">
-                            <input type="text" name="campus" id="campus" value="" placeholder="Campus"
-                                   style="color: black"/>
-                        </div>
-                    </div>
-                    <div class="row uniform 50%">
-                        <div class="6u 12u(mobilep)">
-                            <input type="text" name="latitude" id="latitude" value="" placeholder="Latitud"
-                                   style="color: black"/>
-                        </div>
-                        <div class="$6u 12u(mobilep)">
-                            <input type="text" name="longitude" id="longitude" value="" placeholder="Longitud"
-                                   style="color: black"/>
-                        </div>
-                    </div>
-                    <div class="row uniform">
-                        <div class="12u" align="center">
-                            <ul class="actions">
-                                <li><input type="button" id="add_campus" value="Agregar"/></li>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
-                <button class="button small md-close">Cerrar</button>
-            </div>
-        </div>
-    </div>
-    <div class="md-modal md-effect-8" id="modal-3">
-        <div class="md-content">
-            <h3>Agregar Licenciatura</h3>
-            <div>
-                <form method="post">
-                    <div class="row uniform 50%">
-                        <div class="6u 12u(mobilep)">
-                            <select name="campus_choice" id="campus_choice" style="color: black">
-                                {% for camp in campus %}
-                                    <option value="{{ camp.pk }}">{{ camp.name }} - {{ camp.university.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="6u 12u(mobilep)">
-                            <input type="text" name="major" id="major" value="" placeholder="Licenciatura"
-                                   style="color: black"/>
-                        </div>
-                    </div>
-                    <div class="row uniform">
-                        <div class="12u" align="center">
-                            <ul class="actions">
-                                <li><input type="button" id="add_major" value="Agregar"/></li>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
-                <button class="button small md-close">Cerrar</button>
-            </div>
-        </div>
-    </div>
-    <div class="md-modal md-effect-8" id="modal-4">
-        <div class="md-content">
-            <h3>Universidades</h3>
-            <div>
-                <div class="row uniform 50%">
-                    <table class="alt">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for university in universitys %}
-                            <tr style="background: none">
-                                <td>{{ university.name }}</td>
-                                <td><a onclick="deleteUniversity({{ university.pk }})" style="color: red">Eliminar</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <button class="button small md-close">Cerrar</button>
-            </div>
-        </div>
-    </div>
-    <div class="md-modal md-effect-8" id="modal-5">
-        <div class="md-content">
-            <h3>Campus</h3>
-            <div>
-                <div class="row uniform 50%">
-                    <table class="alt">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for camp in campus %}
-                            <tr style="background: none">
-                                <td>{{ camp.name }} - {{ camp.university.name }}</td>
-                                <td><a onclick="deleteCampus({{ camp.pk }})" style="color: red">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <button class="button small md-close">Cerrar</button>
-            </div>
-        </div>
-    </div>
-    <div class="md-modal md-effect-8" id="modal-6">
-        <div class="md-content">
-            <h3>Licenciaturas</h3>
-            <div>
-                <div class="row uniform 50%">
-                    <table class="alt">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for major in majors %}
-                            <tr style="background: none">
-                                <td>{{ major.name }} - {{ major.campus.university.name }}</td>
-                                <td><a onclick="deleteMajor({{ major.pk }})" style="color: red">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <button class="button small md-close">Cerrar</button>
-            </div>
-        </div>
-    </div>
-    <!-- END MODALS -->
-
     <div class="row">
         <div class="12u">
             <section class="box">
-                <ul class="actions">
-                    <li><a href="{% url 'Home:Home' %}" class="button small special">Ir a Blur City</a></li>
-                    <li><a class="button small special md-trigger" data-modal="modal-1">Agregar Universidad</a></li>
-                    <li><a class="button small special md-trigger" data-modal="modal-2">Agregar Campus</a></li>
-                    <li><a class="button small special md-trigger" data-modal="modal-3">Agregar Licenciatura</a></li>
-                    <li><a class="button small special md-trigger" data-modal="modal-4">Ver Universidades</a></li>
-                    <li><a class="button small special md-trigger" data-modal="modal-5">Ver Campus</a></li>
-                    <li><a class="button small special md-trigger" data-modal="modal-6">Ver Licenciaturas</a></li>
-                </ul>
-                <br>
                 <h3>Usuarios registrados</h3>
-                <div class="table-wrapper">
-                    <table class="alt">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Correo eletr&oacute;nico</th>
-                            <th>Universidad</th>
-                            <th>Licenciatura</th>
-                            <th>Fecha de registro</th>
-                            <th>Validado</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in users %}
-                            {% if not user.is_admin %}
+
+                {% if user.user_admin_type == 0 %}
+                    <h4>Administradores</h4>
+                    <br>
+                    {% if admin_users %}
+                        <div class="table-wrapper">
+                            <table class="alt">
+                                <thead>
                                 <tr>
-                                    <td>{{ user.name }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.university }}</td>
-                                    <td>{{ user.major }}</td>
-                                    <td>{{ user.date_joined }}</td>
-                                    <td>
-                                        <select name="university" id="university"
-                                                onchange="changeValidateStatus({{ user.pk }})">
-                                            <option value="valid" {% if user.is_validated %} selected {% endif %}>V&aacute;lido</option>
-                                            <option value="invalid" {% if not user.is_validated %} selected {% endif %}>
-                                                No v&aacute;lido
-                                            </option>
-                                        </select>
-                                    </td>
+                                    <th>Nombre</th>
+                                    <th>Correo eletr&oacute;nico</th>
+                                    <th>Tipo de Administrador</th>
+                                    <th>Fecha de registro</th>
+                                    <th>Validado</th>
+                                    <th></th>
                                 </tr>
-                            {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                </thead>
+                                <tbody>
+                                {% for user in admin_users %}
+                                    {% if not user.is_admin %}
+                                        <tr>
+                                            <td>{{ user.name }}</td>
+                                            <td>{{ user.email }}</td>
+                                            <td>
+                                                {% if user.type == 0 %}Administrador BlurCity{% endif %}
+                                                {% if user.type == 1 %}Administrador Universidad{% endif %}
+                                                {% if user.type == 2 %}Administrador Facultad{% endif %}
+                                            </td>
+                                            <td>{{ user.date_joined }}</td>
+                                            <td>
+                                                <select name="university" id="university"
+                                                        onchange="changeValidateStatus({{ user.pk }})">
+                                                    <option value="valid" {% if user.is_validated %}
+                                                            selected {% endif %}>V&aacute;lido
+                                                    </option>
+                                                    <option value="invalid" {% if not user.is_validated %}
+                                                            selected {% endif %}>
+                                                        No v&aacute;lido
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td><a style="color: red; cursor: pointer"
+                                                   onclick="deleteUser({{ user.pk }})">Eliminar</a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p><b>No se tienen usuarios administradores</b></p>
+                    {% endif %}
+                {% endif %}
+
+                <h4>Usuarios de BlurCity</h4>
+                <br>
+
+                {% if users %}
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Correo eletr&oacute;nico</th>
+                                <th>Universidad</th>
+                                <th>Licenciatura</th>
+                                <th>Fecha de registro</th>
+                                <th>Validado</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                                {% if not user.is_admin %}
+                                    <tr>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.university }}</td>
+                                        <td>{{ user.major }}</td>
+                                        <td>{{ user.date_joined }}</td>
+                                        <td>
+                                            <select name="university" id="university"
+                                                    onchange="changeValidateStatus({{ user.pk }})">
+                                                <option value="valid" {% if user.is_validated %} selected {% endif %}>V&aacute;lido</option>
+                                                <option value="invalid" {% if not user.is_validated %}
+                                                        selected {% endif %}>
+                                                    No v&aacute;lido
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td><a style="color: red; cursor: pointer" onclick="deleteUser({{ user.pk }})">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p><b>No se tienen usuarios de BlurCity</b></p>
+                {% endif %}
+
             </section>
         </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
-    <div class="md-overlay"></div><!-- the overlay element -->
-
-    <!-- classie.js by @desandro: https://github.com/desandro/classie -->
-    <script src="{% static 'modals/js/classie.js' %}"></script>
-    <script src="{% static 'modals/js/modalEffects.js' %}"></script>
-
-    <!-- for the blur effect -->
-    <!-- by @derSchepp https://github.com/Schepp/CSS-Filters-Polyfill -->
     <script>
-        // this is important for IEs
-        var polyfilter_scriptpath = '/js/';
+        function deleteUser(user_pk) {
+            $.ajax({
+                url: '/administration/delete_user/',  //Server script to process data
+                type: 'post',
+                success: function (data) {
+                    if (data == 1) {
+                        sweetAlert({
+                            title: "Correcto",
+                            text: "Se ha eliminado el usuario correctamente",
+                            type: "success",
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href = "/administration/admin_panel/users_list";
+                        });
+                    } else {
+                        sweetAlert("Error", "Hubo un error al eliminar al usuario, intentalo de nuevo", "error");
+                    }
+                },
+                error: function (message) {
+                    console.log(message);
+                },
+                // Form data
+                data: {
+                    'id': user_pk
+                }
+            });
+        }
+
     </script>
-    <script src="{% static 'modals/js/cssParser.js' %}"></script>
-    <script src="{% static 'modals/js/css-filters-polyfill.js' %}"></script>
     <script>
         function changeValidateStatus(user_pk) {
             $.ajax({
@@ -270,201 +170,6 @@
                 // Form data
                 data: {
                     'user_pk': user_pk
-                }
-            });
-        }
-
-        function addUniversity() {
-            var university = $("#university").val();
-
-            if (university != "") {
-                $.ajax({
-                    url: '/administration/add_university/',  //Server script to process data
-                    type: 'post',
-                    success: function (data) {
-                        if (data == 1) {
-                            sweetAlert({
-                                title: "Correcto",
-                                text: "Se ha agregado la universidad correctamente",
-                                type: "success",
-                                closeOnConfirm: false
-                            }, function () {
-                                window.location.href = "/administration";
-                            });
-                        } else {
-                            sweetAlert("Error", "Hubo un error al agregar la universidad, intentalo de nuevo", "error");
-                        }
-                    },
-                    error: function (message) {
-                        console.log(message);
-                    },
-                    // Form data
-                    data: {
-                        'university_name': university
-                    }
-                });
-            } else {
-                sweetAlert("Error", "Por favor escriba un nombre para la universidad", "error");
-            }
-        }
-
-        function addCampus() {
-            var university = $("#university_choice").val();
-            var campus = $("#campus").val();
-
-            var latitude = $("#latitude").val();
-            var longitude = $("#longitude").val();
-
-            if (campus != "" && latitude != "" && longitude != "") {
-                $.ajax({
-                    url: '/administration/add_campus/',  //Server script to process data
-                    type: 'post',
-                    success: function (data) {
-                        if (data == 1) {
-                            sweetAlert({
-                                title: "Correcto",
-                                text: "Se ha agregado el campus correctamente",
-                                type: "success",
-                                closeOnConfirm: false
-                            }, function () {
-                                window.location.href = "/administration";
-                            });
-                        } else {
-                            sweetAlert("Error", "Hubo un error al agregar el campus, intentalo de nuevo", "error");
-                        }
-                    },
-                    error: function (message) {
-                        console.log(message);
-                    },
-                    // Form data
-                    data: {
-                        'university_pk': university,
-                        'campus_name': campus,
-                        'latitude': latitude,
-                        'longitude': longitude
-                    }
-                });
-            } else {
-                sweetAlert("Error", "Por favor llene todos los campos para agregar el campus", "error");
-            }
-        }
-
-        function addMajor() {
-            var campus = $("#campus_choice").val();
-            var major = $("#major").val();
-
-            if (major != "") {
-                $.ajax({
-                    url: '/administration/add_major/',  //Server script to process data
-                    type: 'post',
-                    success: function (data) {
-                        if (data == 1) {
-                            sweetAlert({
-                                title: "Correcto",
-                                text: "Se ha agregado la licenciatura correctamente",
-                                type: "success",
-                                closeOnConfirm: false
-                            }, function () {
-                                window.location.href = "/administration";
-                            });
-                        } else {
-                            sweetAlert("Error", "Hubo un error al agregar la licenciatura, intentalo de nuevo", "error");
-                        }
-                    },
-                    error: function (message) {
-                        console.log(message);
-                    },
-                    // Form data
-                    data: {
-                        'campus_pk': campus,
-                        'major_name': major
-                    }
-                });
-            } else {
-                sweetAlert("Error", "Por favor llene todos los campos para agregar la licenciatura", "error");
-            }
-        }
-
-        function deleteUniversity(university_pk) {
-            $.ajax({
-                url: '/administration/delete_university/',  //Server script to process data
-                type: 'post',
-                success: function (data) {
-                    if (data == 1) {
-                        sweetAlert({
-                            title: "Correcto",
-                            text: "Se ha eliminado la universidad correctamente",
-                            type: "success",
-                            closeOnConfirm: false
-                        }, function () {
-                            window.location.href = "/administration";
-                        });
-                    } else {
-                        sweetAlert("Error", "Hubo un error al eliminar la universidad, intentalo de nuevo", "error");
-                    }
-                },
-                error: function (message) {
-                    console.log(message);
-                },
-                // Form data
-                data: {
-                    'university_pk': university_pk
-                }
-            });
-        }
-
-        function deleteCampus(campus_pk) {
-            $.ajax({
-                url: '/administration/delete_campus/',  //Server script to process data
-                type: 'post',
-                success: function (data) {
-                    if (data == 1) {
-                        sweetAlert({
-                            title: "Correcto",
-                            text: "Se ha eliminado el campus correctamente",
-                            type: "success",
-                            closeOnConfirm: false
-                        }, function () {
-                            window.location.href = "/administration";
-                        });
-                    } else {
-                        sweetAlert("Error", "Hubo un error al eliminar el campus, intentalo de nuevo", "error");
-                    }
-                },
-                error: function (message) {
-                    console.log(message);
-                },
-                // Form data
-                data: {
-                    'campus_pk': campus_pk
-                }
-            });
-        }
-
-        function deleteMajor(major_pk) {
-            $.ajax({
-                url: '/administration/delete_major/',  //Server script to process data
-                type: 'post',
-                success: function (data) {
-                    if (data == 1) {
-                        sweetAlert({
-                            title: "Correcto",
-                            text: "Se ha eliminado la licenciatura correctamente",
-                            type: "success",
-                            closeOnConfirm: false
-                        }, function () {
-                            window.location.href = "/administration";
-                        });
-                    } else {
-                        sweetAlert("Error", "Hubo un error al eliminar la licenciatura, intentalo de nuevo", "error");
-                    }
-                },
-                error: function (message) {
-                    console.log(message);
-                },
-                // Form data
-                data: {
-                    'major_pk': major_pk
                 }
             });
         }

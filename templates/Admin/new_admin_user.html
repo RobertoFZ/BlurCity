@@ -1,0 +1,206 @@
+{% extends 'Base/base_app.html' %}
+{% load static %}
+{% block title %}Nuevo administrador{% endblock %}
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+
+            <!-- Form -->
+            <section class="box">
+                <div class="row">
+                    <div class="container">
+                        <a class="button small" href="{% url 'Home:admin_panel' %}">
+                            Atr&aacute;s
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <h3>Registro</h3>
+                <form id="singUpForm" method="post" action="{% url 'Home:panel_new_user' %}">
+                    {% if errors %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u(mobilep)">
+                                {% for error in errors %}
+                                    <p style="color: red">*{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if created %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u(mobilep)">
+                                <p style="color: green">Usuario administrador creado exit&oacute;samente, pero a&uacute;n
+                                    no es v&aacute;lido <br>
+                                    <a href="{% url 'Home:panel_user_list' %}">Validarlo</a></p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row uniform 50%">
+                        <div class="4u 12u(mobilep)">
+                            <input type="text" name="first_name" id="first_name" value="" placeholder="Nombres"/>
+                        </div>
+                        <div class="4u 12u(mobilep)">
+                            <input type="text" name="last_name" id="last_name" value="" placeholder="Apellidos"/>
+                        </div>
+                        <div class="4u 12u(mobilep)">
+                            <input type="email" name="email" id="email" value="" placeholder="Correo electrónico"/>
+                        </div>
+                    </div>
+                    <div class="row uniform 50%">
+                        <div class="4u 12u(mobilep)">
+                            <div class="select-wrapper">
+                                <select name="user_type" id="user_type">
+                                    <option disabled>Tipo de usuario administrador</option>
+                                    <option value="0">Administrador BlurCity</option>
+                                    <option value="1">Administrador Universidad</option>
+                                    <option value="2">Administrador Facultad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="4u 12u(mobilep)">
+                            <div class="select-wrapper">
+                                <select name="university" id="university">
+                                    <option disabled>Universidad</option>
+                                    {% for university in universitys %}
+                                        <option value="{{ university.pk }}">{{ university.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div id="campus" class="4u 12u(mobilep)">
+                            <div class="select-wrapper">
+                                <select name="campsu" id="campus">
+                                    <option disabled>Facultad</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row uniform 50%">
+                        <div class="4u 12u(mobilep)">
+                            <input type="password" name="password" id="contrasena" value="" placeholder="Contraseña"/>
+                        </div>
+                        <div class="4u 12u(mobilep)">
+                            <input type="password" name="password2" id="contrasena2" value=""
+                                   placeholder="Confirmar contraseña"/>
+                        </div>
+                    </div>
+                    <div class="row uniform">
+                        <div class="12u">
+                            <ul class="actions">
+                                <li><input id="register-btn" type="button" value="Registrar"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+
+                <hr/>
+            </section>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+        {% if created %}
+            console.log("pasó");
+
+            setTimeout(function () {
+                swal({
+                    title: "Correcto",
+                    text: "El usuario se ha creado exitósamente",
+                    type: "success",
+                    confirmButtonText: "Entendido",
+                    closeOnConfirm: true
+                })
+            }, 1000);
+        {% endif %}
+
+        $("#university").change(function () {
+            getCampus();
+        });
+
+        function getCampus() {
+            var university_pk = $("#university").val();
+            $.ajax({
+                url: '/administration/get_campus_from_university/',  //Server script to process data
+                type: 'post',
+                success: function (data) {
+                    if (data != 0) {
+                        console.log(JSON.parse(data));
+                        var campus_select = $("#campus");
+
+                        campus_select.find('option')
+                                .remove()
+                                .end();
+
+                        campus_select.append($('<option disabled>', {
+                            value: 1,
+                            text: 'Facultad'
+                        }));
+
+                        $.each(JSON.parse(data), function (i, item) {
+                            campus_select.append($('<option>', {
+                                value: item.pk,
+                                text: item.fields.name
+                            }));
+                        });
+                    } else {
+                        sweetAlert("Error", "Hubo un error cargar la lista de facultades, intenta de nuevo", "error");
+                    }
+                },
+                error: function (message) {
+                    console.log(message);
+                },
+                // Form data
+                data: {
+                    'university_pk': university_pk
+                }
+            });
+        }
+
+        function validateForm() {
+            var form = $('#singUpForm');
+
+            var name = $('#first_name').val();
+            var last_name = $('#last_name').val();
+            var email = $('#correo').val();
+            var password_1 = $('#contrasena').val();
+            var password_2 = $('#contrasena2').val();
+            var user_type = $('#user_type').val();
+
+            if (name != "" && last_name != "" && email != "" && password_1 != "" && password_2 != "" && user_type != "") {
+                if (password_1 == password_2) {
+                    form.submit();
+                } else {
+                    swal(
+                            {
+                                title: "Disculpa",
+                                text: "Parece que tus contraseñas no coinciden, verifica los datos",
+                                type: "error",
+                                confirmButtonText: "Entendido",
+                                confirmButtonColor: "#F44336"
+                            }
+                    );
+                }
+            } else {
+                swal(
+                        {
+                            title: "Disculpa",
+                            text: "Parece que no has llenado todos los campos, por favor llena todos los campos para continuar",
+                            type: "error",
+                            confirmButtonText: "Entendido",
+                            confirmButtonColor: "#F44336"
+                        }
+                );
+            }
+        }
+
+        $('#register-btn').on("click", function () {
+            validateForm();
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends 'Base/base_app.html' %}
+{% load static %}
+{% block title %}Correo{% endblock %}
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+            <a class="button small" href="{% url 'Home:admin_panel' %}">
+                Atr&aacute;s
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="12u">
+
+            <!-- Form -->
+            <section class="box">
+                <h3>Enviar correo eletr&oacute;nico</h3>
+                {% if errors %}
+                    {% for error in errors %}
+                        <p style="color:red; padding-top: 20px">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+                {% if message %}
+                    <p style="color:green; padding-top: 20px">{{ message }}</p>
+                {% endif %}
+                <form id="form" method="post" action="{% url 'Home:panel_send_email' %}">
+                    <div class="row uniform 50%">
+                        <div class="6u 12u(mobilep)">
+                            <div class="select-wrapper">
+                                <select name="university" id="university">
+                                    <option disabled>Universidad</option>
+                                    {% for university in universitys %}
+                                        <option value="{{ university.pk }}">{{ university.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="6u 12u(mobilep)">
+                            <div class="select-wrapper">
+                                <select name="campus" id="campus">
+                                    <option disabled>Facultad</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row uniform 50%">
+                        <div class="12u 12u(mobilep)">
+                            <div class="select-wrapper">
+                                <textarea name="message" id="message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row uniform">
+                        <div class="12u">
+                            <ul class="actions">
+                                <li><input id="send_btn" type="button" onclick="validateForm()" value="Enviar"/></li>
+                                <li><i class="fa fa-spinner fa-pulse fa-3x fa-fw" id="spinner"
+                                       style="display: none;"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+
+                <hr/>
+
+            </section>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                getCampus();
+            }, 1000);
+        });
+
+        $("#university").change(function () {
+            getCampus();
+        });
+
+        function getCampus() {
+            var university_pk = $("#university").val();
+            $.ajax({
+                url: '/administration/get_campus_from_university/',  //Server script to process data
+                type: 'post',
+                success: function (data) {
+                    if (data != 0) {
+                        console.log(JSON.parse(data));
+                        var campus_select = $("#campus");
+
+                        campus_select.find('option')
+                                .remove()
+                                .end();
+
+                        campus_select.append($('<option disabled>', {
+                            value: 1,
+                            text: 'Facultad'
+                        }));
+
+                        $.each(JSON.parse(data), function (i, item) {
+                            campus_select.append($('<option>', {
+                                value: item.pk,
+                                text: item.fields.name
+                            }));
+                        });
+                    } else {
+                        sweetAlert("Error", "Hubo un error cargar la lista de facultades, intenta de nuevo", "error");
+                    }
+                },
+                error: function (message) {
+                    console.log(message);
+                },
+                // Form data
+                data: {
+                    'university_pk': university_pk
+                }
+            });
+        }
+
+        function validateForm() {
+            var message = $("#message").val()
+            if (message != "") {
+                $("#form").submit();
+                $("#spinner").show();
+                $("#send_btn").hide();
+            } else {
+                sweetAlert("Error", "Por favor escriba un mensaje para los usuarios", "error");
+                return false;
+            }
+        }
+    </script>
+{% endblock %}

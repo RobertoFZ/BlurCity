@@ -1,0 +1,138 @@
+{% extends 'Base/base_app_not_container.html' %}
+{% load static %}
+
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+            <a class="button small" href="{% url 'Home:admin_panel' %}" style="margin-left: 50px">
+                Atr&aacute;s
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="12u">
+            <section class="box">
+                <h4>Facultades registradas</h4>
+                <br>
+
+                <div class="row uniform 50%">
+                    <div class="4u 12u(mobilep)">
+                        <input type="text" name="campus" id="campus" value="" placeholder="Facultad"/>
+                    </div>
+                    <div class="4u 12u(mobilep)">
+                        <input type="text" name="latitude" id="latitude" value="" placeholder="Latitud"/>
+                    </div>
+                    <div class="4u 12u(mobilep)">
+                        <input type="text" name="longitude" id="longitude" value="" placeholder="Longitud"/>
+                    </div>
+                </div>
+                <div class="row uniform 50%">
+                    <div class="6u 12u(mobilep)">
+                        <button class="button small special" onclick="addCampus()">Agregar</button>
+                    </div>
+                </div>
+
+                <br>
+                {% if campus %}
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for campus in campus %}
+                                <tr>
+                                    <td>{{ campus.name }}</td>
+                                    <td><a style="color: red; cursor: pointer"
+                                           onclick="deleteCampus({{ campus.pk }})">Eliminar</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p><b>No se tienen facultades registradas en BlurCity</b></p>
+                {% endif %}
+
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function addCampus() {
+            var university = "{{ user.university }}";
+            var campus = $("#campus").val();
+
+            var latitude = $("#latitude").val();
+            var longitude = $("#longitude").val();
+
+            if (campus != "" && latitude != "" && longitude != "") {
+                $.ajax({
+                    url: '/administration/add_campus/',  //Server script to process data
+                    type: 'post',
+                    success: function (data) {
+                        if (data == 1) {
+                            sweetAlert({
+                                title: "Correcto",
+                                text: "Se ha agregado el campus correctamente",
+                                type: "success",
+                                closeOnConfirm: false
+                            }, function () {
+                                window.location.href = "/administration/admin_panel/campus_list";
+                            });
+                        } else {
+                            sweetAlert("Error", "Hubo un error al agregar el campus, intentalo de nuevo", "error");
+                        }
+                    },
+                    error: function (message) {
+                        console.log(message);
+                    },
+                    // Form data
+                    data: {
+                        'university_pk': university,
+                        'campus_name': campus,
+                        'latitude': latitude,
+                        'longitude': longitude
+                    }
+                });
+            } else {
+                sweetAlert("Error", "Por favor llene todos los campos para agregar el campus", "error");
+            }
+        }
+
+
+        function deleteCampus(campus_pk) {
+            $.ajax({
+                url: '/administration/delete_campus/',  //Server script to process data
+                type: 'post',
+                success: function (data) {
+                    if (data == 1) {
+                        sweetAlert({
+                            title: "Correcto",
+                            text: "Se ha eliminado el campus correctamente",
+                            type: "success",
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href = "/administration/admin_panel/campus_list";
+                        });
+                    } else {
+                        sweetAlert("Error", "Hubo un error al eliminar el campus, intentalo de nuevo", "error");
+                    }
+                },
+                error: function (message) {
+                    console.log(message);
+                },
+                // Form data
+                data: {
+                    'campus_pk': campus_pk
+                }
+            });
+        }
+    </script>
+{% endblock %}

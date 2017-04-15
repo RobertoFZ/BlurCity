@@ -14,12 +14,14 @@ class Car(models.Model):
     registration_tag = models.CharField(max_length=30)
     color = models.CharField(max_length=30)
     total_sits = models.IntegerField()
+    validated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.model
 
     def __unicode__(self):
         return u"%s" % (self.model)
+
 
 class CarDocument(models.Model):
     car = models.OneToOneField(

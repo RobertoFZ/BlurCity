@@ -1,0 +1,147 @@
+{% extends 'Base/base_app.html' %}
+{% load static %}
+{% block title %}Panel{% endblock %}
+{% block content_main %}
+    <div class="row">
+
+        {% if user.user_admin_type == 0 %}
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/driver/route.png' %}"
+                                                      alt=""/></span>
+                    <h4>Registrar administrador</h4>
+                    <p style="font-size: 18px">Registra un usuario administrador</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_new_user' %}" class="button alt">Registrar administrador</a>
+                        </li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
+                                                      alt=""/></span>
+                    <h4>Ver usuarios</h4>
+                    <p style="font-size: 18px">Lista de los usuarios (Administradores y usuarios de la
+                        aplicaci&oacute;n)</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_user_list' %}" class="button alt">Ver usuarios</a></li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
+                                                      alt=""/></span>
+                    <h4>Validar autom&oacute;viles</h4>
+                    <p style="font-size: 18px">Lista de todos los autom&oacute;viles registrados en BlurCity</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_car_list' %}" class="button alt">Ver autom&oacute;viles</a></li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
+                                                      alt=""/></span>
+                    <h4>Lista de universidades</h4>
+                    <p style="font-size: 18px">Lista de todas las universidades registradas en BlurCity</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_university_list' %}" class="button alt">Ver universidades</a>
+                        </li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/driver/route.png' %}"
+                                                      alt=""/></span>
+                    <h4>Aviso por correo</h4>
+                    <p style="font-size: 18px">Env&iacute;a un correo electr&oacute; a los usuarios seleccionando
+                        previamente la
+                        universidad y facultad</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_send_email' %}" class="button alt">Enviar correo</a></li>
+                    </ul>
+                </section>
+
+            </div>
+        {% endif %}
+
+        {% if user.user_admin_type == 1 %}
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
+                                                      alt=""/></span>
+                    <h4>Facultades registradas</h4>
+                    <p style="font-size: 18px">Lista de las facultades registrados en BlurCity</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_campus_list' %}" class="button alt">Ver facultades</a></li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
+                                                      alt=""/></span>
+                    <h4>Lista de licenciaturas</h4>
+                    <p style="font-size: 18px">Lista de las licenciaturas registradas en las facultades</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_major_list' %}" class="button alt">Ver licenciaturas</a>
+                        </li>
+                    </ul>
+                </section>
+
+            </div>
+        {% endif %}
+
+        {% if user.user_admin_type == 2 %}
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
+                                                      alt=""/></span>
+                    <h4>Ver usuarios</h4>
+                    <p style="font-size: 18px">Lista de los usuarios (Administradores y usuarios de la
+                        aplicaci&oacute;n)</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_user_list' %}" class="button alt">Ver usuarios</a></li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
+                                                      alt=""/></span>
+                    <h4>Validar autom&oacute;viles</h4>
+                    <p style="font-size: 18px">Lista de todos los autom&oacute;viles registrados en BlurCity</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_car_list' %}" class="button alt">Ver autom&oacute;viles</a></li>
+                    </ul>
+                </section>
+
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}

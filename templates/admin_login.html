@@ -1,0 +1,39 @@
+{% extends 'Base/base_app.html' %}
+{% load static %}
+{% block title %}Administraci&oacute;n{% endblock %}
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+            <!-- Form -->
+            <section class="box">
+                <h3>Inicio de sesi&oacute;n administrativa</h3>
+                {% if errors %}
+                    {% for error in errors %}
+                        <p class="red-text" style="color:red; padding-top: 20px">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+                <form method="post" action="{% url 'Home:admin_login' %}">
+                    <div class="row uniform 50%">
+                        <div class="6u 12u(mobilep)">
+                            <input type="email" name="email" id="email" value="" placeholder="Correo electrónico"/>
+                        </div>
+                        <div class="6u 12u(mobilep)">
+                            <input type="password" name="password" id="password" value="" placeholder="Contraseña"/>
+                        </div>
+                    </div>
+                    <div class="row uniform">
+                        <div class="12u">
+                            <ul class="actions">
+                                <li><input type="submit" value="Iniciar sesión"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+
+                <hr/>
+
+            </section>
+
+        </div>
+    </div>
+{% endblock %}

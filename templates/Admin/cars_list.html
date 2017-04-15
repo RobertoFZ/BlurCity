@@ -1,0 +1,84 @@
+{% extends 'Base/base_app_not_container.html' %}
+{% load static %}
+
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+            <a class="button small" href="{% url 'Home:admin_panel' %}" style="margin-left: 50px">
+                Atr&aacute;s
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="12u">
+            <section class="box">
+                <h4>Autos registrados en BlurCity</h4>
+                <br>
+
+                {% if cars %}
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                            <tr>
+                                <th>Dueño</th>
+                                <th>Marca</th>
+                                <th>Movelo</th>
+                                <th>Matr&iacute;cula</th>
+                                <th>Estado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for car in cars %}
+                                <tr>
+                                    <td>{{ car.owner }}</td>
+                                    <td>{{ car.brand }}</td>
+                                    <td>{{ car.model }}</td>
+                                    <td>{{ car.registration_tag }}</td>
+                                    <td>
+                                        <select name="status" id="status"
+                                                onchange="changeValidateStatus({{ car.pk }})">
+                                            <option value="valid" {% if car.validated %} selected {% endif %}>V&aacute;lido</option>
+                                            <option value="invalid" {% if not car.validated %}
+                                                    selected {% endif %}>
+                                                No v&aacute;lido
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p><b>No se tienen autos registrados en BlurCity</b></p>
+                {% endif %}
+
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function changeValidateStatus(car_pk) {
+            $.ajax({
+                url: '/administration/change_car_status/',  //Server script to process data
+                type: 'post',
+                success: function (data) {
+                    if (data == 1) {
+                        sweetAlert("Correcto", "Se ha cambiado el estado correctamente", "success");
+                    } else {
+                        sweetAlert("Error", "Hubo un error al cambiar el estado, intentalo de nuevo", "error");
+                    }
+                },
+                error: function (message) {
+                    console.log(message);
+                },
+                // Form data
+                data: {
+                    'car_pk': car_pk
+                }
+            });
+        }
+    </script>
+{% endblock %}
