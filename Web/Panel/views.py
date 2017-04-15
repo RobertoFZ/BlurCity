@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 
 # Create your views here.
 from django.template import RequestContext
@@ -21,7 +21,10 @@ from Core.baseFunctions import basicArguments, canRequestRoute
 
 def panelView(request):
     args = basicArguments(request)
-    session_type = request.session['session_type']
+    try:
+        session_type = request.session['session_type']
+    except KeyError:
+        return redirect('/authentication/choice_login_type')
 
     if session_type == "driver":
         return render(request, 'Panel/Driver/index.html', args)

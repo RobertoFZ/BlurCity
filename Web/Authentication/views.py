@@ -13,6 +13,7 @@ from Web.Panel.views import panelView
 
 def choiceLoginTypeView(request):
     args = basicArguments(request)
+    logoutUser(request)
     return render(
         request,
         'choice_login.html',
