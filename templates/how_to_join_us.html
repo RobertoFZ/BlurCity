@@ -1,4 +1,4 @@
-{% extends 'Base/base_app.html' %}
+{% extends 'Base/base_app_not_container.html' %}
 {% load static %}
 {% block title %}Unirse a BlurCity{% endblock %}
 {% block content_main %}
@@ -7,24 +7,29 @@
         <p>Solo siga los siguientes pasos</p>
     </header>
 
-    <div class="row">
+    <div class="row" style="padding: 0 40px 0 40px;">
         <div class="7u 12u(narrower)">
 
             <section class="box special">
-                <h3 style="text-align: left">1.- &Uacute;nete a BlurCity como universidad</h3>
+                <h3 style="text-align: left">Af&iacute;liate a Blur City</h3>
                 <p style="text-align: left">
-                    Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu
-                    Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu
+                    Haz de tu instituci&oacute;n/empresa una m&aacute;s competitiva, d&aacute;ndole beneficios de
+                    transporte sustentable a
+                    tu comunidad. Ay&uacute;dalos a llegar en menos tiempo y mejorando su econom&iacute;a y la tuya.
                 </p>
-                <h3 style="text-align: left">2.- Registra tus instituciones una vez que formes parte de BlurCity</h3>
+                <h3 style="text-align: left">Registra tus centros educativos o plantas laborales</h3>
                 <p style="text-align: left">
-                    Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu
-                    Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu
+                    Segmenta tu comunidad por zonas o centros de permanencia. Admin&iacute;stralos desde cuentas
+                    especiales
+                    para cada uno de ellos y haz de Blur City tu nueva red de comunicaci&oacute;n.
                 </p>
-                <h3 style="text-align: left">3.- Valida los usuarios pertenecientes a tu Universidad</h3>
+                <h3 style="text-align: left">Valida a tus usuarios</h3>
                 <p style="text-align: left">
-                    Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu
-                    Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu Loremp ipsu
+                    Verifica que los usuarios registrados a trav&eacute;s de tu instituci&oacute;n/empresa existan en tu
+                    organizaci&oacute;n.
+                    Valida igualmente los veh&iacute;culos que registren para su uso compartido. Haz seguros y
+                    eficientes su movilidad.
+
                 </p>
             </section>
 
@@ -33,10 +38,94 @@
 
             <section class="box special">
                 <h3>Cont&aacute;ctanos</h3>
-                <p></p>
+                <form id="contactForm" method="post" action="{% url 'Home:how_to_join_us' %}">
+                    {% if send %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u(mobilep)">
+                                <p style="color: green">Correo enviado correctamente, nosotros nos pondremos en cont&aacute;cto
+                                    contigo cuando antes</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if error %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u(mobilep)">
+                                <p style="color: green">Error al enviar el correo, int&eacute;ntalo de nuevo</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row uniform 50%">
+                        <div class="12u 12u(mobilep)">
+                            <input type="text" name="name" id="name" value="" placeholder="Nombres"/>
+                        </div>
+                        <div class="12u 12u(mobilep)">
+                            <input type="email" name="email" id="email" value="" placeholder="Correo Electrónico"/>
+                        </div>
+                        <div class="12u 12u(mobilep)">
+                            <input type="text" name="business" id="business" value=""
+                                   placeholder="Institución o Empresa"/>
+                        </div>
+                        <div class="12u 12u(mobilep)">
+                            <input type="text" name="tel" id="tel" value=""
+                                   placeholder="Telefono de la Institución o Empresa"/>
+                        </div>
+                        <div class="12u 12u(mobilep)">
+                            <input type="text" name="owner_name" id="owner_name" value=""
+                                   placeholder="Nombre del Representante Legal"/>
+                        </div>
+                        <div class="12u 12u(mobilep)">
+                            <input type="text" name="country" id="country" value="" placeholder="País"/>
+                        </div>
+                        <div class="12u 12u(mobilep)">
+                            <input type="text" name="state" id="state" value="" placeholder="Estado"/>
+                        </div>
+                        <div class="12u 12u(mobilep)">
+                            <input type="text" name="city" id="city" value="" placeholder="Municipio"/>
+                        </div>
+                    </div>
+                    <div class="row uniform">
+                        <div class="12u">
+                            <ul class="actions">
+                                <li><i class="fa fa-spinner fa-pulse fa-3x fa-fw" id="spinner" style="display: none;"></i></li>
+                                <li><input id="send-btn" type="button" value="Enviar" onclick="validateForm()"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
             </section>
 
         </div>
     </div>
 
+{% endblock %}
+{% block scripts %}
+    <script>
+        function validateForm() {
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var business = $("#business").val();
+            var tel = $("#tel").val();
+            var owner_name = $("#owner_name").val();
+            var country = $("#country").val();
+            var state = $("#state").val();
+            var city = $("#city").val();
+
+            if (
+                    name != "" &&
+                    email != "" &&
+                    business != "" &&
+                    tel != "" &&
+                    owner_name != "" &&
+                    country != "" &&
+                    state != "" &&
+                    city != ""
+            ) {
+                $("#spinner").css("display", "block");
+                $("#send-btn").css("display", "none");
+                $("#contactForm").submit();
+            } else {
+                swal("Error", "Por favor llene todos los campos", "error");
+            }
+        }
+    </script>
 {% endblock %}

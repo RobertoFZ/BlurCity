@@ -13,6 +13,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
+from BlurCity.settings import EMAIL_HOST_USER
 from Core.Account.models import User
 from Core.Cars.models import Car
 from Core.Studies.models import University, Major, Campus
@@ -28,11 +29,38 @@ def homePageView(request):
 
 def howToJoinUs(request):
     args = basicArguments(request)
-    return render(
-        request,
-        'how_to_join_us.html',
-        args
-    )
+    if request.method == "GET":
+        return render(
+            request,
+            'how_to_join_us.html',
+            args
+        )
+    else:
+        try:
+            name = request.POST['name']
+            email = request.POST['email']
+            business = request.POST['business']
+            tel = request.POST['tel']
+            owner_name = request.POST['owner_name']
+            country = request.POST['country']
+            state = request.POST['state']
+            city = request.POST['city']
+
+            # SEND EMAIL FOR NOTIFY
+            body = u'Nuevo contacto de Blur City \n\n' \
+                   u'Nomre: %s \n' \
+                   u'Correo electrónico: %s \n' \
+                   u'Nombre de la institución o empresa: %s \n' \
+                   u'Teléfono: %s \n' \
+                   u'Nombre del representante legal: %s \n' \
+                   u'País: %s \n' \
+                   u'Estado: %s \n' \
+                   u'Municipio: %s' % (name, email, business, tel, owner_name, country, state, city)
+            email = EmailMessage(subject=u'Nuevo Contacto', body=body, to=[EMAIL_HOST_USER])
+            email.send()
+            return render(request, 'how_to_join_us.html', {'send': True})
+        except:
+            return render(request, 'how_to_join_us.html', {'error': True})
 
 
 # ADMIN FUNCTIONS
@@ -338,6 +366,34 @@ def sendEmail(request):
             'Admin/send_email.html',
             args
         )
+
+
+def contactFunction(request):
+    try:
+        name = request.POST['name']
+        email = request.POST['email']
+        business = request.POST['business']
+        tel = request.POST['tel']
+        owner_name = request.POST['owner_name']
+        country = request.POST['country']
+        state = request.POST['state']
+        city = request.POST['city']
+
+        # SEND EMAIL FOR NOTIFY
+        body = u'Nuevo contacto de Blur City \n\n' \
+               u'Nomre: %s \n' \
+               u'Correo electrónico: %s \n' \
+               u'Nombre de la institución o empresa: %s \n' \
+               u'Teléfono: %s \n' \
+               u'Nombre del representante legal: %s \n' \
+               u'País: %s \n' \
+               u'Estado: %s \n' \
+               u'Municipio: %s' % (name, email, business, tel, owner_name, country, state, city)
+        email = EmailMessage(subject=u'Nuevo Contacto', body=body, to=[EMAIL_HOST_USER])
+        email.send()
+        return render(request, 'how_to_join_us.html', {'send': True})
+    except:
+        return render(request, 'how_to_join_us.html', {'error': True})
 
 
 # ADMIN WEBSERVICES

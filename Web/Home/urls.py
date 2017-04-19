@@ -5,6 +5,8 @@ from Web.Home import views
 urlpatterns = [
     url(r'^$', views.homePageView, name='Home'),
     url(r'^how_to_join_us$', views.howToJoinUs, name='how_to_join_us'),
+    url(r'^contact', views.contactFunction, name='contact'),
+
     url(r'administration$', views.adminLogin, name='admin_login'),
     url(r'administration/admin_panel$', views.adminPanel, name='admin_panel'),
     url(r'administration/admin_panel/users_list$', views.validUserList, name='panel_user_list'),
