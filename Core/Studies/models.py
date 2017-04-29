@@ -3,8 +3,8 @@
 
 from django.db import models
 
-
 # Create your models here.
+from django.utils.encoding import force_bytes
 
 
 class University(models.Model):
@@ -34,14 +34,14 @@ class Campus(models.Model):
 
 
 class Major(models.Model):
-    campus = models.OneToOneField(
+    campus = models.ForeignKey(
         Campus,
         on_delete=models.CASCADE
     )
     name = models.CharField(max_length=150, default="0")
 
     def __str__(self):
-        return self.name
+        return u"%s" % self.name
 
     def __unicode__(self):
-        return u"%s" % (self.name)
+        return u'%s' % self.name

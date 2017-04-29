@@ -1,10 +1,15 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 from django.utils.translation import ugettext as _
 
 
 # Create your models here.
+from Core.Studies.models import University, Campus, Major
+
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
@@ -40,11 +45,13 @@ class User(AbstractBaseUser):
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     avatar = models.ImageField(default='static/defaults/deafult_profile.png', upload_to='static/uploads/avatar/')
-    university = models.IntegerField(null=True, blank=True)
-    major = models.IntegerField(null=True, blank=True)
+    #university = models.IntegerField(null=True, blank=True)
+    university = models.ForeignKey(University, null=True, blank=True)
+    #major = models.IntegerField(null=True, blank=True)
+    major = models.ForeignKey(Major, null=True, blank=True)
     is_validated = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
     user_admin_type = models.IntegerField(choices=USER_ADMIN_TYPE, default=3)
 
     objects = UserManager()
@@ -84,3 +91,9 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
+
+    def __str__(self):
+        return self.email
+
+    def __unicode__(self):
+        return u"%s" % self.email

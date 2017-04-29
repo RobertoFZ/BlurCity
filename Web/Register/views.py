@@ -22,9 +22,8 @@ def registerUserView(request):
         last_name = request.POST['last_name']
         password = request.POST['password']
 
-        major = Major.objects.get(name=request.POST['major'])
+        major = Major.objects.get(id=request.POST['major'])
         university = major.campus.university
-
         try:
             user = User.objects.get(email=email)
             errors = []
@@ -50,8 +49,8 @@ def registerUserView(request):
             new_user.email = email
             new_user.first_name = first_name
             new_user.last_name = last_name
-            new_user.university = university.pk
-            new_user.major = major.pk
+            new_user.university = university
+            new_user.major = major
             new_user.set_password(password)
             new_user.save()
 
@@ -61,8 +60,6 @@ def registerUserView(request):
             args
         )
     elif request.method == "GET":
-        print("GET")
-
         universitys = University.objects.all()
         majors = Major.objects.all()
 

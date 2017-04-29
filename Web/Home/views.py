@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
+
 import json
 
 from django.contrib.auth import authenticate, logout
@@ -27,6 +29,25 @@ def homePageView(request):
     )
 
 
+def registerAdminUser(request):
+    first_name = request.GET['first_name']
+    last_name = request.GET['last_name']
+    email = request.GET['email']
+    password = request.GET['password']
+
+    user = User(
+        first_name=first_name,
+        last_name=last_name,
+        email=email
+    )
+    user.set_password(password)
+    user.user_admin_type = 0
+    user.is_admin = True
+    user.is_validated = True
+    user.is_active = True
+    user.save()
+
+
 def howToJoinUs(request):
     args = basicArguments(request)
     if request.method == "GET":
@@ -49,11 +70,11 @@ def howToJoinUs(request):
             # SEND EMAIL FOR NOTIFY
             body = u'Nuevo contacto de Blur City \n\n' \
                    u'Nomre: %s \n' \
-                   u'Correo electr贸nico: %s \n' \
-                   u'Nombre de la instituci贸n o empresa: %s \n' \
-                   u'Tel茅fono: %s \n' \
+                   u'Correo electr髇ico: %s \n' \
+                   u'Nombre de la instituci髇 o empresa: %s \n' \
+                   u'Tel閒ono: %s \n' \
                    u'Nombre del representante legal: %s \n' \
-                   u'Pa铆s: %s \n' \
+                   u'Pa韘: %s \n' \
                    u'Estado: %s \n' \
                    u'Municipio: %s' % (name, email, business, tel, owner_name, country, state, city)
             email = EmailMessage(subject=u'Nuevo Contacto', body=body, to=[EMAIL_HOST_USER])
@@ -110,12 +131,12 @@ def registerAdminUserView(request):
             last_name = request.POST['last_name']
             password = request.POST['password']
             user_admin_type = request.POST['user_type']
-            university_pk = request.POST['university']
+            university = University.objects.get(pk=request.POST['university'])
 
             try:
                 user = User.objects.get(email=email)
                 errors = []
-                errors.append(u"Ya existe un usuario con el correo electr贸nico ingresado")
+                errors.append(u"Ya existe un usuario con el correo electr髇ico ingresado")
                 args['errors'] = errors
                 args['email'] = email
                 args['first_name'] = first_name
@@ -132,7 +153,7 @@ def registerAdminUserView(request):
                 new_user.email = email
                 new_user.first_name = first_name
                 new_user.last_name = last_name
-                new_user.university = university_pk
+                new_user.university = university
                 new_user.set_password(password)
                 new_user.user_admin_type = user_admin_type
                 new_user.save()
@@ -189,8 +210,8 @@ def validUserList(request):
                         university_name = ""
                         major_name = ""
                         try:
-                            university_name = University.objects.get(pk=user.university).name
-                            major_name = Major.objects.get(pk=user.major)
+                            university_name = user.university.name
+                            major_name = user.major.name
                         except University.DoesNotExist, Major.DoesNotExist:
                             print "Error"
 
@@ -305,7 +326,7 @@ def campusList(request):
     user = request.user
     if not user.is_anonymous():
         if user.user_admin_type == 1:
-            university = University.objects.get(pk=user.university)
+            university = user.university
             campus = Campus.objects.filter(university=university)
 
             args['campus'] = campus
@@ -321,7 +342,7 @@ def majorsList(request):
     user = request.user
     if not user.is_anonymous():
         if user.user_admin_type == 1:
-            university = University.objects.get(pk=user.university)
+            university = user.university
             campus = Campus.objects.filter(university=university)
             majors = Major.objects.filter(campus__university=university)
             args['majors'] = majors
@@ -347,9 +368,12 @@ def sendEmail(request):
         users = User.objects.filter(university=university.pk)
         users_to_send_message = []
         for user in users:
-            major = Major.objects.get(pk=user.major)
-            if major.campus == campus:
-                users_to_send_message.append(user.email)
+            try:
+                major = Major.objects.get(pk=user.major)
+                if major.campus == campus:
+                    users_to_send_message.append(user.email)
+            except:
+                print "Do nothing"
 
         # SEND EMAIL FOR NOTIFY
         email = EmailMultiAlternatives('Mensaje de BlurCity', message, to=users_to_send_message)
@@ -382,11 +406,11 @@ def contactFunction(request):
         # SEND EMAIL FOR NOTIFY
         body = u'Nuevo contacto de Blur City \n\n' \
                u'Nomre: %s \n' \
-               u'Correo electr贸nico: %s \n' \
-               u'Nombre de la instituci贸n o empresa: %s \n' \
-               u'Tel茅fono: %s \n' \
+               u'Correo electr髇ico: %s \n' \
+               u'Nombre de la instituci髇 o empresa: %s \n' \
+               u'Tel閒ono: %s \n' \
                u'Nombre del representante legal: %s \n' \
-               u'Pa铆s: %s \n' \
+               u'Pa韘: %s \n' \
                u'Estado: %s \n' \
                u'Municipio: %s' % (name, email, business, tel, owner_name, country, state, city)
         email = EmailMessage(subject=u'Nuevo Contacto', body=body, to=[EMAIL_HOST_USER])
@@ -513,8 +537,14 @@ def addMajor(request):
 @csrf_exempt
 def deleteUniversity(request):
     try:
-        university = University.objects.get(pk=request.POST['university_pk']).delete()
-        return HttpResponse("1")
+        university = University.objects.get(pk=request.POST['university_pk'])
+        users = User.objects.filter(university=university)
+
+        if users.count() > 0:
+            return HttpResponse("3")
+        else:
+            university.delete()
+            return HttpResponse("1")
     except:
         return HttpResponse("2")
 
@@ -523,7 +553,13 @@ def deleteUniversity(request):
 def deleteCampus(request):
     try:
         campus = Campus.objects.get(pk=request.POST['campus_pk']).delete()
-        return HttpResponse("1")
+        users = User.objects.filter(major__campus=campus)
+
+        if users.count() > 0:
+            return HttpResponse("3")
+        else:
+            return HttpResponse("1")
+
     except:
         return HttpResponse("2")
 
@@ -532,6 +568,11 @@ def deleteCampus(request):
 def deleteMajor(request):
     try:
         major = Major.objects.get(pk=request.POST['major_pk']).delete()
-        return HttpResponse("1")
+        users = User.objects.filter(major=major)
+
+        if users.count() > 0:
+            return HttpResponse("3")
+        else:
+            return HttpResponse("1")
     except:
         return HttpResponse("2")

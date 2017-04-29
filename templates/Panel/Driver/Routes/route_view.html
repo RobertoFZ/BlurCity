@@ -209,7 +209,7 @@
                                                 {{ car.model }},
                                                 color
                                                 {{ car.color }} <br>
-                                                {% if car.validated %}<span style="color: red">No validado</span>
+                                                {% if not car.validated %}<span style="color: red">No validado</span>
                                                 {% else %}<span style="color: green">Validado</span>{% endif %}
                                             {% endif %}
                                         {% endfor %}

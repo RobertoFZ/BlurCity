@@ -4,14 +4,16 @@
 {% block content_main %}
     <div class="row">
         <div class="12u">
-            <a class="button small" href="{% url 'Home:admin_panel' %}" style="margin-left: 50px">
-                Atr&aacute;s
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="12u">
             <section class="box">
+
+                <div class="12u">
+                    <a class="button small" href="{% url 'Home:admin_panel' %}">
+                        Atr&aacute;s
+                    </a>
+                </div>
+
+                <br><br>
+
                 <h4>Universidades registradas en BlurCity</h4>
                 <br>
 
@@ -38,7 +40,7 @@
                                 <tr>
                                     <td>{{ university.name }}</td>
                                     <td><a style="color: red; cursor: pointer"
-                                           onclick="deleteUniversity({{ user.pk }})">Eliminar</a>
+                                           onclick="deleteUniversity({{ university.pk }})">Eliminar</a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -105,6 +107,8 @@
                         }, function () {
                             window.location.href = "/administration/admin_panel/university_list";
                         });
+                    } else if (data == 3) {
+                        sweetAlert("Error", "No se puede eliminar la universidad ya que hay usuarios existentes", "error");
                     } else {
                         sweetAlert("Error", "Hubo un error al eliminar la universidad, intentalo de nuevo", "error");
                     }

@@ -15,3 +15,9 @@
 .idea/
 
 static/uploads/
+Core/Account/migrations/
+Core/Cars/migrations/
+Core/Chat/migrations/
+Core/Notifications/migrations/
+Core/Routes/migrations/
+Core/Studies/migrations/

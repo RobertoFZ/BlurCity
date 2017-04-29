@@ -4,14 +4,13 @@
 {% block content_main %}
     <div class="row">
         <div class="12u">
-            <a class="button small" href="{% url 'Home:admin_panel' %}" style="margin-left: 50px">
-                Atr&aacute;s
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="12u">
             <section class="box">
+                <div class="12u">
+                    <a class="button small" href="{% url 'Home:admin_panel' %}">
+                        Atr&aacute;s
+                    </a>
+                    <br><br>
+                </div>
                 <h4>Facultades registradas</h4>
                 <br>
 
@@ -66,7 +65,7 @@
 {% block scripts %}
     <script>
         function addCampus() {
-            var university = "{{ user.university }}";
+            var university = "{{ user.university.pk }}";
             var campus = $("#campus").val();
 
             var latitude = $("#latitude").val();
@@ -121,6 +120,8 @@
                         }, function () {
                             window.location.href = "/administration/admin_panel/campus_list";
                         });
+                    } else if(data == 3) {
+                        sweetAlert("Error", "No se puede eliminar una facultad que tiene usuarios registrados", "error");
                     } else {
                         sweetAlert("Error", "Hubo un error al eliminar el campus, intentalo de nuevo", "error");
                     }

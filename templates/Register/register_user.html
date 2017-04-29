@@ -97,7 +97,7 @@
                         function () {
                             window.location.href = "/authentication/choice_login_type";
                         });
-            }, 1000);
+            }, 2000);
         {% endif %}
 
         $("#university").change(function () {
@@ -126,10 +126,10 @@
                             value: 1,
                             text: 'Licenciatura'
                         }));
-
+                        console.log(data);
                         $.each(JSON.parse(data), function (i, item) {
                             major_select.append($('<option>', {
-                                value: item.fields.name,
+                                value: item.pk,
                                 text: item.fields.name
                             }));
                         });

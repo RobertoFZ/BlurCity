@@ -4,28 +4,27 @@
 {% block content_main %}
     <div class="row">
         <div class="12u">
-            <a class="button small" href="{% url 'Home:admin_panel' %}" style="margin-left: 50px">
-                Atr&aacute;s
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="12u">
             <section class="box">
+                <div class="12u">
+                    <a class="button small" href="{% url 'Home:admin_panel' %}">
+                        Atr&aacute;s
+                    </a>
+                    <br><br>
+                </div>
                 <h4>Licenciaturas registradas</h4>
                 <br>
 
                 <div class="row uniform 50%">
                     <div class="6u 12u(mobilep)">
-                            <div class="select-wrapper">
-                                <select name="campus" id="campus">
-                                    <option disabled>Facultad</option>
-                                    {% for campus in campus %}
-                                        <option value="{{ campus.pk }}">{{ campus.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                        <div class="select-wrapper">
+                            <select name="campus" id="campus">
+                                <option disabled>Facultad</option>
+                                {% for campus in campus %}
+                                    <option value="{{ campus.pk }}">{{ campus.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
+                    </div>
                     <div class="6u 12u(mobilep)">
                         <input type="text" name="major" id="major" value="" placeholder="Licenciatura"/>
                     </div>
@@ -121,6 +120,8 @@
                         }, function () {
                             window.location.href = "/administration/admin_panel/major_list";
                         });
+                    } else if(data == 3){
+                        sweetAlert("Error", "No se puede eliminar una licenciatura que tiene usuarios registrados", "error");
                     } else {
                         sweetAlert("Error", "Hubo un error al eliminar la licenciatura, intentalo de nuevo", "error");
                     }
