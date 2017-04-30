@@ -131,7 +131,12 @@ def registerAdminUserView(request):
             last_name = request.POST['last_name']
             password = request.POST['password']
             user_admin_type = request.POST['user_type']
-            university = University.objects.get(pk=request.POST['university'])
+
+            try:
+                university = University.objects.get(pk=request.POST['university'])
+            except:
+                university = None
+                print "BlurCity admin"
 
             try:
                 user = User.objects.get(email=email)
