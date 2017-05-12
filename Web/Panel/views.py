@@ -118,7 +118,11 @@ def saveRouteService(request):
     sits = request.POST['sits']
     time = request.POST['time']
     days = request.POST.getlist('day[]')
+
     recovery_amount = request.POST['recovery']
+
+    if recovery_amount == '':
+        recovery_amount = 0.0
 
     route = Route()
     route.user = request.user
@@ -150,6 +154,9 @@ def updateRouteService(request):
     time = request.POST['time']
     days = request.POST.getlist('day[]')
     recovery_amount = request.POST['recovery']
+
+    if recovery_amount == '':
+        recovery_amount = 0.0
 
     route = Route.objects.get(pk=route_pk)
     route.campus_pk = destiny
