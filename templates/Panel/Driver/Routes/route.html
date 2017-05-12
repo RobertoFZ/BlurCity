@@ -79,11 +79,13 @@
                                                 <option value="2" {% if route.sits == 2 %}selected{% endif %}>2</option>
                                                 <option value="3" {% if route.sits == 3 %}selected{% endif %}>3</option>
                                                 <option value="4" {% if route.sits == 4 %}selected{% endif %}>4</option>
-                                                <option value="5" {% if route.sits == 5 %}selected{% endif %}>5</option>
-                                                <option value="6" {% if route.sits == 6 %}selected{% endif %}>6</option>
-                                                <option value="7" {% if route.sits == 7 %}selected{% endif %}>7</option>
                                             </select>
                                             <label>Cupo</label>
+                                        </div>
+                                        <div class="12u 12u(mobilep)" style="display: -webkit-inline-box;">
+                                            <label for="total_sits">Cuota de recuperación $:</label> &nbsp;
+                                            <input type="number" min="0" name="recovery" id="recovery"
+                                                   value=""/>
                                         </div>
                                         <div class="col s3" align="center">
                                             <label>Seleccione los días de la ruta</label>

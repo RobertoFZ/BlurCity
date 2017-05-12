@@ -95,14 +95,13 @@
                                                     </option>
                                                     <option value="4" {% if route.sits == 4 %}selected{% endif %}>4
                                                     </option>
-                                                    <option value="5" {% if route.sits == 5 %}selected{% endif %}>5
-                                                    </option>
-                                                    <option value="6" {% if route.sits == 6 %}selected{% endif %}>6
-                                                    </option>
-                                                    <option value="7" {% if route.sits == 7 %}selected{% endif %}>7
-                                                    </option>
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div class="12u 12u(mobilep)" style="display: -webkit-inline-box;">
+                                            <label for="total_sits">Cuota de recuperación $:</label> &nbsp;
+                                            <input type="number" min="0" name="recovery" id="recovery"
+                                                   value="{{ route.recovery_amount }}"/>
                                         </div>
                                         <div class="12u 12u(mobilep)">
                                             <p><b>Horario</b></p>
@@ -215,6 +214,9 @@
                                         {% endfor %}
                                     </ul>
                                     <p>
+                                        <b>Cuota de recuperación: {{ route.recovery_amount }}</b>
+                                    </p>
+                                    <p>
                                         <i class="fa fa-calendar" aria-hidden="true"></i> Dias disponible: <br>
                                         <b>Hora: {{ route.start_time }}</b>
                                     <ul style="padding-left: 15px">
@@ -257,6 +259,15 @@
 
     </script>
     <script>
+        $("#recovery").focusout(function () {
+            var total_sits = $("#recovery").val();
+
+            if (total_sits < 0) {
+                $("#recovery").val(0);
+                sweetAlert("Error", "Solo puedes colocar un valor positivo", "error");
+            }
+        });
+
         var wayPoints = [];
         {% if route_markers %}
             {% for marker in route_markers %}
@@ -416,6 +427,7 @@
             var vehiculo = $('#car').val();
             var cupo = $('#sits').val();
             var horario = $('#hora').val();
+            var recovery = $('#recovery').val();
 
             $('input[name="dia[]"]:checked').each(function () {
                 dias.push($(this).val());
@@ -473,7 +485,8 @@
                             'car': vehiculo,
                             'sits': cupo,
                             'time': horario,
-                            'day': dias
+                            'day': dias,
+                            'recovery': recovery
                         }
                     });
                 } else {
@@ -555,9 +568,9 @@
     {% if not is_owner %}
         <script type="text/javascript">
             $('#solicitar-btn').on("click", function () {
-                if($("#point").val() != ""){
+                if ($("#point").val() != "") {
                     requestRoute();
-                }else {
+                } else {
                     sweetAlert("Alto", "Por favor escribe en qué lugar de la ruta te gustaría ser recogido", "warning");
                 }
             });

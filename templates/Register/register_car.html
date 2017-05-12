@@ -100,9 +100,9 @@
         $("#total_sits").focusout(function () {
             var total_sits = $("#total_sits").val();
 
-           if(total_sits < 1 || total_sits > 6){
+           if(total_sits < 1 || total_sits > 4){
                $("#total_sits").val(1);
-               sweetAlert("Error", "Solo puedes colocar números en el rando del 1 al 6", "error");
+               sweetAlert("Error", "Solo puedes colocar números en el rando del 1 al 4", "error");
            }
         });
 

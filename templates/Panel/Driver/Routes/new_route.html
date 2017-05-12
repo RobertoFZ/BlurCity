@@ -74,11 +74,13 @@
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="12u 12u(mobilep)" style="display: -webkit-inline-box;">
+                                        <label for="total_sits">Cuota de recuperación $:</label> &nbsp;
+                                        <input type="number" min="0" name="recovery" id="recovery"
+                                               value=""/>
                                     </div>
                                     <div class="12u 12u(mobilep)">
                                         <p><b>Horario</b></p>
@@ -169,6 +171,15 @@
 
             $("#map").css("height", window_height - navbar_height - footer_height + "px");
         }
+
+        $("#recovery").focusout(function () {
+            var total_sits = $("#recovery").val();
+
+            if (total_sits < 0) {
+                $("#recovery").val(0);
+                sweetAlert("Error", "Solo puedes colocar un valor positivo", "error");
+            }
+        });
 
         //DESTINY MARKER SECTION
 

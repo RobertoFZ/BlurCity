@@ -118,6 +118,7 @@ def saveRouteService(request):
     sits = request.POST['sits']
     time = request.POST['time']
     days = request.POST.getlist('day[]')
+    recovery_amount = request.POST['recovery']
 
     route = Route()
     route.user = request.user
@@ -127,6 +128,7 @@ def saveRouteService(request):
     route.name = request.user.first_name + "-" + "Ruta"
     route.sits = sits
     route.start_time = time
+    route.recovery_amount = recovery_amount
     route.save()
 
     for current_day in days:
@@ -147,6 +149,7 @@ def updateRouteService(request):
     sits = request.POST['sits']
     time = request.POST['time']
     days = request.POST.getlist('day[]')
+    recovery_amount = request.POST['recovery']
 
     route = Route.objects.get(pk=route_pk)
     route.campus_pk = destiny
@@ -155,6 +158,7 @@ def updateRouteService(request):
     route.name = request.user.first_name + "-" + "Ruta"
     route.sits = sits
     route.start_time = time
+    route.recovery_amount = recovery_amount
     route.save()
     RouteDay.objects.filter(route=route).delete()
 

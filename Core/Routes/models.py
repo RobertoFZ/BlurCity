@@ -17,6 +17,7 @@ class Route(models.Model):
     sits = models.IntegerField(default=0)
     start_time = models.TimeField(auto_now=False)
     create_at = models.DateTimeField(auto_now=True)
+    recovery_amount = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.name

@@ -118,6 +118,7 @@ function sendRouteDataToServer() {
     var vehiculo = $('#car').val();
     var cupo = $('#sits').val();
     var horario = $('#hora').val();
+    var recovery = $('#recovery').val();
 
     $('input[name="dia[]"]:checked').each(function () {
         dias.push($(this).val());
@@ -174,7 +175,8 @@ function sendRouteDataToServer() {
                     'car': vehiculo,
                     'sits': cupo,
                     'time': horario,
-                    'day': dias
+                    'day': dias,
+                    'recovery': recovery
                 }
             });
         } else {
