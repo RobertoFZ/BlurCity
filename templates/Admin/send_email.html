@@ -4,13 +4,6 @@
 {% block content_main %}
     <div class="row">
         <div class="12u">
-            <a class="button small" href="{% url 'Home:admin_panel' %}">
-                Atr&aacute;s
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="12u">
 
             <!-- Form -->
             <section class="box">
@@ -53,7 +46,10 @@
                     <div class="row uniform">
                         <div class="12u">
                             <ul class="actions">
-                                <li><input id="send_btn" type="button" onclick="validateForm()" value="Enviar"/></li>
+                                <li><a class="button" href="{% url 'Home:admin_panel' %}">
+                                    Atr&aacute;s
+                                </a></li>
+                                <li><input class="special" id="send_btn" type="button" onclick="validateForm()" value="Enviar"/></li>
                                 <li><i class="fa fa-spinner fa-pulse fa-3x fa-fw" id="spinner"
                                        style="display: none;"></i></li>
                             </ul>

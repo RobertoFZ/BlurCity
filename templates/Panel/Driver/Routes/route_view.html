@@ -345,31 +345,33 @@
                 document.getElementById('guardar-btn').addEventListener('click', sendRouteDataToServer);
             {% endif %}
 
-            map.addListener('click', function (click) {
-                console.log("Click: " + click.latLng);
-                var newMarker = new google.maps.Marker({
-                    position: click.latLng,
-                    map: map,
-                    title: 'Marcador'
+            {%  if is_owner %}
+                map.addListener('click', function (click) {
+                    console.log("Click: " + click.latLng);
+                    var newMarker = new google.maps.Marker({
+                        position: click.latLng,
+                        map: map,
+                        title: 'Marcador'
+                    });
+                    newMarker.addListener('click', function () {
+                        newMarker.setVisible(false);
+                        deleteMarker(newMarker);
+                    });
+                    wayPoints.push({
+                        location: newMarker.getPosition(),
+                        stopover: false
+                    });
+                    console.log("New marker: " + newMarker.getPosition());
+                    var markerObject = {
+                        position: markerPosition,
+                        latitud: newMarker.getPosition().lat(),
+                        longitud: newMarker.getPosition().lng()
+                    };
+                    markerArray.push(markerObject);
+                    googleMarkersArray.push(newMarker);
+                    markerPosition++;
                 });
-                newMarker.addListener('click', function () {
-                    newMarker.setVisible(false);
-                    deleteMarker(newMarker);
-                });
-                wayPoints.push({
-                    location: newMarker.getPosition(),
-                    stopover: false
-                });
-                console.log("New marker: " + newMarker.getPosition());
-                var markerObject = {
-                    position: markerPosition,
-                    latitud: newMarker.getPosition().lat(),
-                    longitud: newMarker.getPosition().lng()
-                };
-                markerArray.push(markerObject);
-                googleMarkersArray.push(newMarker);
-                markerPosition++;
-            });
+            {% endif %}
 
             {% if is_owner %}
                 $('#clean-btn').on("click", function () {

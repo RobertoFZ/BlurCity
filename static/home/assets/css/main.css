@@ -1810,7 +1810,7 @@
 		-ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		border-bottom: dotted 1px;
-		color: #1fbad6;
+		color: #49ca3e;
 		text-decoration: none;
 	}
 
@@ -2035,8 +2035,8 @@
 		input[type="email"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #4bc8de;
-			box-shadow: 0 0 0 2px #4bc8de;
+			border-color: #49ca3e;
+			box-shadow: 0 0 0 2px #49ca3e;
 		}
 
 	.select-wrapper {
@@ -2337,7 +2337,7 @@
 			}
 
 			.icon.major.accent1 {
-				background: #79d6e7;
+				background: #49ca3e;
 				color: #ffffff;
 			}
 
@@ -2715,7 +2715,7 @@
 		input[type="reset"].special,
 		input[type="button"].special,
 		.button.special {
-			background-color: #1fbad6;
+			background-color: #49ca3e;
 			color: #ffffff !important;
 		}
 
@@ -2723,7 +2723,7 @@
 			input[type="reset"].special:hover,
 			input[type="button"].special:hover,
 			.button.special:hover {
-				background-color: #4bc8de;
+				background-color: #49ca3e;
 			}
 
 			input[type="submit"].special:active,
@@ -3170,7 +3170,7 @@
 /* CTA */
 
 	#cta {
-		background: #1fbad6;
+		background: #49ca3e;
 		color: #ffffff;
 		padding: 3.5em 0 4em 0;
 		text-align: center;
@@ -3192,7 +3192,7 @@
 		#cta .button {
 			box-shadow: none;
 			background: #fff;
-			color: #1fbad6;
+			color: #49ca3e;
 		}
 
 		#cta input[type="text"],
