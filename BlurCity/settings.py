@@ -112,8 +112,8 @@ LOGOUT_URL = '/'
 # EMAIL SECTION
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'roberzet@gmail.com'
-EMAIL_HOST_PASSWORD = 'soybuenoenhalo2'
+EMAIL_HOST_USER = 'noreply.blurcity@gmail.com'
+EMAIL_HOST_PASSWORD = 'Otherside7'
 EMAIL_PORT = 587
 
 # Internationalization

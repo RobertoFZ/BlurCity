@@ -2035,8 +2035,8 @@
 		input[type="email"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #49ca3e;
-			box-shadow: 0 0 0 2px #49ca3e;
+			border-color: #546A7B;
+			box-shadow: 0 0 0 2px #546A7B;
 		}
 
 	.select-wrapper {
@@ -2337,7 +2337,7 @@
 			}
 
 			.icon.major.accent1 {
-				background: #49ca3e;
+				background: #546A7B;
 				color: #ffffff;
 			}
 
@@ -2715,7 +2715,7 @@
 		input[type="reset"].special,
 		input[type="button"].special,
 		.button.special {
-			background-color: #49ca3e;
+			background-color: #546A7B;
 			color: #ffffff !important;
 		}
 
@@ -2723,14 +2723,14 @@
 			input[type="reset"].special:hover,
 			input[type="button"].special:hover,
 			.button.special:hover {
-				background-color: #49ca3e;
+				background-color: #546A7B;
 			}
 
 			input[type="submit"].special:active,
 			input[type="reset"].special:active,
 			input[type="button"].special:active,
 			.button.special:active {
-				background-color: #4bc8de;
+				background-color: #546A7B;
 			}
 
 		input[type="submit"].disabled, input[type="submit"]:disabled,
@@ -3170,7 +3170,7 @@
 /* CTA */
 
 	#cta {
-		background: #49ca3e;
+		background: #546A7B;
 		color: #ffffff;
 		padding: 3.5em 0 4em 0;
 		text-align: center;
@@ -3192,7 +3192,7 @@
 		#cta .button {
 			box-shadow: none;
 			background: #fff;
-			color: #49ca3e;
+			color: #546A7B;
 		}
 
 		#cta input[type="text"],
