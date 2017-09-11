@@ -11,7 +11,7 @@
                     </a>
                     <br><br>
                 </div>
-                <h4>Facultades registradas</h4>
+                <h4>Sedes registradas</h4>
                 <br>
 
                 <div class="row uniform 50%">
@@ -54,7 +54,7 @@
                         </table>
                     </div>
                 {% else %}
-                    <p><b>No se tienen facultades registradas en BlurCity</b></p>
+                    <p><b>No se tienen sedes registradas en BlurCity</b></p>
                 {% endif %}
 
             </section>
@@ -79,14 +79,14 @@
                         if (data == 1) {
                             sweetAlert({
                                 title: "Correcto",
-                                text: "Se ha agregado el campus correctamente",
+                                text: "Se ha agregado la sede correctamente",
                                 type: "success",
                                 closeOnConfirm: false
                             }, function () {
                                 window.location.href = "/administration/admin_panel/campus_list";
                             });
                         } else {
-                            sweetAlert("Error", "Hubo un error al agregar el campus, intentalo de nuevo", "error");
+                            sweetAlert("Error", "Hubo un error al agregar la sede, intentalo de nuevo", "error");
                         }
                     },
                     error: function (message) {
@@ -101,7 +101,7 @@
                     }
                 });
             } else {
-                sweetAlert("Error", "Por favor llene todos los campos para agregar el campus", "error");
+                sweetAlert("Error", "Por favor llene todos los campos para agregar la sede", "error");
             }
         }
 
@@ -114,16 +114,16 @@
                     if (data == 1) {
                         sweetAlert({
                             title: "Correcto",
-                            text: "Se ha eliminado el campus correctamente",
+                            text: "Se ha eliminado la sede correctamente",
                             type: "success",
                             closeOnConfirm: false
                         }, function () {
                             window.location.href = "/administration/admin_panel/campus_list";
                         });
                     } else if(data == 3) {
-                        sweetAlert("Error", "No se puede eliminar una facultad que tiene usuarios registrados", "error");
+                        sweetAlert("Error", "No se puede eliminar una sede que tiene usuarios registrados", "error");
                     } else {
-                        sweetAlert("Error", "Hubo un error al eliminar el campus, intentalo de nuevo", "error");
+                        sweetAlert("Error", "Hubo un error al eliminar la sede, intentalo de nuevo", "error");
                     }
                 },
                 error: function (message) {

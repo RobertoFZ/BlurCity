@@ -11,14 +11,14 @@
                     </a>
                     <br><br>
                 </div>
-                <h4>Licenciaturas registradas</h4>
+                <h4>Sedes registradas</h4>
                 <br>
 
                 <div class="row uniform 50%">
                     <div class="6u 12u(mobilep)">
                         <div class="select-wrapper">
                             <select name="campus" id="campus">
-                                <option disabled>Facultad</option>
+                                <option disabled>Sede</option>
                                 {% for campus in campus %}
                                     <option value="{{ campus.pk }}">{{ campus.name }}</option>
                                 {% endfor %}
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="6u 12u(mobilep)">
-                        <input type="text" name="major" id="major" value="" placeholder="Licenciatura"/>
+                        <input type="text" name="major" id="major" value="" placeholder="Ocupación"/>
                     </div>
                 </div>
                 <div class="row uniform 50%">
@@ -42,7 +42,7 @@
                             <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Facultad</th>
+                                <th>Sede</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -60,7 +60,7 @@
                         </table>
                     </div>
                 {% else %}
-                    <p><b>No se tienen licenciaturas registradas en BlurCity</b></p>
+                    <p><b>No se tienen sedes registradas en BlurCity</b></p>
                 {% endif %}
 
             </section>
@@ -102,7 +102,7 @@
                     }
                 });
             } else {
-                sweetAlert("Error", "Por favor llene todos los campos para agregar la licenciatura", "error");
+                sweetAlert("Error", "Por favor llene todos los campos para agregar la sede", "error");
             }
         }
 
@@ -114,16 +114,16 @@
                     if (data == 1) {
                         sweetAlert({
                             title: "Correcto",
-                            text: "Se ha eliminado la licenciatura correctamente",
+                            text: "Se ha eliminado la sede correctamente",
                             type: "success",
                             closeOnConfirm: false
                         }, function () {
                             window.location.href = "/administration/admin_panel/major_list";
                         });
                     } else if(data == 3){
-                        sweetAlert("Error", "No se puede eliminar una licenciatura que tiene usuarios registrados", "error");
+                        sweetAlert("Error", "No se puede eliminar una sede que tiene usuarios registrados", "error");
                     } else {
-                        sweetAlert("Error", "Hubo un error al eliminar la licenciatura, intentalo de nuevo", "error");
+                        sweetAlert("Error", "Hubo un error al eliminar la sede, intentalo de nuevo", "error");
                     }
                 },
                 error: function (message) {

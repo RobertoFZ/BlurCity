@@ -14,12 +14,12 @@
 
                 <br><br>
 
-                <h4>Universidades registradas en BlurCity</h4>
+                <h4>Instituciones/organizaciones registradas en BlurCity</h4>
                 <br>
 
                 <div class="row uniform 50%">
                     <div class="6u 12u(mobilep)">
-                        <input type="text" name="university" id="university" value="" placeholder="Universidad"/>
+                        <input type="text" name="university" id="university" value="" placeholder="Organización/institución"/>
                     </div>
                     <div class="6u 12u(mobilep)">
                         <button class="button small special" onclick="addUniversity()">Agregar</button>
@@ -48,7 +48,7 @@
                         </table>
                     </div>
                 {% else %}
-                    <p><b>No se tienen universidades registradas en BlurCity</b></p>
+                    <p><b>No se tienen instituciones u organizaciones registradas en BlurCity</b></p>
                 {% endif %}
 
             </section>
@@ -69,14 +69,14 @@
                         if (data == 1) {
                             sweetAlert({
                                 title: "Correcto",
-                                text: "Se ha agregado la universidad correctamente",
+                                text: "Se ha agregado la institución/organización correctamente",
                                 type: "success",
                                 closeOnConfirm: false
                             }, function () {
                                 window.location.href = "/administration/admin_panel/university_list";
                             });
                         } else {
-                            sweetAlert("Error", "Hubo un error al agregar la universidad, intentalo de nuevo", "error");
+                            sweetAlert("Error", "Hubo un error al agregar la instituciones/organización, intentalo de nuevo", "error");
                         }
                     },
                     error: function (message) {
@@ -88,7 +88,7 @@
                     }
                 });
             } else {
-                sweetAlert("Error", "Por favor escriba un nombre para la universidad", "error");
+                sweetAlert("Error", "Por favor escriba un nombre para la institución/organización", "error");
             }
         }
 
@@ -101,16 +101,16 @@
                     if (data == 1) {
                         sweetAlert({
                             title: "Correcto",
-                            text: "Se ha eliminado la universidad correctamente",
+                            text: "Se ha eliminado la institución/organización correctamente",
                             type: "success",
                             closeOnConfirm: false
                         }, function () {
                             window.location.href = "/administration/admin_panel/university_list";
                         });
                     } else if (data == 3) {
-                        sweetAlert("Error", "No se puede eliminar la universidad ya que hay usuarios existentes", "error");
+                        sweetAlert("Error", "No se puede eliminar la institución/organización ya que hay usuarios existentes", "error");
                     } else {
-                        sweetAlert("Error", "Hubo un error al eliminar la universidad, intentalo de nuevo", "error");
+                        sweetAlert("Error", "Hubo un error al eliminar la institución/organización, intentalo de nuevo", "error");
                     }
                 },
                 error: function (message) {

@@ -61,7 +61,7 @@
                         <div class="4u 12u(mobilep)">
                             <div class="select-wrapper">
                                 <select name="university" id="university">
-                                    <option disabled>Universidad</option>
+                                    <option>Sede</option>
                                     {% for university in universitys %}
                                         <option value="{{ university.pk }}">{{ university.name }}</option>
                                     {% endfor %}
@@ -71,7 +71,7 @@
                         <div class="4u 12u(mobilep)">
                             <div class="select-wrapper">
                                 <select name="campus" id="campus">
-                                    <option disabled>Facultad</option>
+                                    <option>Institución/Organización</option>
                                 </select>
                             </div>
                         </div>
