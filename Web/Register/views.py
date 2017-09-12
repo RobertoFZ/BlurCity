@@ -168,7 +168,7 @@ def editCarView(request, car_pk):
 def registerRoute(request):
     args = basicArguments(request)
     user_cars = Car.objects.filter(user=request.user)
-    campus = Campus.objects.all()
+    campus = Campus.objects.filter(university=request.user.university)
 
     args['user_cars'] = user_cars
     args['campus_list'] = campus
