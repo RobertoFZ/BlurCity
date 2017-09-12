@@ -77,7 +77,12 @@ def routeListView(request):
         args['session_type'] = session_type
         return render(request, 'Panel/Driver/Routes/route_list.html', args)
     elif session_type == "passenger":
-        routes = Route.objects.all()
+        university = request.user.university
+        campus = Campus.objects.filter(university=university)
+        pks = []
+        for obj_campus in campus:
+            pks.append(obj_campus.pk)
+        routes = Route.objects.filter(campus_pk__in=pks)
         args['routes'] = routes
         args['session_type'] = session_type
         return render(request, 'Panel/Driver/Routes/route_list.html', args)
