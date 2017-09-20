@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from BlurCity.settings import EMAIL_HOST_USER
 from Core.Account.models import User
-from Core.Cars.models import Car
+from Core.Cars.models import Car, CarDocument
 from Core.Studies.models import University, Major, Campus
 from Core.baseFunctions import basicArguments
 
@@ -280,7 +280,7 @@ def validCarList(request):
             car_list = []
 
             for car in cars:
-
+                documents = CarDocument.objects.get(car=car)
                 if user.user_admin_type == 2:
                     if car.user.university == request.user.university:
                         new_entry = {
@@ -289,7 +289,8 @@ def validCarList(request):
                             'brand': car.brand,
                             'model': car.model,
                             'registration_tag': car.registration_tag,
-                            'validated': car.validated
+                            'validated': car.validated,
+                            'documents': documents
                         }
                         car_list.append(new_entry)
                 else:
@@ -299,7 +300,8 @@ def validCarList(request):
                         'brand': car.brand,
                         'model': car.model,
                         'registration_tag': car.registration_tag,
-                        'validated': car.validated
+                        'validated': car.validated,
+                        'documents': documents
                     }
                     car_list.append(new_entry)
 

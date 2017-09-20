@@ -25,6 +25,9 @@
                                 <th>Movelo</th>
                                 <th>Matr&iacute;cula</th>
                                 <th>Estado</th>
+                                <th>Poliza</th>
+                                <th>Tarjeta de circulación</th>
+                                <th>Permiso de conducir</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -44,6 +47,9 @@
                                             </option>
                                         </select>
                                     </td>
+                                    <td><a href="/{{ car.documents.insurance_policy }}">Ver</a></td>
+                                    <td><a href="/{{ car.documents.circulation_card }}">Ver</a></td>
+                                    <td><a href="/{{ car.documents.licence }}">Ver</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
