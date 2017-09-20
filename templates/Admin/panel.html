@@ -55,9 +55,11 @@
                     <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
                                                       alt=""/></span>
                     <h4>Lista de universidades</h4>
-                    <p style="font-size: 18px">Lista de todas las instituciones/organizaciones registradas en BlurCity</p>
+                    <p style="font-size: 18px">Lista de todas las instituciones/organizaciones registradas en
+                        BlurCity</p>
                     <ul class="actions">
-                        <li><a href="{% url 'Home:panel_university_list' %}" class="button alt">Ver instituciones/organizaciones</a>
+                        <li><a href="{% url 'Home:panel_university_list' %}" class="button alt">Ver
+                            instituciones/organizaciones</a>
                         </li>
                     </ul>
                 </section>
@@ -82,6 +84,21 @@
         {% endif %}
 
         {% if user.user_admin_type == 1 %}
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/notifications.png' %}"
+                                                      alt=""/></span>
+                    <h4>Ver usuarios</h4>
+                    <p style="font-size: 18px">Lista de los usuarios (Administradores y usuarios de la
+                        aplicaci&oacute;n)</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_user_list' %}" class="button alt">Ver usuarios</a></li>
+                    </ul>
+                </section>
+
+            </div>
+
             <div class="6u 12u(narrower)">
 
                 <section class="box special">
