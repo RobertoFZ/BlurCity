@@ -204,7 +204,7 @@ def validUserList(request):
     args = basicArguments(request)
     user = request.user
     if not user.is_anonymous():
-        if user.user_admin_type == 0 or user.user_admin_type == 2:
+        if user.user_admin_type == 0 or user.user_admin_type == 2 or user.user_admin_type == 1:
             users = User.objects.all().exclude(email=request.user.email)
             users_list = []
             admins_users_list = []
