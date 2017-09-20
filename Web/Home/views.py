@@ -247,7 +247,7 @@ def validUserList(request):
                         major_name = ""
                         try:
                             university_name = University.objects.get(pk=user.university.pk).name
-                            major_name = Major.objects.get(pk=user.major)
+                            major_name = Major.objects.get(pk=user.major.pk)
                         except (University.DoesNotExist, Major.DoesNotExist):
                             print "Error tipo 2"
 
