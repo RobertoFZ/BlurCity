@@ -29,9 +29,9 @@ class CarDocument(models.Model):
         on_delete=models.CASCADE,
         primary_key=True
     )
-    insurance_policy = models.ImageField(upload_to='static/uploads/documents/')
-    circulation_card = models.ImageField(upload_to='static/uploads/documents/')
-    licence = models.ImageField(upload_to='static/uploads/documents/')
+    insurance_policy = models.ImageField(upload_to='Blurcity/static/uploads/documents/')
+    circulation_card = models.ImageField(upload_to='Blurcity/static/uploads/documents/')
+    licence = models.ImageField(upload_to='Blurcity/static/uploads/documents/')
 
     def __str__(self):
         return self.car.model
