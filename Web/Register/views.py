@@ -22,8 +22,11 @@ def registerUserView(request):
         last_name = request.POST['last_name']
         password = request.POST['password']
 
-        major = Major.objects.get(id=request.POST['major'])
-        university = major.campus.university
+        try:
+            major = Major.objects.get(id=request.POST['major'])
+        except:
+            major = None
+        university = University.objects.get(pk=request.POST['university'])
         try:
             user = User.objects.get(email=email)
             errors = []
