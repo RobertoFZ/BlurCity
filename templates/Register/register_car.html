@@ -10,6 +10,9 @@
                 <h3>Registro</h3>
                 <a href="{% url 'Panel:Panel' %}" class="button small">Atr&aacute;s</a>
                 <br><br>
+                {% if error %}
+                    <p style="color: red">{{ message }}</p>
+                {% endif %}
                 <form id="singUpForm" method="post" action="{% url 'Register:RegisterCar' %}"
                       enctype="multipart/form-data">
                     {% if errors %}
@@ -53,7 +56,8 @@
                     </div>
                     <div class="row uniform 50%">
                         <div class="4u 12u(mobilep)" align="center">
-                            <input type="file" name="insurance_policy" accept=".image/jpeg,.jpg,.pdf,.png" id="insurance_policy" style="display: none;">
+                            <input type="file" name="insurance_policy" accept=".image/jpeg,.jpg,.pdf,.png"
+                                   id="insurance_policy" style="display: none;">
                             <input type="button" onclick="document.getElementById('insurance_policy').click();"
                                    class="button special icon fa-search" value="Poliza de seguro">
                             <br>
@@ -61,7 +65,8 @@
                                                                                   alt=""/></span>
                         </div>
                         <div class="4u 12u(mobilep)" align="center">
-                            <input type="file" name="circulation_card" accept=".image/jpeg,.jpg,.pdf,.png" id="circulation_card" style="display: none;">
+                            <input type="file" name="circulation_card" accept=".image/jpeg,.jpg,.pdf,.png"
+                                   id="circulation_card" style="display: none;">
                             <input type="button" onclick="document.getElementById('circulation_card').click();"
                                    class="button special icon fa-search" value="Tarjeta de circulación">
                             <br>
@@ -69,7 +74,8 @@
                                                                                   alt=""/></span>
                         </div>
                         <div class="4u 12u(mobilep)" align="center">
-                            <input type="file" name="licence" id="licence" accept=".image/jpeg,.jpg,.pdf,.png" style="display: none;">
+                            <input type="file" name="licence" id="licence" accept=".image/jpeg,.jpg,.pdf,.png"
+                                   style="display: none;">
                             <input type="button" onclick="document.getElementById('licence').click();"
                                    class="button special icon fa-search" value="Licencia">
                             <br>
@@ -100,10 +106,10 @@
         $("#total_sits").focusout(function () {
             var total_sits = $("#total_sits").val();
 
-           if(total_sits < 1 || total_sits > 4){
-               $("#total_sits").val(1);
-               sweetAlert("Error", "Solo puedes colocar números en el rando del 1 al 4", "error");
-           }
+            if (total_sits < 1 || total_sits > 4) {
+                $("#total_sits").val(1);
+                sweetAlert("Error", "Solo puedes colocar números en el rango del 1 al 4", "error");
+            }
         });
 
         function readURL(input, img_src) {

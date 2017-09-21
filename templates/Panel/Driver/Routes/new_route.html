@@ -190,20 +190,18 @@
 
         $('#destiny').change(function () {
             var campus_pk = $('#destiny').val();
-            console.log(campus_pk);
-            console.log(campus_list.length);
             switch (campus_pk) {
                     {% for campus in campus_list %}
                         case '{{ campus.pk }}':
                             for (var i = 0; i < campus_list.length; i++) {
-                                console.log("pk" + campus_list[i].pk);
                                 if (campus_list[i].pk == {{ campus.pk }}) {
                                     latLng = new google.maps.LatLng({
                                         lat: Number(campus_list[i].latitude),
                                         lng: Number(campus_list[i].longitude)
                                     });
-                                    console.log("latitud: " + campus_list[i].latitude);
-                                    console.log("longitud: " + campus_list[i].longitude);
+                                    if(destiny_helper_marker != null){
+                                        destiny_helper_marker.setMap(null);
+                                    }
                                     destiny_helper_marker = new google.maps.Marker({
                                         position: latLng,
                                         map: map,

@@ -110,9 +110,10 @@ def routeView(request, route_pk):
             return render(request, 'Panel/Driver/Routes/route_view.html', args)
     else:
         last_marker = route_markers.last()
-        print last_marker.latitude
-        print last_marker.longitude
-        args['destiny'] = Campus.objects.get(latitude=last_marker.latitude, longitude=last_marker.longitude)
+        try:
+            args['destiny'] = Campus.objects.get(latitude=last_marker.latitude, longitude=last_marker.longitude)
+        except:
+            args['destiny'] = None
         return render(request, 'Panel/Driver/Routes/route_view.html', args)
 
 

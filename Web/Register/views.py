@@ -82,9 +82,47 @@ def registerCarView(request):
         registration_tag = request.POST['registration_tag']
         color = request.POST['color']
         total_sits = request.POST['total_sits']
-        insurance_policy = request.FILES['insurance_policy']
-        circulation_card = request.FILES['circulation_card']
-        licence = request.FILES['licence']
+        message = ""
+
+        if brand == "":
+            message = u"La marca del vehículo es necesaria"
+            args['error'] = True
+            args['message'] = message
+            return render_to_response('Register/register_car.html', args, RequestContext(request))
+
+        if model == "":
+            message = u"El modelo del vehículo es necesario"
+            args['error'] = True
+            args['message'] = message
+            return render_to_response('Register/register_car.html', args, RequestContext(request))
+
+        if registration_tag == "":
+            message = u"Las placas del vehículo son necesarias"
+            args['error'] = True
+            args['message'] = message
+            return render_to_response('Register/register_car.html', args, RequestContext(request))
+
+        if color == "":
+            message = u"El color del vehículo es necesario"
+            args['error'] = True
+            args['message'] = message
+            return render_to_response('Register/register_car.html', args, RequestContext(request))
+
+        if total_sits == "":
+            message = u"El número de asientos disponibles es necesario"
+            args['error'] = True
+            args['message'] = message
+            return render_to_response('Register/register_car.html', args, RequestContext(request))
+
+        try:
+            insurance_policy = request.FILES['insurance_policy']
+            circulation_card = request.FILES['circulation_card']
+            licence = request.FILES['licence']
+        except:
+            message = u"Todos los documentos son necesarios"
+            args['error'] = True
+            args['message'] = message
+            return render_to_response('Register/register_car.html', args, RequestContext(request))
 
         car_to_register = Car()
         car_to_register.user = request.user
@@ -173,4 +211,3 @@ def registerRoute(request):
     args['user_cars'] = user_cars
     args['campus_list'] = campus
     return render(request, 'Panel/Driver/Routes/new_route.html', args)
-
