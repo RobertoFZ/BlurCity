@@ -21,6 +21,46 @@ def registerUserView(request):
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         password = request.POST['password']
+        message = ""
+        if email == "":
+            args['error'] = True
+            message = u"El correo electrónico es obligatorio"
+            args['message'] = message
+            return render(
+                request,
+                'Register/register_user.html',
+                args
+            )
+
+        if first_name == "":
+            args['error'] = True
+            message = u"El nombre es obligatorio"
+            args['message'] = message
+            return render(
+                request,
+                'Register/register_user.html',
+                args
+            )
+
+        if last_name == "":
+            args['error'] = True
+            message = u"El apellido es obligatorio"
+            args['message'] = message
+            return render(
+                request,
+                'Register/register_user.html',
+                args
+            )
+
+        if email == "":
+            args['error'] = True
+            message = u"El correo electrónico es obligatorio"
+            args['message'] = message
+            return render(
+                request,
+                'Register/register_user.html',
+                args
+            )
 
         try:
             major = Major.objects.get(id=request.POST['major'])

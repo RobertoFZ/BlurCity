@@ -8,6 +8,10 @@
             <!-- Form -->
             <section class="box">
                 <h3>Registro</h3>
+                <br/>
+                {% if error %}
+                    <p style="color: red">{{ message }}</p>
+                {% endif %}
                 <form id="singUpForm" method="post" action="{% url 'Register:RegisterUser' %}">
                     {% if errors %}
                         <div class="row uniform 50%">
@@ -152,7 +156,7 @@
 
             var name = $('#first_name').val();
             var last_name = $('#last_name').val();
-            var email = $('#correo').val();
+            var email = $('#email').val();
             var password_1 = $('#contrasena').val();
             var password_2 = $('#contrasena2').val();
 

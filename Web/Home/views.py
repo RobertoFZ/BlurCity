@@ -216,7 +216,10 @@ def validUserList(request):
                         major_name = ""
                         try:
                             university_name = user.university.name
-                            major_name = user.major.name
+                            try:
+                                major_name = user.major.name
+                            except:
+                                major_name = "None"
                         except University.DoesNotExist, Major.DoesNotExist:
                             print "Error"
 
