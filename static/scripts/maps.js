@@ -10,8 +10,8 @@ var map;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: {lat: 41.85, lng: -87.65}
+        zoom: 5,
+        center: {lat: 19.152473, lng: -98.778930}
     });
     directionsService = new google.maps.DirectionsService;
     directionsDisplay = new google.maps.DirectionsRenderer;
@@ -26,6 +26,7 @@ function initMap() {
                 lng: position.coords.longitude
             };
             map.setCenter(pos);
+            map.setZoom(15);
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
