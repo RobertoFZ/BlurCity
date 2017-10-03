@@ -1,8 +1,10 @@
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
+import os
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import ugettext as _
 
 
@@ -30,6 +32,12 @@ class UserManager(BaseUserManager):
         return user
 
 
+def image_path(self, filename):
+    extension = os.path.splitext(filename)[1][1:]
+    file_name = os.path.splitext(filename)[0]
+    url = "users/%s/profile/%s.%s" % (self.id, slugify(str(file_name)), extension)
+    return url
+
 class User(AbstractBaseUser):
 
     USER_ADMIN_TYPE = (
@@ -44,7 +52,7 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=30, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
-    avatar = models.ImageField(default='static/defaults/deafult_profile.png', upload_to='static/uploads/avatar/')
+    image_profile = models.ImageField(upload_to=image_path, null=True, blank=True, verbose_name="Imagen de perfil")
     #university = models.IntegerField(null=True, blank=True)
     university = models.ForeignKey(University, null=True, blank=True)
     #major = models.IntegerField(null=True, blank=True)

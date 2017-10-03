@@ -124,15 +124,24 @@ LANGUAGE_CODE = 'es-mx'
 TIME_ZONE = 'America/Merida'
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
+# https://docs.djangoproject.com/en/1.10/howto/static-files/
+
 STATIC_PATH = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 STATICFILES_DIRS = (
     STATIC_PATH,
 )
+__STATIC_PATH = os.path.dirname(os.path.dirname(__file__))
+
+STATIC_ROOT = os.path.join(__STATIC_PATH, "../static")
 
 STATIC_URL = '/static/'
+
+#   MEDIA FILES
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Auth
 AUTH_USER_MODEL = 'Account.User'

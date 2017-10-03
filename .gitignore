@@ -13,7 +13,7 @@
 
 ;;directories to ignore
 .idea/
-
+media/
 static/uploads/
 Core/Account/migrations/
 Core/Cars/migrations/

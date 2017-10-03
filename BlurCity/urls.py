@@ -1,6 +1,8 @@
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf.urls.static import static
 
+from BlurCity import settings
 from Web import Authentication
 from Web import Panel
 from Web import Home
@@ -22,3 +24,5 @@ urlpatterns = [
     url(r'^authentication/', include(Authentication.urls, namespace='Authentication')),
     url(r'^panel/', include(Panel.urls, namespace='Panel')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
