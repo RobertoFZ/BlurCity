@@ -21,10 +21,12 @@
 
     <!-- Header -->
     <header id="header">
-        <h1><a href="{% url 'Home:Home' %}"><img style="margin-top: 5px" src="{% static 'images/blur_city_logo_icon.png' %}" /></a></h1>
+        <h1><a href="{% url 'Home:Home' %}"><img style="margin-top: 5px"
+                                                 src="{% static 'images/blur_city_logo_icon.png' %}"/></a></h1>
         <nav id="nav">
             <ul>
                 <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
+                <li><a href="https://blurcityblog.wordpress.com/" target="_blank">Blog</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'Panel:Panel' %}">Panel</a></li>
                     <li><a href="{% url 'Authentication:LogoutUser' %}">Cerrar Sesion</a></li>
