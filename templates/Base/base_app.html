@@ -2,8 +2,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Blur City - {% block title %}{% endblock %}</title>
+    <title>Zont - {% block title %}{% endblock %}</title>
     <meta charset="utf-8"/>
+    <link rel="icon" href="{% static 'images/favicon.png' %}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!--[if lte IE 8]><script src="{% static 'home/assets/js/ie/html5shiv.js' %}"></script><![endif]-->
     <link rel="stylesheet" href="{% static 'home/assets/css/main.css' %}"/>
@@ -21,8 +22,8 @@
 
     <!-- Header -->
     <header id="header">
-        <h1><a href="{% url 'Home:Home' %}"><img style="margin-top: 5px"
-                                                 src="{% static 'images/blur_city_logo_icon.png' %}"/></a></h1>
+        <h1><a href="{% url 'Home:Home' %}"><img style="margin-top: 8px"
+                                                 src="{% static 'images/zont_logo_icon.png' %}"/></a></h1>
         <nav id="nav">
             <ul>
                 <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
@@ -62,7 +63,7 @@
             <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
         </ul>
         <ul class="copyright">
-            <li>&copy; Blur City.</li>
+            <li>&copy; Zont.</li>
             <!--<li>Desarrollado por <a target="_blank" href="http://robertofranco.esy.es">Roberto Franco</a></li>-->
         </ul>
     </footer>
