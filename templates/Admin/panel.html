@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Panel{% endblock %}
 {% block content_main %}
-    <div class="row">
+    <div class="row" style="padding: 0 10%">
 
         {% if user.user_admin_type == 0 %}
             <div class="6u 12u(narrower)">
@@ -77,6 +77,21 @@
                         institución/organización y la sede</p>
                     <ul class="actions">
                         <li><a href="{% url 'Home:panel_send_email' %}" class="button alt">Enviar correo</a></li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <div class="6u 12u(narrower)">
+
+                <section class="box special">
+                    <span class="image featured"><img src="{% static 'images/panel/driver/route.png' %}"
+                                                      alt=""/></span>
+                    <h4>Datos Blur City</h4>
+                    <p style="font-size: 18px">Consulta datos útiles sobre la plataforma</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'Home:panel_data' %}" class="button alt">Consultar</a>
+                        </li>
                     </ul>
                 </section>
 

@@ -13,11 +13,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from BlurCity.settings import EMAIL_HOST_USER
 from Core.Account.models import User
 from Core.Cars.models import Car, CarDocument
+from Core.Routes.models import Route, RouteMarker, RouteDay
 from Core.Studies.models import University, Major, Campus
 from Core.baseFunctions import basicArguments
 
@@ -431,6 +433,64 @@ def contactFunction(request):
         return render(request, 'how_to_join_us.html', {'send': True})
     except:
         return render(request, 'how_to_join_us.html', {'error': True})
+
+
+class DataView(View):
+    template_name = 'Admin/data.html'
+
+    def get(self, request):
+        routes_data = []
+        routes = Route.objects.all()
+
+        for route in routes:
+            # The origin
+            origin = RouteMarker.objects.filter(route=route, position=1)[0]
+            # The destiny
+            campus = Campus.objects.get(pk=route.campus_pk)
+            # Get the days
+            routes_days = RouteDay.objects.filter(route=route)
+            # Number of passagers
+            car = Car.objects.get(pk=route.car_pk)
+            total_passagers = car.total_sits
+            # Recovery amount
+            recovery_amount = route.recovery_amount
+
+            # Get the days
+            days_data = []
+
+            for route_day in routes_days:
+                days_data.append(route_day.day)
+
+            routes_data.append({
+                'pk': route.pk,
+                'user': {
+                    'name': "%s %s" % (route.user.first_name, route.user.last_name),
+                    'email': route.user.email,
+                    'university': route.user.university.name,
+                },
+                'origin': {
+                    'latitude': origin.latitude,
+                    'longitude': origin.longitude,
+                },
+                'destiny': {
+                    'latitude': campus.latitude,
+                    'longitude': campus.longitude,
+                },
+                'hour': route.start_time.strftime("%I:%M %p"),
+                'days': days_data,
+                'total_passagers': total_passagers,
+                'vehicle': {
+                    'brand': car.brand,
+                    'model': car.model,
+                    'color': car.color,
+                    'registration_tag': car.registration_tag,
+                }
+            })
+
+        context = {
+            'routes': routes_data
+        }
+        return render(request, self.template_name, context)
 
 
 # ADMIN WEBSERVICES

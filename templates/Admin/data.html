@@ -1,0 +1,106 @@
+{% extends 'Base/base_app_not_container.html' %}
+{% load static %}
+
+{% block content_main %}
+    <div class="row">
+        <div class="12u">
+            <section class="box">
+                <div class="12u">
+                    <a class="button small" href="{% url 'Home:admin_panel' %}">
+                        Atr&aacute;s
+                    </a>
+                    <br><br>
+                </div>
+                <h4>Datos Rutas Blur City</h4>
+                <br>
+                <!--
+                <div class="row uniform 50%">
+                    <div class="4u 12u(mobilep)">
+                        <input type="text" name="campus" id="campus" value="" placeholder="Facultad"/>
+                    </div>
+                    <div class="4u 12u(mobilep)">
+                        <input type="text" name="latitude" id="latitude" value="" placeholder="Latitud"/>
+                    </div>
+                    <div class="4u 12u(mobilep)">
+                        <input type="text" name="longitude" id="longitude" value="" placeholder="Longitud"/>
+                    </div>
+                </div>
+                <div class="row uniform 50%">
+                    <div class="6u 12u(mobilep)">
+                        <button class="button small special" onclick="addCampus()">Agregar</button>
+                    </div>
+                </div>
+                <br>
+                -->
+
+                {% if routes %}
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Origen</th>
+                                <th>Destino</th>
+                                <th>Hora de inicio</th>
+                                <th>Días</th>
+                                <th>Total pasajeros</th>
+                                <th>Vehículo</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for route in routes %}
+                                <tr>
+                                    <td>{{ route.pk }}</td>
+                                    <td>
+                                        <p>
+                                            <b>Nombre:</b> {{ route.user.name }} <br/>
+                                            <b>Correo:</b> {{ route.user.email }} <br/>
+                                            <b>Universidad:</b> {{ route.user.university }}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <a target="_blank"
+                                           href="http://maps.google.com/maps?q=loc:{{ route.origin.latitude }},{{ route.origin.longitude }}">Ver
+                                            en Google Maps</a></td>
+                                    <td>
+                                        <a target="_blank"
+                                           href="http://maps.google.com/maps?q=loc:{{ route.destiny.latitude }},{{ route.destiny.longitude }}">Ver
+                                            en Google Maps</a></td>
+                                    <td>{{ route.hour }}</td>
+                                    <td>
+                                        <ul>
+                                            {% if route.days %}
+                                                {% for day in route.days %}
+                                                    <li>{{ day }}</li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <li>No se tienen días</li>
+                                            {% endif %}
+                                        </ul>
+                                    </td>
+                                    <td>{{ route.total_passagers }}</td>
+                                    <td>
+                                        <p>
+                                            <b>Marca:</b> {{ route.vehicle.brand }} <br/>
+                                            <b>Modelo:</b> {{ route.vehicle.model }} <br/>
+                                            <b>Color:</b> {{ route.vehicle.color }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p><b>No se tienen datos</b></p>
+                {% endif %}
+
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

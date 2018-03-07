@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'administration/admin_panel/university_list$', views.universityList, name='panel_university_list'),
     url(r'administration/admin_panel/campus_list$', views.campusList, name='panel_campus_list'),
     url(r'administration/admin_panel/major_list$', views.majorsList, name='panel_major_list'),
+    url(r'administration/admin_panel/data$', views.DataView.as_view(), name='panel_data'),
 
     # WEB SERVICES
     url(r'administration/change_user_status/$', views.changeValidateStatus),
