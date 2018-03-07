@@ -18,6 +18,7 @@ class Route(models.Model):
     start_time = models.TimeField(auto_now=False)
     create_at = models.DateTimeField(auto_now=True)
     recovery_amount = models.FloatField(default=0.0)
+    visible = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

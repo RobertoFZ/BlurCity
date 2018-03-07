@@ -60,9 +60,14 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <a target="_blank"
-                                           href="http://maps.google.com/maps?q=loc:{{ route.origin.latitude }},{{ route.origin.longitude }}">Ver
-                                            en Google Maps</a></td>
+                                        {% if route.origin %}
+                                            <a target="_blank"
+                                               href="http://maps.google.com/maps?q=loc:{{ route.origin.latitude }},{{ route.origin.longitude }}">Ver
+                                                en Google Maps</a>
+                                        {% else %}
+                                            Error al obtener
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a target="_blank"
                                            href="http://maps.google.com/maps?q=loc:{{ route.destiny.latitude }},{{ route.destiny.longitude }}">Ver

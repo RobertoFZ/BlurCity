@@ -71,7 +71,8 @@ def routeListView(request):
                 email = EmailMessage(u'Vencimiento de ruta de Blur City', body, to=[route.user.email])
                 email.send()
 
-                route.delete()
+                route.visible = False
+                route.save()
 
         args['routes'] = Route.objects.filter(user=request.user)
         args['session_type'] = session_type
@@ -82,7 +83,7 @@ def routeListView(request):
         pks = []
         for obj_campus in campus:
             pks.append(obj_campus.pk)
-        routes = Route.objects.filter(campus_pk__in=pks)
+        routes = Route.objects.filter(campus_pk__in=pks, visible=True)
         args['routes'] = routes
         args['session_type'] = session_type
         return render(request, 'Panel/Driver/Routes/route_list.html', args)

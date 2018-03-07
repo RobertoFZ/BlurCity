@@ -444,7 +444,13 @@ class DataView(View):
 
         for route in routes:
             # The origin
-            origin = RouteMarker.objects.filter(route=route, position=1)[0]
+            origin = None
+            markers = RouteMarker.objects.filter(route=route, position=1)
+            if len(markers) > 0:
+                origin = {
+                    'latitude': markers[0].latitude,
+                    'longitude': markers[0].longitude,
+                }
             # The destiny
             campus = Campus.objects.get(pk=route.campus_pk)
             # Get the days
@@ -468,10 +474,7 @@ class DataView(View):
                     'email': route.user.email,
                     'university': route.user.university.name,
                 },
-                'origin': {
-                    'latitude': origin.latitude,
-                    'longitude': origin.longitude,
-                },
+                'origin': origin,
                 'destiny': {
                     'latitude': campus.latitude,
                     'longitude': campus.longitude,
@@ -479,6 +482,7 @@ class DataView(View):
                 'hour': route.start_time.strftime("%I:%M %p"),
                 'days': days_data,
                 'total_passagers': total_passagers,
+                'recovery_amount': recovery_amount,
                 'vehicle': {
                     'brand': car.brand,
                     'model': car.model,
