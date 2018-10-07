@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -59,7 +59,7 @@ def routeListView(request):
             created_at = route.create_at
 
             # VERIFY THE ROUTE EXPIRE DATE
-            if abs(datetime.now() - created_at).days > 3:  # THREE DAYS FOR EXPIRE TIME
+            if abs(timezone.now() - created_at).days > 3:  # THREE DAYS FOR EXPIRE TIME
                 try:
                     Notification.objects.get(route_pk=route.pk, user=route.user).delete()
                 except Notification.DoesNotExist:
