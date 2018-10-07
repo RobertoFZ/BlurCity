@@ -120,8 +120,13 @@
                                         <div class="12u 12u(mobilep)">
                                             <p><b>Horario</b></p>
                                             <label for="hora">Hora de inicio</label>
-                                            <input id="hora" type="time" name="hora"
-                                                   value="{{ route.start_time|time:"H:i" }}">
+                                            <div class='input-group date' id='datetimepicker3'>
+                                                <input id="hora" type='text' name="hora" class="form-control"
+                                                       value="{{ route.start_time|time:"H:i" }}"/>
+                                                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                                            </div>
                                         </div>
                                         <div class="row uniform 50%">
                                             <div class="6u 12u(narrower)">
