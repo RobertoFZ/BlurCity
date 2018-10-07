@@ -129,8 +129,13 @@
                                         </div>
                                         <div class="col s4" align="center">
                                             <label>Horario de inicio.</label>
-                                            <input id="hora" type="time" name="hora" value="{{ route.start_time }}"
-                                                   max="20:00:00" min="6:00:00">
+                                            <div class='input-group date' id='datetimepicker3'>
+                                                <input id="hora" type='text' name="hora" class="form-control"
+                                                       value="{{ route.start_time }}"/>
+                                                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                                            </div>
                                         </div>
                                         <br>
                                         <div class="col s12" align="center">
@@ -551,33 +556,33 @@
                 console.log(campus_pk);
                 console.log(campus_list.length);
                 switch (campus_pk) {
-                        {% for campus in campus_list %}
-                            case '{{ campus.pk }}':
-                                for (var i = 0; i < campus_list.length; i++) {
-                                    console.log("pk" + campus_list[i].pk);
-                                    if (campus_list[i].pk == {{ campus.pk }}) {
-                                        latLng = new google.maps.LatLng({
-                                            lat: Number(campus_list[i].latitude),
-                                            lng: Number(campus_list[i].longitude)
-                                        });
-                                        destiny_marker = new google.maps.Marker({
-                                            position: latLng,
-                                            map: map,
-                                            label: {
-                                                color: 'black',
-                                                fontWeight: 'bold',
-                                                text: 'Destino'
-                                            },
-                                            icon: {
-                                                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-                                                labelOrigin: new google.maps.Point(11, 40)
-                                            }
-                                        });
-                                        map.setCenter(latLng);
-                                    }
+                    {% for campus in campus_list %}
+                        case '{{ campus.pk }}':
+                            for (var i = 0; i < campus_list.length; i++) {
+                                console.log("pk" + campus_list[i].pk);
+                                if (campus_list[i].pk == {{ campus.pk }}) {
+                                    latLng = new google.maps.LatLng({
+                                        lat: Number(campus_list[i].latitude),
+                                        lng: Number(campus_list[i].longitude)
+                                    });
+                                    destiny_marker = new google.maps.Marker({
+                                        position: latLng,
+                                        map: map,
+                                        label: {
+                                            color: 'black',
+                                            fontWeight: 'bold',
+                                            text: 'Destino'
+                                        },
+                                        icon: {
+                                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                                            labelOrigin: new google.maps.Point(11, 40)
+                                        }
+                                    });
+                                    map.setCenter(latLng);
                                 }
-                                break;
-                        {% endfor %}
+                            }
+                            break;
+                    {% endfor %}
                     default:
                         break;
                 }
