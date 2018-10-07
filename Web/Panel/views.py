@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
+from django.utils import timezone
 
 # Create your views here.
 from django.template import RequestContext
