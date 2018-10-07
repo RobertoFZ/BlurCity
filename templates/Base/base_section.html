@@ -36,7 +36,7 @@
 <section>
     <nav>
         <div class="nav-wrapper">
-            <a href="{% url 'Home:Home' %}" class="brand-logo center" style="color: #89cde7">Blur City</a>
+            <a href="{% url 'Home:Home' %}" class="brand-logo center" style="color: #89cde7">Zont.com.mx</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{% url 'Home:Home' %}">Inicio</a></li>
@@ -67,7 +67,7 @@
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="logo-color">Blur City</h5>
+                    <h5 class="logo-color">Zont</h5>
                     <ul class="social-links">
                         <li><a class="grey-text text-lighten-3" href="#!"><i class="fa fa-facebook-official fa-2x"
                                                                              aria-hidden="true"></i></a></li>
@@ -95,9 +95,13 @@
     var window_height = $(window).height();
     var footer = $('#footer');
     var navbar = $('#navbar');
-    $('#main').css("height", window_height - footer.height() - navbar.height() + "px");
-    $('#left-column').css("height", window_height - footer.height() - navbar.height() + "px");
-    $('#right-column').css("height", window_height - footer.height() - navbar.height() + "px");
+    var mainHeight = $('#main').height();
+
+    if (mainHeight < window_height) {
+        $('#main').css("height", window_height - footer.height() - navbar.height() + "px");
+        $('#left-column').css("height", window_height - footer.height() - navbar.height() + "px");
+        $('#right-column').css("height", window_height - footer.height() - navbar.height() + "px");
+    }
 </script>
 
 {% block scripts %}{% endblock %}
