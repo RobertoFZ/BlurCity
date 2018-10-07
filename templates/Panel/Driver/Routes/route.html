@@ -207,6 +207,13 @@
 
 {% block scripts %}
     <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+                format: 'LT'
+            });
+        });
+    </script>
+    <script type="text/javascript">
         var campus_list = [];
         {% for campus in campus_list %}
             var campus_obj = {
