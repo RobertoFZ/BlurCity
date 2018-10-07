@@ -121,7 +121,13 @@ EMAIL_PORT = 587
 
 LANGUAGE_CODE = 'es-mx'
 
-TIME_ZONE = 'America/Merida'
+TIME_ZONE = 'America/Mexico_City'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

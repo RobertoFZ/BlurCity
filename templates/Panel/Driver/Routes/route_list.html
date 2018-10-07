@@ -39,6 +39,8 @@
                             </tbody>
                         </table>
                     </div>
+                {% else if session_type == 'driver' %}
+                    <h3>No se tienen rutas creadas en la plataforma.</h3>
                 {% else %}
                     <h3>No tienes rutas creadas, <a href="{% url 'Register:RegisterRoute' %}">¡Crea una!</a></h3>
                 {% endif %}
