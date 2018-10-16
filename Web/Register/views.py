@@ -20,6 +20,10 @@ def registerUserView(request):
         email = request.POST['email']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
+        try:
+            register_id = request.POST['register']
+        except KeyError:
+            register_id = None
         password = request.POST['password']
         message = ""
         if email == "":
@@ -93,6 +97,8 @@ def registerUserView(request):
             new_user.first_name = first_name
             new_user.last_name = last_name
             new_user.university = university
+            if register_id:
+                new_user.register = register_id
             new_user.major = major
             new_user.set_password(password)
             new_user.save()

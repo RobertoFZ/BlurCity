@@ -7,7 +7,6 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import ugettext as _
 
-
 # Create your models here.
 from Core.Studies.models import University, Campus, Major
 
@@ -38,8 +37,8 @@ def image_path(self, filename):
     url = "users/%s/profile/%s.%s" % (self.id, slugify(str(file_name)), extension)
     return url
 
-class User(AbstractBaseUser):
 
+class User(AbstractBaseUser):
     USER_ADMIN_TYPE = (
         (0, _(u"Superusuario")),
         (1, _(u"Universidad")),
@@ -53,10 +52,11 @@ class User(AbstractBaseUser):
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     image_profile = models.ImageField(upload_to=image_path, null=True, blank=True, verbose_name="Imagen de perfil")
-    #university = models.IntegerField(null=True, blank=True)
+    # university = models.IntegerField(null=True, blank=True)
     university = models.ForeignKey(University, null=True, blank=True)
-    #major = models.IntegerField(null=True, blank=True)
+    # major = models.IntegerField(null=True, blank=True)
     major = models.ForeignKey(Major, null=True, blank=True)
+    register = models.CharField(max_length=30, blank=True, null=True)
     is_validated = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=True)

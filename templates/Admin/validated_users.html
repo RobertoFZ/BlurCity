@@ -22,6 +22,7 @@
                             <table class="alt">
                                 <thead>
                                 <tr>
+                                    <th>Matrícula</th>
                                     <th>Nombre</th>
                                     <th>Correo eletr&oacute;nico</th>
                                     <th>Tipo de Administrador</th>
@@ -34,6 +35,13 @@
                                 {% for user in admin_users %}
                                     {% if not user.is_admin %}
                                         <tr>
+                                            <td>
+                                                {% if user.register %}
+                                                    {{ user.register }}
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            </td>
                                             <td>{{ user.name }}</td>
                                             <td>{{ user.email }}</td>
                                             <td>
