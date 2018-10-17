@@ -227,6 +227,7 @@ def validUserList(request):
 
                         new_entry = {
                             'pk': user.pk,
+                            'register': user.register,
                             'name': user.first_name + " " + user.last_name,
                             'email': user.email,
                             'university': university_name,
@@ -238,6 +239,7 @@ def validUserList(request):
                     else:
                         new_entry = {
                             'pk': user.pk,
+                            'register': user.register,
                             'name': user.first_name + " " + user.last_name,
                             'email': user.email,
                             'type': user.user_admin_type,
@@ -261,6 +263,7 @@ def validUserList(request):
 
                         new_entry = {
                             'pk': user.pk,
+                            'register': user.register,
                             'name': user.first_name + " " + user.last_name,
                             'email': user.email,
                             'university': university_name,
