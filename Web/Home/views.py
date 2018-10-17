@@ -537,8 +537,20 @@ def changeValidateStatus(request):
 
         if user.is_validated:
             user.is_validated = False
+            # SEND EMAIL NOTIFICATION TO USER
+            body = u'Hola %s %s \n\n Te informamos que tu cuenta ha sido validada, ¡Ya puedes iniciar sesión en Zont.mx!' % (
+                user.first_name, user.last_name)
         else:
             user.is_validated = True
+            body = u'Hola %s %s \n\n Te informamos que tu cuenta ha sido deshabilitada, por ahora no podrás iniciar sesión en Zont.mx' % (
+                user.first_name, user.last_name)
+
+        try:
+            email = EmailMessage(u'Vencimiento de ruta de Blur City', body, to=[user.email])
+            email.send()
+        except:
+            pass
+        
         user.save()
 
         return HttpResponse("1")

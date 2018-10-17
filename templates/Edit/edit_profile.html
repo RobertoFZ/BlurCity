@@ -56,8 +56,13 @@
                         </div>
                         <div class="12u 12u(mobilep)" align="left">
                             <label>Correo electrónico</label>
-                            <input type="email" name="email" placeholder="Tus correo electrónico"
+                            <input type="email" name="email" placeholder="Tu correo electrónico"
                                    value="{{ request.user.email }}"/>
+                        </div>
+                        <div class="12u 12u(mobilep)" align="left">
+                            <label>Matrícula</label>
+                            <input type="text" name="register" placeholder="Matrícula (UADY)"
+                                   value="{{ request.user.register }}"/>
                         </div>
                         <div class="12u 12u(mobilep)" align="right">
                             <input class="button special" type="submit"

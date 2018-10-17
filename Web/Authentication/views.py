@@ -97,6 +97,10 @@ class EditProfileView(View):
             first_name = request.POST['first_name']
             last_name = request.POST['last_name']
             email = request.POST['email']
+            try:
+                register = request.POST['register']
+            except KeyError:
+                register = None
 
             try:
                 image = request.FILES['image']
@@ -127,6 +131,9 @@ class EditProfileView(View):
                         user.image_profile = image
                     else:
                         user.image_profile = image
+
+                if register:
+                    user.register = register
 
                 user.save()
                 is_edited = True
