@@ -538,7 +538,7 @@ def changeValidateStatus(request):
         if user.is_validated:
             user.is_validated = False
             # SEND EMAIL NOTIFICATION TO USER
-            body = u'Hola %s %s \n\n Te informamos que tu cuenta ha sido validada, ¡Ya puedes iniciar sesión en Zont.mx!' % (
+            body = u'Hola %s %s \n\n Te informamos que tu cuenta ha sido validada, ¡Ya puedes iniciar sesión en Zont.com.mx!' % (
                 user.first_name, user.last_name)
         else:
             user.is_validated = True
@@ -550,7 +550,7 @@ def changeValidateStatus(request):
             email.send()
         except:
             pass
-        
+
         user.save()
 
         return HttpResponse("1")
