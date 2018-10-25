@@ -60,7 +60,7 @@ def routeListView(request):
             created_at = route.create_at
 
             # VERIFY THE ROUTE EXPIRE DATE
-            if abs(timezone.now() - created_at).days > 3:  # THREE DAYS FOR EXPIRE TIME
+            if abs(timezone.now() - created_at).days > 6:  # THREE DAYS FOR EXPIRE TIME
                 try:
                     Notification.objects.get(route_pk=route.pk, user=route.user).delete()
                 except Notification.DoesNotExist:
@@ -140,6 +140,7 @@ def saveRouteService(request):
     route.name = request.user.first_name + "-" + "Ruta"
     route.sits = sits
     route.start_time = time
+    route.visible = True
     route.recovery_amount = recovery_amount
     route.save()
 
