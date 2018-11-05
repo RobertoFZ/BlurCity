@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^update_markers/$', views.updateRouteMarkers),
     url(r'^make_notification/$', views.makeNotification),
     url(r'^update_notification/$', views.updateNotification),
+    url(r'^users_emails/$', views.getUsersEmails),
 ]

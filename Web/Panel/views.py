@@ -363,3 +363,11 @@ def messagePassagerView(request, driver_pk):
         email.send()
 
         return HttpResponseRedirect(url)
+
+
+def getUsersEmails(request):
+    users = User.objects.all()
+    response = ''
+    for user in users:
+        response += '\n %s' % user.email
+    return HttpResponse(response)
