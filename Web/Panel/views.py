@@ -369,5 +369,5 @@ def getUsersEmails(request):
     users = User.objects.all()
     response = ''
     for user in users:
-        response += '\n %s' % user.email
+        response += '%s<br/>' % user.email
     return HttpResponse(response)
